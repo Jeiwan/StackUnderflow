@@ -1,25 +1,13 @@
 source 'https://rubygems.org'
-gem 'rails', '4.1.4'
+gem 'rails', '4.1.5'
 
 group :development, :test do
-	gem 'sqlite3'
-end
-
-group :production do
-	gem 'pg'
-end
-
-group :test do
 	gem 'rspec-rails'
-	gem 'capybara'
-	gem 'cucumber-rails', require: false
 	gem 'factory_girl_rails'
-	gem 'database_cleaner'
-	gem 'faker'
+	gem 'capybara'
 end
 
-#gem 'will_paginate'
-#gem 'will_paginate-bootstrap'
+gem 'pg'
 
 gem 'sass-rails'
 gem 'uglifier'
