@@ -131,6 +131,8 @@ GEM
       sass (~> 3.2.0)
       sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0)
+    shoulda-matchers (2.7.0)
+      activesupport (>= 3.0.0)
     slim (2.0.3)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
@@ -181,6 +183,7 @@ DEPENDENCIES
   rails (= 4.1.5)
   rspec-rails
   sass-rails
+  shoulda-matchers
   slim-rails
   therubyracer
   twitter-bootstrap-rails!

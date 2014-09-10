@@ -7,6 +7,10 @@ group :development, :test do
 	gem 'capybara'
 end
 
+group :test do
+	gem 'shoulda-matchers'
+end
+
 gem 'pg'
 
 gem 'sass-rails'
