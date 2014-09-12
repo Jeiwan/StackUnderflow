@@ -1,6 +1,6 @@
 .row
   .col-md-8.col-md-offset-2
-    = render "errors"
+    = render "errors", model: @question
     h2 Ask a Question
     = form_for @question do |f|
       .form-group.row

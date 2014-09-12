@@ -1,3 +1,24 @@
-h2 = @question.title
-p
-  = @question.body
+.row
+  .col-md-10
+    .panel.panel-default
+      .panel-heading
+        h2 = @question.title
+      .panel-body
+        p
+          = @question.body
+    div
+      = render @answers
+    div
+      h3 Post answer
+      .row
+        .col-md-6
+          = render "errors", model: @answer
+          = form_for @answer, url: question_answers_path(@question.id) do |f|
+            .form-group.row
+              .col-md-12
+                = f.text_area :body, class: "form-control", rows: 10
+            .form-group.row
+              .col-md-12
+                = f.submit "Answer", class: "btn btn-success"
+  .col-md-2
+    = link_to "Ask a Question", new_question_path, class: "btn btn-primary"
