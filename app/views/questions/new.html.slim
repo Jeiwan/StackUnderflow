@@ -1,0 +1,16 @@
+.row
+  .col-md-8.col-md-offset-2
+    = render "errors"
+    h2 Ask a Question
+    = form_for @question do |f|
+      .form-group.row
+        = f.label :title, class: 'col-md-2'
+        .col-md-10
+          = f.text_field :title, class: 'form-control'
+      .form-group.row
+        = f.label :body, class: 'col-md-2'
+        .col-md-10
+          = f.text_area :body, class: 'form-control', rows: 10
+      .form-group.row
+        .col-md-10.col-md-offset-2
+          = f.submit "Ask", class: "btn btn-success"

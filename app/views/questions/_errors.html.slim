@@ -1,0 +1,6 @@
+- if @question.errors.any?
+  = content_tag :p, "There are #{pluralize @question.errors.count, "error"}:"
+  ol
+  - @question.errors.full_messages.each do |message|
+    li
+      = message
