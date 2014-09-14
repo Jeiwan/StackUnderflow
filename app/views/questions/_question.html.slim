@@ -1,4 +1,5 @@
 article
   h3
     =link_to question.title, question
+    small  by #{question.user.username} on #{question.created_at.strftime("%T %D")}
   p = question.body

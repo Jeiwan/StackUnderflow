@@ -1,3 +1,6 @@
 article.panel.panel-default
   .panel-body
-    p = answer.body
+    p
+      strong #{answer.user.username}:
+      |&nbsp;
+      = answer.body

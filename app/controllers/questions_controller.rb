@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
 	before_action :must_be_logged_in, only: [:new, :create]
 
 	def index
-		@questions = Question.all
+		@questions = Question.all.order("created_at DESC")
 	end
 
 	def new
