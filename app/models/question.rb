@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
 	has_many :answers
+	belongs_to :user
 
 	validates_presence_of :title, :body
 	validates :body, length: { in: 10..5000 }
