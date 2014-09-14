@@ -1,3 +1,5 @@
 - flash.each do |f, v|
+  - f = "success" if f == "notice"
+  - f = "danger" if f == "alert"
   p class="alert alert-#{f}"
     = v
