@@ -24,4 +24,4 @@ gem 'slim-rails'
 
 gem 'jquery-rails'
 gem 'jbuilder'
-gem 'bcrypt'
+gem 'devise'
