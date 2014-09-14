@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-	before_action :must_be_logged_in, only: [:new, :create]
+	before_action :must_be_logged_in, only: [:new, :create, :edit]
 
 	def index
 		@questions = Question.all.order("created_at DESC")
@@ -23,6 +23,22 @@ class QuestionsController < ApplicationController
 			redirect_to @question
 		else
 			render "new"
+		end
+	end
+
+	def edit
+		@question = current_user.questions.where("id = ?", params[:id])
+		redirect_to question_path(params[:id]) if @question.empty?
+	end
+
+	def update
+		@question = current_user.questions.find(params[:id])
+
+		if @question.update(question_params)
+			flash[:success] = "Question updated!"
+			redirect_to @question
+		else
+			render "edit"
 		end
 	end
 
