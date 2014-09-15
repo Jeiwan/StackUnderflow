@@ -27,13 +27,8 @@ class QuestionsController < ApplicationController
 	end
 
 	def edit
-<<<<<<< HEAD
 		@question = current_user.questions.find(params[:id])
 		redirect_to question_path(params[:id]) if @question.nil?
-=======
-		@question = current_user.questions.where("id = ?", params[:id])
-		redirect_to question_path(params[:id]) if @question.empty?
->>>>>>> 0aee8a8718de6bb4753c98795ca2dc85a410ce61
 	end
 
 	def update
