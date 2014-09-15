@@ -5,7 +5,7 @@
         h2 Edit answer
       .panel-body
         = render "errors", model: @answer
-        = form_for @answer, url: question_answers_path(@question.id) do |f|
+        = form_for @answer, url: question_answer_path(@answer.question.id, @answer.id) do |f|
           .form-group.row
             .col-md-12
               = f.text_area :body, class: "form-control", rows: 10

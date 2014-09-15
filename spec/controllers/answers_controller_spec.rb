@@ -114,8 +114,8 @@ RSpec.describe AnswersController, :type => :controller do
 					expect(Answer.find(answer.id).body).to eq edited_answer.body
 				end
 
-				it "redirects to the answer's page" do
-					expect(response).to redirect_to question_answer_path(question.id, answer.id)
+				it "redirects to the answer's question page" do
+					expect(response).to redirect_to question_path(question.id)
 				end
 			end
 
