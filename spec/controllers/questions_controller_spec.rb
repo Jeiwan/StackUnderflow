@@ -113,7 +113,7 @@ RSpec.describe QuestionsController, :type => :controller do
 			end
 
 			it "returns a question" do
-				expect(assigns(:question)[0]).to eq question
+				expect(assigns(:question)).to eq question
 			end
 
 			it "renders edit view" do
@@ -141,18 +141,11 @@ RSpec.describe QuestionsController, :type => :controller do
 
 		context "user edits his questions" do
 			it "returns a question" do
-				expect(assigns(:question)[0]).to eq question
+				expect(assigns(:question)).to eq question
 			end
 
 			it "renders edit view" do
 				expect(response).to render_template "edit"
-			end
-		end
-		context "user edits not his question" do
-			let(:another_question) { create(:question) }
-			before { get :edit, id: another_question.id }
-			it "redirect to the questions' page" do
-				expect(response).to redirect_to another_question
 			end
 		end
 	end
