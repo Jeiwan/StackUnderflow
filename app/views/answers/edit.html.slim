@@ -1,0 +1,14 @@
+.row
+  .col-md-6.col-md-offset-3
+    .panel.panel-default
+      .panel-heading
+        h2 Edit answer
+      .panel-body
+        = render "errors", model: @answer
+        = form_for @answer, url: question_answers_path(@question.id) do |f|
+          .form-group.row
+            .col-md-12
+              = f.text_area :body, class: "form-control", rows: 10
+          .form-group.row
+            .col-md-12
+              = f.submit "Answer", class: "btn btn-success"
