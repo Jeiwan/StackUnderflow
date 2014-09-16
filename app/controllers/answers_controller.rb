@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
 
-	before_action :must_be_logged_in, only: [:create, :edit, :update]
+	before_action :must_be_logged_in, except: [ :show ]
 
 	def create
 		@question = Question.find(params[:question_id])
@@ -35,6 +35,13 @@ class AnswersController < ApplicationController
 		else
 			render "edit"
 		end
+	end
+
+	def destroy
+		@answer = current_user.answers.find(params[:id])
+		@answer.destroy
+		flash[:success] = "Answer is deleted!"
+		redirect_to root_path
 	end
 
 	private
