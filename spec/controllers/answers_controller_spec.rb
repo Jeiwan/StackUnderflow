@@ -198,4 +198,42 @@ RSpec.describe AnswersController, :type => :controller do
 			end
 		end
 	end
+
+	describe "POST #mark_best" do
+		let(:user) { create(:user) }
+		let(:answered_user) { create(:user) }
+		let(:question) { create(:question, user: user) }
+		let(:answer) { create(:answer, question: question, user: answered_user) }
+
+		context "user is signed in" do
+			before do
+				allow(controller).to receive(:user_signed_in?) { true }
+				allow(controller).to receive(:current_user) { user }
+				post :mark_best, question_id: question, id: answer
+			end
+
+			it "marks an answer as best" do
+				expect(answer.reload).to be_best
+			end
+
+			it "redirects to question page" do
+				expect(response).to redirect_to question
+			end
+		end
+
+		context "user is not signed in" do
+			before do
+				allow(controller).to receive(:user_signed_in?) { false }
+				post :mark_best, question_id: question, id: answer
+			end
+
+			it "doesn't mark an answer as best" do
+				expect(answer.reload).not_to be_best
+			end
+
+			it "redirects to root path" do
+				expect(response).to redirect_to root_path
+			end
+		end
+	end
 end

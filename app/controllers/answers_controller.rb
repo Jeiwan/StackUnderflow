@@ -44,6 +44,13 @@ class AnswersController < ApplicationController
 		redirect_to root_path
 	end
 
+	def mark_best
+		@answer = Answer.find(params[:id])
+		@answer.mark_best!
+		flash[:success] = "Answer marked as best!"
+		redirect_to @answer.question
+	end
+
 	private
 		
 		def answer_params
@@ -52,7 +59,7 @@ class AnswersController < ApplicationController
 
 		def must_be_logged_in
 			unless user_signed_in?
-				flash[:danger] = "You must be logged in to post an answer."
+				flash[:danger] = "You must be logged in."
 				redirect_to root_path
 			end
 		end
