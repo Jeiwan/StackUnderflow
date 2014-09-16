@@ -49,7 +49,6 @@ RSpec.describe AnswersController, :type => :controller do
 			before do
 				allow(controller).to receive(:user_signed_in?) { false }
 				post :create, question_id: question.id, answer: attributes_for(:answer)
-				#allow(controller).to receive(:current_user) { user }
 			end
 
 			it "redirects to root path with flash message" do

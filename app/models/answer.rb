@@ -8,8 +8,4 @@ class Answer < ActiveRecord::Base
 	def mark_best!
 		update(best: true)
 	end
-
-	def unmark_best!
-		update(best: false)
-	end
 end

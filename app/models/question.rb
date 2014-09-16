@@ -6,6 +6,4 @@ class Question < ActiveRecord::Base
 	validates :body, length: { in: 10..5000 }
 	validates :title, length: { in: 5..512 }
 
-	def best_answer
-	end
 end
