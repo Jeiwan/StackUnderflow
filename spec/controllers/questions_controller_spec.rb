@@ -173,19 +173,42 @@ RSpec.describe QuestionsController, :type => :controller do
 			expect(response).to redirect_to question
 		end
 	end
+
+	describe "DELETE #destroy" do
+		let(:user) { create(:user) }
+		let(:question) { create(:question, user: user) }
+
+		context "user is signed in" do
+			before do
+				allow(controller).to receive(:user_signed_in?) { true }
+				allow(controller).to receive(:current_user) { user }
+				question
+			end
+
+			it "deletes a question" do
+				expect{ delete :destroy, id: question }.to change(Question, :count).by(-1)
+			end
+
+			it "redirects to root path" do
+				delete :destroy, id: question.id
+				expect(response).to redirect_to root_path
+			end
+		end
+
+		context "user is not signed in" do
+			before do
+				allow(controller).to receive(:user_signed_in?) { false }
+				question
+			end
+
+			it "doesn't delete a question" do
+				expect{ delete :destroy, id: question.id }.not_to change(Question, :count)
+			end
+
+			it "redirects to root path" do
+				delete :destroy, id: question.id
+				expect(response).to redirect_to root_path
+			end
+		end
+	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

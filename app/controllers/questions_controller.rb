@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-	before_action :must_be_logged_in, only: [:new, :create, :edit]
+	before_action :must_be_logged_in, except: [ :index, :show ]
 
 	def index
 		@questions = Question.all.order("created_at DESC")
@@ -40,6 +40,13 @@ class QuestionsController < ApplicationController
 		else
 			render "edit"
 		end
+	end
+
+	def destroy
+		@question = current_user.questions.find(params[:id])
+		@question.destroy
+		flash[:success] = "Question is deleted!"
+		redirect_to root_path
 	end
 
 	private
