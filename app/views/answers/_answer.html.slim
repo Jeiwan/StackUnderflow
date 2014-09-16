@@ -7,3 +7,5 @@ article.panel.panel-default
       - if user_signed_in? && current_user == answer.user
         = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer" do
           = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
+        = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
+          = content_tag :span, nil, class: "glyphicon glyphicon-remove"
