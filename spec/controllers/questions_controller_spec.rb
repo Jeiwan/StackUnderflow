@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, :type => :controller do
+
+	user_sign_in
+
 	describe "GET #index" do
 		let(:questions) { create_list(:question, 2) }
 		before { get :index }
@@ -9,32 +12,22 @@ RSpec.describe QuestionsController, :type => :controller do
 			expect(assigns(:questions)).to match_array(questions)
 		end
 
-		it "render index view" do
+		it "renders index view" do
 			expect(response).to render_template :index
 		end
 	end
 
 	describe "GET #new" do
 		let(:question) { create(:question) }
+		before { get :new }
 
 		context "user is not signed in" do
-			before do
-				allow(controller).to receive(:user_signed_in?) { false }
-				get :new
-			end
-
-			it "redirects to root path with flash message" do
-				expect(flash[:danger]).not_to be_nil
-				expect(response).to redirect_to root_path
+			it "redirects to root path" do
+				expect(response).to redirect_to new_user_session_path
 			end
 		end
 
-		context "user is signed in" do
-			before do
-				allow(controller).to receive(:user_signed_in?) { true }
-				get :new
-			end
-
+		context "user is signed in", sign_in: true do
 			it "returns a new empty question" do
 				expect(assigns(:question)).to be_a_new(Question)
 			end
@@ -59,59 +52,62 @@ RSpec.describe QuestionsController, :type => :controller do
 	end
 
 	describe "POST #create" do
-		let(:user) { create(:user) }
-
-		before do
-			allow(controller).to receive(:user_signed_in?) { true }
-			allow(controller).to receive(:current_user) { user }
+		let(:question) { create(:question) }
+		let(:attributes) { attributes_for(:question) }
+		let(:post_create) do
+			-> { post :create, question: attributes }
 		end
 
-		context "with valid data" do
-			let(:question) { create(:question, user: user) }
+		context "user is signed in", sign_in: true do
+			context "with valid data" do
+				it "increases total questions number" do
+					expect(post_create).to change(Question, :count).by(1)
+				end
 
-			it "increases total questions count" do
-				expect{ post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+				it "increases current user's questions number" do
+					expect(post_create).to change(Question, :count).by(1)
+				end
+
+				it "redirects to the new question page" do
+					post_create.call
+					expect(response).to redirect_to(assigns(:question))
+				end
 			end
 
-			it "increases current user's questions count" do
-				expect{ post :create, question: attributes_for(:question) }.to change(user.questions, :count).by(1)
-			end
+			context "with invalid data" do
+				let(:attributes) { attributes_for(:question, title: nil, body: nil) }
 
-			it "redirects to the new question page" do
-				post :create, question: attributes_for(:question)
-				expect(response).to redirect_to(assigns(:question))
+				it "doesn't increase total questions count" do
+					expect(post_create).not_to change(Question, :count)
+				end
+
+				it "doesn't increase current user's questions count" do
+					expect(post_create).not_to change(Question, :count)
+				end
+
+				it "renders new view" do
+					post_create.call
+					expect(response).to render_template :new
+				end
 			end
 		end
 
-		context "with invalid data" do
-			let(:invalid_question) { create(:invalid_question, user: user) }
-
-			it "doesn't increase total questions count" do
-				expect{ post :create, question: attributes_for(:invalid_question) }.not_to change(Question, :count)
-			end
-
-			it "doesn't increase current user's questions count" do
-				expect{ post :create, question: attributes_for(:invalid_question) }.not_to change(user.questions, :count)
-			end
-
-			it "renders new view" do
-				post :create, question: attributes_for(:invalid_question)
-				expect(response).to render_template :new
+		context "user is not signed in" do
+			before { post_create.call }
+			it "redirect to the sign in page" do
+				expect(response).to redirect_to new_user_session_path
 			end
 		end
+
 	end
 
 	describe "GET #edit" do
 		let(:user) { create(:user) }
 		let(:question) { create(:question, user: user) }
 
-		context "user is signed in" do
-			before do
-				allow(controller).to receive(:user_signed_in?) { true }
-				allow(controller).to receive(:current_user) { user }
-				get :edit, id: question.id
-			end
+		before { get :edit, id: question.id }
 
+		context "user is signed in", sign_in: true do
 			it "returns a question" do
 				expect(assigns(:question)).to eq question
 			end
@@ -122,30 +118,8 @@ RSpec.describe QuestionsController, :type => :controller do
 		end
 
 		context "user is not signed in" do
-			before do
-				allow(controller).to receive(:user_signed_in?) { false }
-				allow(controller).to receive(:current_user) { user }
-				get :edit, id: question.id
-			end
-
-			it "redirects to root path" do
-				expect(response).to redirect_to root_path
-			end
-		end
-
-		before do
-			allow(controller).to receive(:user_signed_in?) { true }
-			allow(controller).to receive(:current_user) { user }
-			get :edit, id: question.id
-		end
-
-		context "user edits his questions" do
-			it "returns a question" do
-				expect(assigns(:question)).to eq question
-			end
-
-			it "renders edit view" do
-				expect(response).to render_template "edit"
+			it "redirects to the sign in page" do
+				expect(response).to redirect_to new_user_session_path
 			end
 		end
 	end
@@ -158,56 +132,65 @@ RSpec.describe QuestionsController, :type => :controller do
 			edited_question.title = "Edited title"
 			edited_question
 		end
-
-		before do
-			allow(controller).to receive(:user_signed_in?) { true }
-			allow(controller).to receive(:current_user) { user }
+		let(:put_update) do
 			put :update, id: question.id, question: { title: edited_question.title, body: edited_question.body }
 		end
 
-		it "changes question's attribute" do
-			expect(Question.find(question.id).title).to eq edited_question.title
+		context "user is signed in", sign_in: true do
+			before { put_update }
+
+			it "changes question's attribute" do
+				expect(question.reload.title).to eq edited_question.title
+			end
+
+			it "redirects to the question page" do
+				expect(response).to redirect_to question
+			end
 		end
 
-		it "redirects to the question page" do
-			expect(response).to redirect_to question
+		context "user is not signed in" do
+			before { put_update }
+
+			it "doesn't change question's attribute" do
+				expect(question.reload.title).not_to eq edited_question.title
+			end
+
+			it "redirects to the sign in page" do
+				expect(response).to redirect_to new_user_session_path
+			end
 		end
+
 	end
 
 	describe "DELETE #destroy" do
 		let(:user) { create(:user) }
 		let(:question) { create(:question, user: user) }
+		let(:delete_destroy) do
+			-> { delete :destroy, id: question }
+		end
 
-		context "user is signed in" do
-			before do
-				allow(controller).to receive(:user_signed_in?) { true }
-				allow(controller).to receive(:current_user) { user }
-				question
-			end
+		before { question }
 
-			it "deletes a question" do
-				expect{ delete :destroy, id: question }.to change(Question, :count).by(-1)
+		context "user is signed in", sign_in: true do
+
+			it "removes a question" do
+				expect(delete_destroy).to change(Question, :count).by(-1)
 			end
 
 			it "redirects to root path" do
-				delete :destroy, id: question.id
+				delete_destroy.call
 				expect(response).to redirect_to root_path
 			end
 		end
 
 		context "user is not signed in" do
-			before do
-				allow(controller).to receive(:user_signed_in?) { false }
-				question
-			end
-
 			it "doesn't delete a question" do
-				expect{ delete :destroy, id: question.id }.not_to change(Question, :count)
+				expect(delete_destroy).not_to change(Question, :count)
 			end
 
 			it "redirects to root path" do
-				delete :destroy, id: question.id
-				expect(response).to redirect_to root_path
+				delete_destroy.call
+				expect(response).to redirect_to new_user_session_path
 			end
 		end
 	end
