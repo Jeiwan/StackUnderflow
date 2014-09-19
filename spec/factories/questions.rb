@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :question do
-    title "MyString"
-    body "An interesting question"
+    title "Very important questions"
+    body "Answer my question ASAP!"
 		user
   end
   factory :invalid_question, class: "Question" do

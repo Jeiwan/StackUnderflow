@@ -2,9 +2,4 @@ article
   h3
     =link_to question.title, question
     small  by #{question.user.username} on #{question.created_at.strftime("%T %D")}
-    - if user_signed_in? && current_user == question.user
-      = link_to edit_question_path(question.id), class: "edit-question" do
-        = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
-      = link_to question_path(question.id), class: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
-        = content_tag :span, nil, class: "glyphicon glyphicon-remove"
   p = question.body

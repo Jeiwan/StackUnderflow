@@ -5,10 +5,10 @@ article class="panel panel-default #{"best-answer" if answer.best?}"
       |&nbsp;
       = answer.body
       - if user_signed_in? && current_user == answer.question.user && !answer.best?
-        = link_to question_mark_best_answer_path(answer.question.id, answer.id), class: "mark-best-answer", method: :post do
+        = link_to question_mark_best_answer_path(answer.question.id, answer.id), class: "mark-best-answer", id: "mark-best-answer", method: :post do
           = content_tag :span, nil, class: "glyphicon glyphicon-ok"
       - if user_signed_in? && current_user == answer.user
-        = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer" do
+        = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer", id: "edit-answer" do
           = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
-        = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
+        = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
           = content_tag :span, nil, class: "glyphicon glyphicon-remove"

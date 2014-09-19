@@ -7,6 +7,11 @@
           small
             |&nbsp;posted by&nbsp;
             = @question.user.username
+          - if user_signed_in? && current_user == @question.user
+            = link_to edit_question_path(@question.id), class: "edit-question", id: "edit-question" do
+              = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
+            = link_to question_path(@question.id), class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
+              = content_tag :span, nil, class: "glyphicon glyphicon-remove"
       .panel-body
         p
           = @question.body

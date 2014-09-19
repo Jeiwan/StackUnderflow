@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :answer do
-		body "This is very good indeed."
+		body "Very useful answer"
 		best false
 		question
 		user
