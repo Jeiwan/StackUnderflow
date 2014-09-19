@@ -1,9 +1,10 @@
 class AnswersController < ApplicationController
 
 	before_action :must_be_logged_in, except: [ :show ]
+	before_action :find_answer, only: [:edit, :update, :mark_best]
+	before_action :find_question, only: [:create, :show]
 
 	def create
-		@question = Question.find(params[:question_id])
 		@answer = @question.answers.new(answer_params)
 
 		if @answer.save
@@ -16,19 +17,15 @@ class AnswersController < ApplicationController
 	end
 
 	def show
-		@question = Question.find(params[:question_id])
 		@answers = @question.answers
 		@answer = Answer.new
 		render "questions#show"
 	end
 
 	def edit
-		@answer = Answer.find(params[:id])
 	end
 
 	def update
-		@answer = Answer.find(params[:id])
-
 		if @answer.update(answer_params)
 			flash[:success] = "Answer is updated!"
 			redirect_to question_path(@answer.question.id)
@@ -45,7 +42,6 @@ class AnswersController < ApplicationController
 	end
 
 	def mark_best
-		@answer = Answer.find(params[:id])
 		@answer.mark_best!
 		flash[:success] = "Answer marked as best!"
 		redirect_to @answer.question
@@ -62,5 +58,13 @@ class AnswersController < ApplicationController
 				flash[:danger] = "You must be logged in."
 				redirect_to root_path
 			end
+		end
+
+		def find_answer
+			@answer = Answer.find(params[:id])
+		end
+
+		def find_question
+			@question = Question.find(params[:question_id])
 		end
 end
