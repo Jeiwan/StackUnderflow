@@ -2,19 +2,19 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.5'
 
 group :development, :test do
-	gem 'rspec-rails'
-	gem 'factory_girl_rails'
-	gem 'capybara'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'capybara'
 end
 
 group :test do
-	gem 'shoulda-matchers'
+  gem 'shoulda-matchers'
 end
 
 group :development do
-	gem 'quiet_assets'
-	gem 'better_errors'
-	gem 'binding_of_caller'
+  gem 'quiet_assets'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 gem 'pg'
