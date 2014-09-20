@@ -11,10 +11,12 @@ feature "Answer a Question", %q{
 	given(:answerer) { create(:user) }
 	given(:answer) { build(:answer, question: question, user: answerer) }
 
-	scenario "Authenticated user answers another user's question" do
+	background do
 		sign_in answerer
-
 		visit question_path(question)
+	end
+
+	scenario "Authenticated user answers another user's question" do
 		fill_in :answer_body, with: answer.body
 		click_on "Answer"
 		
@@ -23,8 +25,6 @@ feature "Answer a Question", %q{
 	end
 
 	scenario "Authenticated user answers another user's question without filling a required field" do
-		sign_in answerer
-		visit question_path(question)
 		click_on "Answer"
 
 		expect(page).to have_selector ".alert-danger"

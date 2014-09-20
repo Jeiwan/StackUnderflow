@@ -15,7 +15,7 @@
       .panel-body
         p
           = @question.body
-    div
+    .answers
       = render @answers
     - if user_signed_in?
       div

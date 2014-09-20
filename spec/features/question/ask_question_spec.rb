@@ -9,11 +9,12 @@ feature "Ask Questions", %q{
 	given(:user) { create(:user) }
 	given(:question) { build(:question) }
 
-	scenario "Authenticated user asks a question" do
+	background do
 		sign_in user
-
 		visit new_question_path
-		
+	end
+
+	scenario "Authenticated user asks a question" do
 		fill_in "Title", with: question.title
 		fill_in "Body", with: question.body
 		click_on "Ask"
@@ -23,9 +24,6 @@ feature "Ask Questions", %q{
 	end
 
 	scenario "Authenticated user asks a question without filling required fields" do
-		sign_in user
-
-		visit new_question_path
 		click_on "Ask"
 
 		expect(page).to have_content "error"

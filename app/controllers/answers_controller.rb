@@ -1,8 +1,9 @@
 class AnswersController < ApplicationController
-
-	before_action :must_be_logged_in, except: [ :show ]
-	before_action :find_answer, only: [:edit, :update, :mark_best]
-	before_action :find_question, only: [:create, :show]
+	before_action :authenticate_user!
+	before_action :find_question, only: [:create]
+	before_action :find_answer, only: [:edit, :update, :destroy, :mark_best]
+	before_action :answer_belongs_to_current_user?, only: [:edit, :update, :destroy]
+	before_action :question_belongs_to_current_user?, only: [:mark_best]
 
 	def create
 		@answer = @question.answers.new(answer_params)
@@ -16,26 +17,19 @@ class AnswersController < ApplicationController
 		redirect_to @question
 	end
 
-	def show
-		@answers = @question.answers
-		@answer = Answer.new
-		render "questions#show"
-	end
-
 	def edit
 	end
 
 	def update
 		if @answer.update(answer_params)
 			flash[:success] = "Answer is updated!"
-			redirect_to question_path(@answer.question.id)
+			redirect_to question_path(@answer.question)
 		else
 			render "edit"
 		end
 	end
 
 	def destroy
-		@answer = current_user.answers.find(params[:id])
 		@answer.destroy
 		flash[:success] = "Answer is deleted!"
 		redirect_to root_path
@@ -53,18 +47,23 @@ class AnswersController < ApplicationController
 			params.require(:answer).permit(:body)
 		end
 
-		def must_be_logged_in
-			unless user_signed_in?
-				flash[:danger] = "You must be logged in."
-				redirect_to root_path
-			end
-		end
-
 		def find_answer
 			@answer = Answer.find(params[:id])
 		end
 
 		def find_question
 			@question = Question.find(params[:question_id])
+		end
+
+		def answer_belongs_to_current_user?
+			unless @answer.user == current_user
+				redirect_to root_path
+			end
+		end
+
+		def question_belongs_to_current_user?
+			unless @answer.question.user == current_user
+				redirect_to @answer.question
+			end
 		end
 end

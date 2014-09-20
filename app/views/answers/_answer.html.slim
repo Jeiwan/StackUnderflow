@@ -1,11 +1,11 @@
-article class="panel panel-default #{"best-answer" if answer.best?}"
+article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-answer" if answer.best?}"
   .panel-body
     p.answer
       strong #{answer.user.username}:
       |&nbsp;
       = answer.body
       - if user_signed_in? && current_user == answer.question.user && !answer.best?
-        = link_to question_mark_best_answer_path(answer.question.id, answer.id), class: "mark-best-answer", id: "mark-best-answer", method: :post do
+        = link_to mark_best_question_answer_path(answer.question.id, answer.id), class: "mark-best-answer", method: :post do
           = content_tag :span, nil, class: "glyphicon glyphicon-ok"
       - if user_signed_in? && current_user == answer.user
         = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer", id: "edit-answer" do

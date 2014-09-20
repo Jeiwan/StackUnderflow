@@ -9,13 +9,17 @@ feature "Sign in", %q{
 	given(:user) { create(:user) }
 
 	scenario "Registered user signs in" do
-		visit new_user_session_path
-
-		fill_in "Email", with: user.email
-		fill_in "Password", with: user.password
-		click_button "Log in"
-
+		sign_in user.email, user.password
 		expect(page).to have_content user.username
 	end
 
+	scenario "Registered user signs in with wrong email" do
+		sign_in user.email.reverse, user.password
+		expect(page).to have_content "Invalid email address or password"
+	end
+
+	scenario "Registered user signs in with wrong password" do
+		sign_in user.email, user.password.reverse
+		expect(page).to have_content "Invalid email or password"
+	end
 end
