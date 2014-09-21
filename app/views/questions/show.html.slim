@@ -1,25 +1,30 @@
 .row
+  .col-md-12
+    header class="page-header"
+      h1 = @question.title
+.row
   .col-md-10
     .panel.panel-default.question
-      .panel-heading
-        h2
-          = @question.title
-          small
-            |&nbsp;posted by&nbsp;
-            = @question.user.username
-          - if user_signed_in? && current_user == @question.user
-            = link_to edit_question_path(@question.id), class: "edit-question", id: "edit-question" do
-              = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
-            = link_to question_path(@question.id), class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
-              = content_tag :span, nil, class: "glyphicon glyphicon-remove"
       .panel-body
-        p
+        .question-body
           = @question.body
-          - if user_signed_in?
-            = link_to "Comment", "#", class: "comment-question", id: "show-question-comment-textarea"
+        .question-author.text-right
+          small by #{@question.user.username} #{time_ago_in_words(@question.created_at)}
+        - if @comments.size > 0
+          ul.comments
+            = render @comments
       .panel-footer
-        ul.comments
-          = render @comments
+        ul.question-management
+          - if user_signed_in? && current_user == @question.user
+            li
+              = link_to edit_question_path(@question.id), class: "edit-question", id: "edit-question" do
+                = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
+            li
+              = link_to question_path(@question.id), class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
+                = content_tag :span, nil, class: "glyphicon glyphicon-remove"
+          - if user_signed_in?
+            li
+              = link_to "Comment", "#", class: "comment-question", id: "show-question-comment-textarea"
         = form_for @comment, url: question_comments_path(@question) do |f|
           .form-group.row
             .col-md-12
@@ -28,12 +33,13 @@
             .col-md-12.text-right
               = f.submit "Post comment", class: "btn btn-primary"
     .answers
+      h3 = pluralize(@answers.count, "Answer")
       = render @answers
     - if user_signed_in?
       div
         h3 Post answer
         .row
-          .col-md-6
+          .col-md-10
             = render "errors", model: @answer
             = form_for @answer, url: question_answers_path(@question.id) do |f|
               .form-group.row

@@ -1,11 +1,17 @@
 // Place all the styles related to the questions controller here.
 // They will automatically be included in application.css.
 // You can use Sass here: http://sass-lang.com/
+.page-header h1
+  margin-top: 0
+
+.ask-question
+  display: block
+
 textarea
   resize: none
 
-.question .panel-body
-  position: relative
+.question-body
+  margin: 0 0 20px
 
 .delete-question,
 .edit-question
@@ -13,7 +19,6 @@ textarea
   font-size: 16px
   font-weight: normal
   display: inline-block
-  margin: 0 0 0 20px
 
 .delete-question
   color: #ebccd1
@@ -27,7 +32,14 @@ textarea
 #new_comment
   display: none
 
-.comment-question
-  position: absolute
-  right: 20px
-  bottom: 5px
+.question-management
+  margin: 0
+  padding: 0
+  list-style: none
+  overflow: hidden
+
+.question-management li
+  float: left
+
+.question-management li + li
+  margin-left: 10px
