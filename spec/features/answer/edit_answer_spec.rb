@@ -12,9 +12,6 @@ feature "Edit Answer" do
     visit question_path(question)
   end
 
-  scenario do
-  end
-
   scenario "User edits his answer" do
     within ".answer[data-answer-id='#{answer2.id}']" do
       click_link "edit-answer"
