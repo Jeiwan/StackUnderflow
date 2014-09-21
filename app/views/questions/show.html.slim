@@ -34,7 +34,7 @@
               = f.submit "Post comment", class: "btn btn-primary"
     .answers
       h3 = pluralize(@answers.count, "Answer")
-      = render @answers
+      = render @answers, has_best_answer: @question.has_best_answer?
     - if user_signed_in?
       div
         h3 Post answer

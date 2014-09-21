@@ -6,4 +6,7 @@ class Question < ActiveRecord::Base
   validates :body, presence: true, length: { in: 10..5000 }
   validates :title, presence: true, length: { in: 5..512 }
 
+  def has_best_answer?
+    answers.find_by(best: true) ? true : false
+  end
 end

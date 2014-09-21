@@ -14,10 +14,23 @@ RSpec.describe Answer, :type => :model do
 
   describe "instance methods" do
     describe "#mark_best!" do
-      it "marks answer as best" do
-        answer = build(:answer)
-        answer.mark_best!
-        expect(answer).to be_best
+      let(:question) { create(:question) }
+      let!(:answer) { create(:answer, question: question) }
+
+      context "when question has no best answer" do
+        it "marks answer as best" do
+          answer.mark_best!
+          expect(answer).to be_best
+        end
+      end
+
+      context "when question has a best answer" do
+        let!(:best_answer) { create(:answer, question: question, best: true) }
+
+        it "doesn't mark answer as best" do
+          answer.mark_best!
+          expect(answer).not_to be_best
+        end
       end
     end
   end

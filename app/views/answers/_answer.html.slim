@@ -6,14 +6,15 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
       small by #{answer.user.username} #{time_ago_in_words(answer.created_at)}
   .panel-footer
     ul.answer-management
-      - if user_signed_in? && current_user == answer.question.user && !answer.best?
-        li
-          = link_to mark_best_question_answer_path(answer.question.id, answer.id), class: "mark-best-answer", method: :post do
-            = content_tag :span, nil, class: "glyphicon glyphicon-ok"
-      - if user_signed_in? && current_user == answer.user
-        li
-          = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer", id: "edit-answer" do
-            = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
-        li
-          = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
-            = content_tag :span, nil, class: "glyphicon glyphicon-remove"
+      - if user_signed_in?
+        - if current_user == answer.question.user && !answer.best? && !has_best_answer
+          li
+            = link_to mark_best_question_answer_path(answer.question.id, answer.id), class: "mark-best-answer", method: :post do
+              = content_tag :span, nil, class: "glyphicon glyphicon-ok"
+        - if current_user == answer.user
+          li
+            = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer", id: "edit-answer" do
+              = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
+          li
+            = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
+              = content_tag :span, nil, class: "glyphicon glyphicon-remove"
