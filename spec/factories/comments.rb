@@ -2,8 +2,9 @@
 
 FactoryGirl.define do
   factory :comment do
-    body "MyText"
+    body "This is a comment, yo!"
     commentable_id 1
-    commentable_type "MyString"
+    commentable_type "Question"
+    user
   end
 end

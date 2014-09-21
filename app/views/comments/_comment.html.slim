@@ -1,0 +1,5 @@
+li.comment.row
+  .col-md-12
+    p
+      = comment.body
+    strong.comment-poster #{comment.user.username}, on #{comment.created_at.strftime("%T %D")}

@@ -8,26 +8,33 @@ feature "Questions Commenting", %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:comment) { build(:comment, user: user, question: question) }
-
-  background do
-    sign_in user
-    visit question_path(question)
-  end
+  given(:comment) { build(:comment, user: user) }
 
   scenario "User comments question" do
-    within(".question") do
-      click_on "Comment"
-    end
-
-    fill_in "comment_body", with: comment.body
-    within(".question") do
-      click_on "Post comment"
-    end
+    post_comment comment.body
 
     within(".question") do
       expect(page).to have_content comment.body
     end
   end
 
+  scenario "User comments question with valid data" do
+    post_comment ""
+
+    expect(page).to have_content "Ivalid data!"
+  end
+end
+
+def post_comment comment
+    sign_in user
+    visit question_path(question)
+
+    within(".question") do
+      click_on "Comment"
+    end
+
+    fill_in :comment_body, with: comment
+    within(".question") do
+      click_on "Post comment"
+    end
 end

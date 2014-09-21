@@ -5,6 +5,8 @@ RSpec.describe CommentsController, :type => :controller do
   let(:question) { create(:question, user: user) }
   let(:comment) { build(:comment, user: user) }
 
+  user_sign_in
+
   describe "POST #create" do
     let(:attributes) { attributes_for(:comment) }
     let(:post_create) do
@@ -23,6 +25,7 @@ RSpec.describe CommentsController, :type => :controller do
       end
 
       context "with invalid data" do
+        let(:attributes) { attributes_for(:comment, body: nil) }
         it "doesn't add a new comment to database" do
           expect{post_create}.not_to change(Comment, :count)
         end

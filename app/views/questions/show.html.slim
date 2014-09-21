@@ -1,6 +1,6 @@
 .row
   .col-md-10
-    .panel.panel-default
+    .panel.panel-default.question
       .panel-heading
         h2
           = @question.title
@@ -15,6 +15,18 @@
       .panel-body
         p
           = @question.body
+          - if user_signed_in?
+            = link_to "Comment", "#", class: "comment-question", id: "show-question-comment-textarea"
+      .panel-footer
+        ul.comments
+          = render @comments
+        = form_for @comment, url: question_comments_path(@question) do |f|
+          .form-group.row
+            .col-md-12
+              = f.text_area :body, class: "form-control", rows: 10
+          .form-group.row
+            .col-md-12.text-right
+              = f.submit "Post comment", class: "btn btn-primary"
     .answers
       = render @answers
     - if user_signed_in?

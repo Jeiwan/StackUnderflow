@@ -3,14 +3,15 @@ class CommentsController < ApplicationController
   
   def create
     @question = Question.find(params[:question_id])
-    @comment = question.commentable.new(comment_params)
+    @comment = @question.comments.new(comment_params)
 
     if @comment.save
+      current_user.comments << @comment
       flash[:success] = "Comment is created!"
     else
-      flash[:danger] = "Comment is not created!"
+      flash[:danger] = "Ivalid data! Comment length should be more than 10 symbols!"
     end
-    redirect question_path(@question)
+    redirect_to question_path(@question)
   end
 
   private
