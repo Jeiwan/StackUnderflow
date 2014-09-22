@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:edit, :update, :destroy]
+  before_action :get_variables_for_question_show, only: [:show]
 
   def index
     @questions = Question.all.order("created_at DESC")
@@ -12,10 +13,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = @question.answers.order('best DESC, created_at')
-    @comments = @question.comments.order('created_at DESC')
     @answer = Answer.new
-    @comment = Comment.new
   end
 
   def create

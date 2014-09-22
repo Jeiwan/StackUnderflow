@@ -1,0 +1,4 @@
+= simple_form_for [@answer.question, @answer] do |f|
+  = f.error_notification
+  = f.input :body, input_html: { rows: 10 }
+  = f.button :submit, class: "btn btn-success"

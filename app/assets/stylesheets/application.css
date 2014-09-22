@@ -13,3 +13,6 @@
  *= require_tree .
  *= require_self
  */
+form .boolean label {
+  font-weight: normal;
+}

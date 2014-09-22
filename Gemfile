@@ -24,7 +24,7 @@ gem 'uglifier'
 gem 'coffee-rails'
 gem 'therubyracer'
 
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git', branch: 'bootstrap3'
+gem 'twitter-bootstrap-rails', git: 'git://github.com/seyhunak/twitter-bootstrap-rails.git', branch: 'bootstrap3'
 gem 'less-rails'
 gem 'slim-rails'
 
@@ -32,3 +32,4 @@ gem 'jquery-rails'
 gem 'jbuilder'
 gem 'devise'
 gem 'launchy'
+gem 'simple_form', git: 'https://github.com/plataformatec/simple_form'

@@ -9,6 +9,14 @@ GIT
       rails (>= 3.1)
       railties (>= 3.1)
 
+GIT
+  remote: https://github.com/plataformatec/simple_form
+  revision: 88e96db1d7dcd9e352dad07aa7cd1f629a06d822
+  specs:
+    simple_form (3.1.0.rc2)
+      actionpack (~> 4.0)
+      activemodel (~> 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -210,6 +218,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   shoulda-matchers
+  simple_form!
   slim-rails
   therubyracer
   twitter-bootstrap-rails!

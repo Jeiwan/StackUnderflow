@@ -18,7 +18,7 @@ feature "Edit Question" do
     expect(page).to have_content "Body"
 
     fill_in "Body", with: question1.body.reverse
-    click_on "Edit"
+    click_on "Update Question"
 
     expect(page).to have_content question1.body.reverse
   end

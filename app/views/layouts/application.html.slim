@@ -3,7 +3,7 @@ html lang="en"
   head
     meta charset="utf-8"/
     meta name="viewport" content="width=device-width, initial-scale=1"
-    title Application
+    title = yield(:title).blank? ? "StackUnderflow" : "StackUnderflow - #{yield(:title)}"
     = stylesheet_link_tag     'application', media: 'all'
     = javascript_include_tag  'application'
     = csrf_meta_tags
@@ -28,3 +28,5 @@ html lang="en"
         = render "layouts/flash"
       section
         = yield
+      footer#footer
+        p StackUnderflow

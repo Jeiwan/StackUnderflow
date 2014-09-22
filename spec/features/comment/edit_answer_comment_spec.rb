@@ -25,7 +25,7 @@ feature "Edit Question Comment" do
   scenario "User edits his answer comment with valid data" do
     edit_answer_comment answer.id, comment.id, ""
 
-    expect(page).to have_content "error"
+    expect(page).to have_content "problems"
   end
 
   scenario "User can't edit not his comment" do
@@ -43,5 +43,5 @@ def edit_answer_comment answer_id, comment_id, text
   expect(page).to have_content "Edit comment"
 
   fill_in "comment_body", with: text
-  click_on "Edit"
+  click_on "Update Comment"
 end

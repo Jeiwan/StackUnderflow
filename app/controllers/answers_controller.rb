@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, only: [:edit, :update, :destroy, :mark_best]
   before_action :answer_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:mark_best]
+  before_action :get_variables_for_question_show, only: [:create]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -11,10 +12,11 @@ class AnswersController < ApplicationController
     if @answer.save
       current_user.answers << @answer
       flash[:success] = "Answer is created!"
+      redirect_to @question
     else
-      flash[:danger] = "Wrong length of answer!"
+      flash.now[:danger] = "Answer is not created! See errors below."
+      render "questions/show"
     end
-    redirect_to @question
   end
 
   def edit

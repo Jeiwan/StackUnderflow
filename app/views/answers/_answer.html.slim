@@ -12,20 +12,17 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
       - if user_signed_in?
         - if current_user == answer.question.user && !answer.best? && !has_best_answer
           li
-            = link_to mark_best_question_answer_path(answer.question.id, answer.id), class: "mark-best-answer", method: :post do
-              = content_tag :span, nil, class: "glyphicon glyphicon-ok"
+            = link_to [:mark_best, answer.question, answer], class: "mark-best-answer", method: :post do
+              span.glyphicon.glyphicon-ok
         - if current_user == answer.user
           li
-            = link_to edit_question_answer_path(answer.question.id, answer.id), class: "edit-answer", id: "edit-answer" do
-              = content_tag :span, nil, class: "glyphicon glyphicon-pencil"
+            = link_to [:edit, answer.question, answer], class: "edit-answer", id: "edit-answer" do
+              span.glyphicon.glyphicon-pencil
           li
-            = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
-              = content_tag :span, nil, class: "glyphicon glyphicon-remove"
-        = link_to "Comment", "#", class: "comment-answer", id: "show-answer-comment-textarea"
-    = form_for [answer, @comment] do |f|
-      .form-group.row
-        .col-md-12
-          = f.text_area :body, class: "form-control", rows: 10
-      .form-group.row
-        .col-md-12.text-right
-          = f.submit "Post comment", class: "btn btn-primary"
+            = link_to [answer.question, answer], class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
+              span.glyphicon.glyphicon-remove
+        li
+          = link_to "Comment", "#", class: "comment-answer show-answer-comment-textarea"
+    = simple_form_for [answer, @comment] do |f|
+      = f.input :body, input_html: { rows: 10 }, label: false
+      = f.button :submit, "Post comment", class: "btn btn-primary"

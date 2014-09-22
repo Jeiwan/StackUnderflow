@@ -43,7 +43,7 @@ RSpec.describe AnswersController, :type => :controller do
 
         it "redirects to the question's show page" do
           post_create
-          expect(response).to redirect_to assigns(:question)
+          expect(response).to render_template "questions/show"
         end
       end
     end
