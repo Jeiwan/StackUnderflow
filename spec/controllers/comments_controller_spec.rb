@@ -4,7 +4,8 @@ RSpec.describe CommentsController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:comment) { create(:question_comment, user: user, commentable: question) }
+  let!(:comment) { create(:question_comment, user: user, commentable: question) }
+  let!(:comment2) { create(:question_comment, user: user2, commentable: question) }
 
   user_sign_in
 
@@ -131,6 +132,44 @@ RSpec.describe CommentsController, :type => :controller do
       before { put_update }
 
       it "redirects to sign in page" do
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    let(:delete_destroy) do
+      delete :destroy, question_id: question.id, id: comment.id
+    end
+
+    context "when signed in", sign_in: true do
+      context "when comment belongs to current user" do
+        it "removes the comment" do
+          expect{delete_destroy}.to change(Comment, :count).by(-1)
+        end
+
+        it "redirects to question page" do
+          delete_destroy
+          expect(response).to redirect_to question_path(question)
+        end
+      end
+
+      context "when comment doesn't belong to current user" do
+        let(:comment) { comment2 }
+        it "doesn't remove the comment" do
+          expect{delete_destroy}.not_to change(Comment, :count)
+        end
+
+        it "redirects to question page" do
+          delete_destroy
+          expect(response).to redirect_to question_path(question)
+        end
+      end
+    end
+
+    context "when not signed in" do
+      it "redirects to sign in page" do
+        delete_destroy
         expect(response).to redirect_to new_user_session_path
       end
     end
