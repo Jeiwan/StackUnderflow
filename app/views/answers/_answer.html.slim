@@ -22,8 +22,7 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
             = link_to question_answer_path(answer.question.id, answer.id), class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
               = content_tag :span, nil, class: "glyphicon glyphicon-remove"
         = link_to "Comment", "#", class: "comment-answer", id: "show-answer-comment-textarea"
-    /= form_for [@question, @answer] do |f|
-    = form_for @comment, url: question_answer_comments_path(@question, answer) do |f|
+    = form_for [answer, @comment] do |f|
       .form-group.row
         .col-md-12
           = f.text_area :body, class: "form-control", rows: 10

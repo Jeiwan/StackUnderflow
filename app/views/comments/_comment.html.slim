@@ -4,6 +4,6 @@ li class="comment" data-comment-id="#{comment.id}"
     small.comment-poster
       |  &mdash; #{comment.user.username}, #{time_ago_in_words(comment.created_at)} ago  
       - if user_signed_in? && comment.user == current_user
-        = link_to "edit", edit_question_comment_path(@question, comment)
+        = link_to "edit", [:edit, comment.commentable, comment]
         |  
-        = link_to "delete", question_comment_path(@question, comment), method: :delete, data: { confirm: "Are you sure?" }
+        = link_to "delete", [comment.commentable, comment], method: :delete, data: { confirm: "Are you sure?" }
