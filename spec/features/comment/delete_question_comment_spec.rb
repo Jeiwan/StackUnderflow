@@ -4,7 +4,7 @@ feature "Delete Question Comment" do
 
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:comment) { create(:question_comment, user: user, commentable: question) }
+  given!(:comment) { create(:question_comment, user: user, commentable: question) }
 
   background do
     sign_in user
@@ -16,9 +16,7 @@ feature "Delete Question Comment" do
       click_on "delete"
     end
 
-    within(".comments") do
-      expect(page).not_to have_content comment.body
-    end
+    expect(page).not_to have_content comment.body
   end
 
 end
