@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     resources :answers, only: [:new, :create, :edit, :update, :destroy] do
       post "mark_best", on: :member
     end
-    resources :comments, only: [:create]
+    resources :comments, only: [:create, :edit, :update]
   end
 
   root "questions#index"

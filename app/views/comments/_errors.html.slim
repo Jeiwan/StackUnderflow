@@ -1,0 +1,6 @@
+- if model.errors.any?
+  = content_tag :p, "There are #{pluralize model.errors.count, "error"}:"
+  ol
+  - model.errors.full_messages.each do |message|
+    li
+      = message

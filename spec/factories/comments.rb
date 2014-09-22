@@ -1,10 +1,9 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :comment do
-    body "This is a comment, yo!"
-    commentable_id 1
-    commentable_type "Question"
+  factory :question_comment, class: "Comment" do
+    body "This is a question comment, yo!"
+    association :commentable, factory: :question
     user
   end
 end

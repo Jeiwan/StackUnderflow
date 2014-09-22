@@ -8,7 +8,7 @@ feature "Questions Commenting", %q{
 
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:comment) { build(:comment, user: user) }
+  given(:comment) { build(:question_comment, user: user, commentable: question) }
 
   scenario "User comments question" do
     post_comment comment.body
