@@ -1,19 +1,19 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question
+  before_action :find_commentable
   before_action :find_comment, only: [:edit, :update, :destroy]
   before_action :comment_belongs_to_current_user?, only: [:edit, :update, :destroy]
   
   def create
-    @comment = @question.comments.new(comment_params)
+    @comment = @commentable.comments.new(comment_params)
 
     if @comment.save
       current_user.comments << @comment
       flash[:success] = "Comment is created!"
     else
-      flash[:danger] = "Ivalid data! Comment length should be more than 10 symbols!"
+      flash[:danger] = "Invalid data! Comment length should be more than 10 symbols!"
     end
-    redirect_to question_path(@question)
+    redirect_to @commentable
   end
 
   def edit
@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to question_path(@question), success: "Comment is edited!"
+      redirect_to @commentable, success: "Comment is edited!"
     else
       render "edit"
     end
@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    redirect_to question_path(@question), success: "Comment is deleted!"
+    redirect_to @commentable, success: "Comment is deleted!"
   end
 
   private
@@ -37,17 +37,18 @@ class CommentsController < ApplicationController
       params.require(:comment).permit(:body)
     end
 
-    def find_question
-      @question = Question.find(params[:question_id])
+    def find_commentable
+      klass = [Question, Answer].detect { |c| params["#{c.name.underscore}_id"] }
+      @commentable = klass.find(params[:question_id])
     end
 
     def find_comment
-      @comment = @question.comments.find(params[:id])
+      @comment = @commentable.comments.find(params[:id])
     end
 
     def comment_belongs_to_current_user?
       unless @comment.user == current_user
-        redirect_to question_path(@question)
+        redirect_to @commentable
       end
     end
 end
