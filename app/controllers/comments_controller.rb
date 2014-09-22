@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     else
       flash[:danger] = "Invalid data! Comment length should be more than 10 symbols!"
     end
-    redirect_to @commentable
+    redirect_to @return_path
   end
 
   def edit
@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to @commentable, success: "Comment is edited!"
+      redirect_to @return_path, success: "Comment is edited!"
     else
       render "edit"
     end
@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    redirect_to @commentable, success: "Comment is deleted!"
+    redirect_to @return_path, success: "Comment is deleted!"
   end
 
   private
@@ -38,8 +38,13 @@ class CommentsController < ApplicationController
     end
 
     def find_commentable
-      klass = [Question, Answer].detect { |c| params["#{c.name.underscore}_id"] }
-      @commentable = klass.find(params[:question_id])
+      if !params[:answer_id].nil?
+        @commentable = Answer.find(params[:answer_id])
+        @return_path = @commentable.question
+      elsif !params[:question_id].nil?
+        @commentable = Question.find(params[:question_id])
+        @return_path = @commentable
+      end
     end
 
     def find_comment
@@ -48,7 +53,7 @@ class CommentsController < ApplicationController
 
     def comment_belongs_to_current_user?
       unless @comment.user == current_user
-        redirect_to @commentable
+        redirect_to @return_path
       end
     end
 end
