@@ -12,15 +12,18 @@ feature "Delete Answer" do
     visit question_path(question)
   end
 
-  scenario "User deletes his answer" do
-    within ".answer[data-answer-id='#{answer2.id}']" do
+  scenario "User deletes his answer", js: true do
+    answer_selector = ".answer[data-answer-id='#{answer2.id}']"
+
+    within answer_selector do
       click_link "delete-answer"
     end
+    page.driver.browser.switch_to.alert.accept
 
-    expect(page).not_to have_content answer2.body
+    expect(page).not_to have_selector answer_selector
   end
 
-  scenario "User can't delete not his answer" do
+  scenario "User can't delete not his answer", js: true do
     within ".answer[data-answer-id='#{answer1.id}']" do
       expect(page).not_to have_selector "#delete-answer"
     end

@@ -1,0 +1,7 @@
+$("header#header").html("<%= j render 'layouts/flash' %>");
+$("#new-answer-form").html("<%= j render 'questions/answer_form' %>");
+<% unless flash[:danger] %>
+  $(".answers").append("<%= j render @answer %>");
+  $("#answer_body").val("");
+  answersCounter.increase();
+<% end %>

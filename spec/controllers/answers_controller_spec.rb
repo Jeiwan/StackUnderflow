@@ -11,7 +11,7 @@ RSpec.describe AnswersController, :type => :controller do
   describe "POST #create" do
     let(:attributes) { attributes_for :answer } 
     let(:post_create) do
-      post :create, question_id: question.id, answer: attributes
+      post :create, question_id: question.id, answer: attributes, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -26,7 +26,7 @@ RSpec.describe AnswersController, :type => :controller do
 
         it "redirects to the question's show page" do
           post_create
-          expect(response).to redirect_to assigns(:question)
+          expect(response).to render_template :create
         end
       end
 
@@ -43,7 +43,7 @@ RSpec.describe AnswersController, :type => :controller do
 
         it "redirects to the question's show page" do
           post_create
-          expect(response).to render_template "questions/show"
+          expect(response).to render_template :create
         end
       end
     end
@@ -51,7 +51,8 @@ RSpec.describe AnswersController, :type => :controller do
     context "when not signed in" do
       before { post_create }
       it "redirects to sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        #expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -162,7 +163,7 @@ RSpec.describe AnswersController, :type => :controller do
 
   describe "DELETE #destroy" do
     let(:delete_destroy) do
-      delete :destroy, question_id: question, id: answer 
+      delete :destroy, question_id: question, id: answer, format: :js
     end
     before { answer }
 
@@ -174,7 +175,7 @@ RSpec.describe AnswersController, :type => :controller do
 
         it "redirects to root path" do
           delete_destroy
-          expect(response).to redirect_to root_path
+          expect(response).to render_template :destroy
         end
       end
 
@@ -199,7 +200,8 @@ RSpec.describe AnswersController, :type => :controller do
 
       it "redirects to sign in path" do
         delete_destroy
-        expect(response).to redirect_to new_user_session_path
+        #expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end

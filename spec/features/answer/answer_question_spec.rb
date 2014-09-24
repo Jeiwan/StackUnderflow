@@ -16,7 +16,7 @@ feature "Answer a Question", %q{
     visit question_path(question)
   end
 
-  scenario "Authenticated user answers another user's question" do
+  scenario "Authenticated user answers another user's question", js: true do
     fill_in :answer_body, with: answer.body
     click_on "Answer"
     
@@ -24,7 +24,7 @@ feature "Answer a Question", %q{
     expect(page).to have_content answer.user.username
   end
 
-  scenario "Authenticated user answers another user's question without filling a required field" do
+  scenario "Authenticated user answers another user's question without filling a required field", js: true do
     click_on "Answer"
 
     expect(page).to have_selector ".alert-danger"

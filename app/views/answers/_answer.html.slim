@@ -19,7 +19,7 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
             = link_to [:edit, answer.question, answer], class: "edit-answer", id: "edit-answer" do
               span.glyphicon.glyphicon-pencil
           li
-            = link_to [answer.question, answer], class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
+            = link_to [answer.question, answer], remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
               span.glyphicon.glyphicon-remove
         li
           = link_to "Comment", "#", class: "comment-answer show-answer-comment-textarea"
