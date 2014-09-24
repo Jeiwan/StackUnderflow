@@ -4,9 +4,10 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
       = answer.body
     .answer-author.text-right
       small by #{answer.user.username} #{time_ago_in_words(answer.created_at)}
-    - if answer.comments.size > 0
-      ul.comments
-        = render answer.comments
+    .comments-wrapper
+      - if answer.comments.size > 0
+        ul.comments
+          = render answer.comments
   .panel-footer
     ul.answer-management
       - if user_signed_in?
@@ -22,7 +23,6 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
             = link_to [answer.question, answer], remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
               span.glyphicon.glyphicon-remove
         li
-          = link_to "Comment", "#", class: "comment-answer show-answer-comment-textarea"
-    = simple_form_for [answer, @comment] do |f|
-      = f.input :body, input_html: { rows: 10 }, label: false
-      = f.button :submit, "Post comment", class: "btn btn-primary"
+          = link_to "Comment", "#", class: "comment-answer"
+    .comment-answer-form
+      = render "comments/new_form", commentable: answer, comment: @comment

@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answers = @question.answers.order('best DESC, created_at')
-    @comments = @question.comments.order('created_at DESC')
+    @comments = @question.comments.order('created_at')
     @comment = Comment.new
     @answer = Answer.new
   end

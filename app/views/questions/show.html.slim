@@ -5,15 +5,16 @@
       h1 = @question.title
 .row
   .col-md-10
-    .panel.panel-default.question
+    .panel.panel-default.question data-question-id="#{@question.id}"
       .panel-body
         .question-body
           = @question.body
         .question-author.text-right
           small by #{@question.user.username} #{time_ago_in_words(@question.created_at)}
-        - if @comments.size > 0
-          ul.comments
-            = render @comments
+        .comments-wrapper
+          - if @comments.size > 0
+            ul.comments
+              = render @comments
       .panel-footer
         ul.question-management
           - if user_signed_in? && current_user == @question.user
@@ -26,9 +27,8 @@
           - if user_signed_in?
             li
               = link_to "Comment", "#", class: "comment-question", id: "show-question-comment-textarea"
-        = simple_form_for [@question, @comment] do |f|
-          = f.input :body, input_html: { rows: 10 }, label: false
-          = f.button :submit, "Post comment", class: "btn btn-primary"
+        .comment-question-form
+          = render "comments/new_form", commentable: @question, comment: @comment
 
     .answers
       h3#answers-counter data-counter=(@answers.count) = pluralize(@answers.count, "Answer")

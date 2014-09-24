@@ -1,0 +1,17 @@
+$("header#header").html("<%= j render 'layouts/flash' %>");
+var commentable = "<%= @commentable.class.name.downcase %>";
+var $commentable = $("." + commentable + "[data-" + commentable + "-id='<%= @commentable.id %>']");
+
+<% if flash[:danger] %>
+  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/new_form', commentable: @commentable, comment: @comment %>");
+<% elsif flash[:success]%>
+  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/new_form', commentable: @commentable, comment: Comment.new %>");
+  var $comments = $commentable.find(".comments");
+
+  if ($comments.length === 0) {
+    $comments = $("<ul class='comments'></ul>").appendTo($commentable.find(".comments-wrapper"));
+  }
+
+  $comments.append("<%= j render @comment %>");
+  $commentable.find(".comment-" + commentable + "-form").slideUp().find("textarea").val("");
+<% end %>

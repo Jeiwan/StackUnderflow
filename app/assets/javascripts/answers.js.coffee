@@ -2,12 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 $ ->
-  $(".show-answer-comment-textarea").click((e)->
-    console.log $(this).parents(".answer")
+  $(".answers").on("click", ".comment-answer", (e)->
     e.preventDefault()
-    $(this).parents(".answer").find(".new_comment").slideToggle()
-  )
-
-  $("form#new_answer").on("ajax:success", (e, data) ->
-    console.log data
+    $(this).parents(".answer").find(".comment-answer-form").slideToggle()
   )

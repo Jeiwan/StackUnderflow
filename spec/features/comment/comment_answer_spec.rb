@@ -11,7 +11,7 @@ feature "Answer Commenting", %q{
   given(:answer) { create(:answer, user: user, question: question) }
   given(:comment) { build(:answer_comment, user: user, commentable: answer) }
 
-  scenario "User comments answer" do
+  scenario "User comments answer", js: true do
     post_answer_comment answer.id, comment.body
 
     within(".answer") do
@@ -19,7 +19,7 @@ feature "Answer Commenting", %q{
     end
   end
 
-  scenario "User comments answer with invalid data" do
+  scenario "User comments answer with invalid data", js: true do
     post_answer_comment answer.id, ""
 
     expect(page).to have_content "Invalid data!"

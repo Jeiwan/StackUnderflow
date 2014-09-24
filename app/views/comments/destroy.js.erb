@@ -1,0 +1,9 @@
+<% if flash[:success] %>
+  var commentable = "<%= @commentable.class.name.downcase %>";
+  var $commentable = $("." + commentable + "[data-" + commentable + "-id='<%= @commentable.id %>']");
+  var $comment = $commentable.find(".comment[data-comment-id='<%= @comment.id %>']");
+  $comment.remove();
+  var comments_length = $commentable.find(".comment").length;
+  if (comments_length === 0)
+    $commentable.find(".comments-wrapper").empty();
+<% end %>

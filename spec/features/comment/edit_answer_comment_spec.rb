@@ -14,7 +14,7 @@ feature "Edit Question Comment" do
     visit question_path(question)
   end
 
-  scenario "User edits his answer comment" do
+  scenario "User edits his answer comment", js: true do
     edit_answer_comment answer.id, comment.id, comment.body.reverse
 
     within(".answer[data-answer-id='#{answer.id}'] .comments") do
@@ -22,13 +22,13 @@ feature "Edit Question Comment" do
     end
   end
 
-  scenario "User edits his answer comment with valid data" do
+  scenario "User edits his answer comment with valid data", js: true do
     edit_answer_comment answer.id, comment.id, ""
 
     expect(page).to have_content "problems"
   end
 
-  scenario "User can't edit not his comment" do
+  scenario "User can't edit not his comment", js: true do
     within(".answer[data-answer-id='#{answer.id}'] .comment[data-comment-id='#{comment2.id}']") do
       expect(page).not_to have_selector "edit"
     end
