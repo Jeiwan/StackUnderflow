@@ -32,7 +32,7 @@ feature "Select Best Answer" do
   end
 end
 
-def select_best_answer question
+def select_best_answer(question)
   visit question_path(question)
   first(".answer").find(".mark-best-answer").click
 end
