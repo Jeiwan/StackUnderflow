@@ -22,10 +22,9 @@ class AnswersController < ApplicationController
 
   def update
     if @answer.update(answer_params)
-      flash[:success] = "Answer is updated!"
-      redirect_to question_path(@answer.question)
+      flash.now[:success] = "Answer is updated!"
     else
-      render "edit"
+      flash.now[:danger] = "Answer is not updated! See errors below."
     end
   end
 

@@ -17,7 +17,8 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
               span.glyphicon.glyphicon-ok
         - if current_user == answer.user
           li
-            = link_to [:edit, answer.question, answer], class: "edit-answer", id: "edit-answer" do
+            /= link_to "#", class: "edit-answer" do
+            = link_to [:edit, answer.question, answer], class: "edit-answer", remote: true do
               span.glyphicon.glyphicon-pencil
           li
             = link_to [answer.question, answer], remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do

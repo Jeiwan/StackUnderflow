@@ -1,0 +1,7 @@
+var $answer = $(".answer[data-answer-id='<%= @answer.id %>']");
+
+<% if flash[:danger] %>
+  $answer.find(".answer-body").html("<%= j render 'form' %>")
+<% elsif flash[:success] %>
+  $answer.find(".answer-body").html("<%= @answer.body %>");
+<% end %>
