@@ -56,7 +56,7 @@ class AnswersController < ApplicationController
 
     def answer_belongs_to_current_user?
       unless @answer.user == current_user
-        redirect_to root_path
+        redirect_to @answer.question
       end
     end
 

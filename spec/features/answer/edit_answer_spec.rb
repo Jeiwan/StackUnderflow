@@ -12,19 +12,17 @@ feature "Edit Answer" do
     visit question_path(question)
   end
 
-  scenario "User edits his answer" do
+  scenario "User edits his answer", js: true do
     within ".answer[data-answer-id='#{answer2.id}']" do
-      click_link "edit-answer"
+      find("a.edit-answer").click
+      fill_in "answer_body", with: answer2.body.reverse
+      click_button "Update Answer"
     end
-    expect(page).to have_content answer2.body
-
-    fill_in "answer_body", with: answer2.body.reverse
-    click_button "Update Answer"
 
     expect(page).to have_content answer2.body.reverse
   end
 
-  scenario "User can't edit not his answer" do
+  scenario "User can't edit not his answer", js: true do
     within ".answer[data-answer-id='#{answer1.id}']" do
       expect(page).not_to have_selector "edit-answer"
     end

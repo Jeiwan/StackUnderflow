@@ -51,7 +51,6 @@ RSpec.describe AnswersController, :type => :controller do
     context "when not signed in" do
       before { post_create }
       it "redirects to sign in page" do
-        #expect(response).to redirect_to new_user_session_path
         expect(response.status).to eq 401
       end
     end
@@ -59,7 +58,7 @@ RSpec.describe AnswersController, :type => :controller do
 
   describe "GET #edit" do
     let(:get_edit) do
-      get :edit, question_id: question.id, id: answer.id
+      xhr :get, :edit, question_id: question.id, id: answer.id, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -81,7 +80,7 @@ RSpec.describe AnswersController, :type => :controller do
         end
 
         it "redirects to root path" do
-          expect(response).to redirect_to root_path
+          expect(response).to redirect_to answer.question
         end
       end
     end
@@ -89,7 +88,7 @@ RSpec.describe AnswersController, :type => :controller do
     context "when not signed in" do
       before { get_edit }
       it "redirects to sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -101,7 +100,7 @@ RSpec.describe AnswersController, :type => :controller do
       edited_answer
     end
     let(:put_update) do
-      put :update, question_id: question.id, id: answer.id, answer: {body: edited_answer.body}
+      put :update, question_id: question.id, id: answer.id, answer: {body: edited_answer.body}, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -114,7 +113,7 @@ RSpec.describe AnswersController, :type => :controller do
           end
 
           it "redirects to the answer's question page" do
-            expect(response).to redirect_to question_path(question.id)
+            expect(response).to render_template :update
           end
         end
 
@@ -129,7 +128,7 @@ RSpec.describe AnswersController, :type => :controller do
           end
 
           it "renders edit view" do
-            expect(response).to render_template "edit"
+            expect(response).to render_template :update
           end
         end
       end
@@ -143,7 +142,7 @@ RSpec.describe AnswersController, :type => :controller do
         end
 
         it "redirects to root path" do
-          expect(response).to redirect_to root_path
+          expect(response).to redirect_to answer.question
         end
       end
     end
@@ -156,7 +155,7 @@ RSpec.describe AnswersController, :type => :controller do
       end
       
       it "redirects to sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -188,7 +187,7 @@ RSpec.describe AnswersController, :type => :controller do
         
         it" redirects to root path" do
           delete_destroy
-          expect(response).to redirect_to root_path
+          expect(response).to redirect_to answer.question
         end
       end
     end
@@ -200,7 +199,6 @@ RSpec.describe AnswersController, :type => :controller do
 
       it "redirects to sign in path" do
         delete_destroy
-        #expect(response).to redirect_to new_user_session_path
         expect(response.status).to eq 401
       end
     end
