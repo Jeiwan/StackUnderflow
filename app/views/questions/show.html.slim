@@ -38,7 +38,7 @@
         h3 Post answer
         .row
           .col-md-10#new-answer-form
-            = render "answer_form"
+            = render "answers/form"
     - else
       div
         p #{link_to "Register", new_user_registration_path} or #{link_to "log in", new_user_session_path} to post an answer to this question.

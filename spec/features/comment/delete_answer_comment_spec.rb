@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "Delete Question Comment" do
+feature "Delete Answer Comment" do
 
   given(:user) { create(:user) }
   given(:user2) { create(:user) }

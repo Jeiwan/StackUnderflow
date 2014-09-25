@@ -4,7 +4,7 @@ feature "Delete Question Comment" do
 
   given(:user) { create(:user) }
   given(:user2) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given!(:question) { create(:question, user: user) }
   given!(:comment) { create(:question_comment, user: user, commentable: question) }
   given!(:comment2) { create(:question_comment, user: user2, commentable: question) }
 
@@ -14,7 +14,7 @@ feature "Delete Question Comment" do
   end
 
   scenario "User deletes his question comment", js: true do
-    within(".comment[data-comment-id='#{comment.id}']") do
+    within(".question .comment[data-comment-id='#{comment.id}']") do
       click_on "delete"
     end
     page.driver.browser.switch_to.alert.accept
@@ -23,7 +23,7 @@ feature "Delete Question Comment" do
   end
 
   scenario "User can't delete not his question comment", js: true do
-    within(".comment[data-comment-id='#{comment2.id}']") do
+    within(".question .comment[data-comment-id='#{comment2.id}']") do
       expect(page).not_to have_content "delete"
     end
   end

@@ -1,5 +1,5 @@
 $("header#header").html("<%= j render 'layouts/flash' %>");
-$("#new-answer-form").html("<%= j render 'questions/answer_form' %>");
+$("#new-answer-form").html("<%= j render 'form' %>");
 <% unless flash[:danger] %>
   $(".answers").append("<%= j render @answer %>");
   $("#answer_body").val("");
