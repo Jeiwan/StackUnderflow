@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: [:create]
-  before_action :find_answer, only: [:edit, :update, :destroy, :mark_best]
+  before_action :find_answer, except: :create
   before_action :answer_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:mark_best]
 
@@ -30,7 +30,6 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @question = @answer.question
     @answer_id = @answer.id
     @answer.destroy
     flash.now[:success] = "Answer is deleted!"

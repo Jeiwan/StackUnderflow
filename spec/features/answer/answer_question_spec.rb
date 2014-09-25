@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "Answer a Question", %q{
   In order to help other people
   As an authenticated user with a lot of spare time
-  I want to have an ability to answer other users' questions, edit, and delete my answers
+  I want to have an ability to answer other users' questions
 } do
 
   given(:inquirer) { create(:user) }
