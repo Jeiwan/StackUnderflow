@@ -10,20 +10,22 @@ feature "Edit Question" do
     sign_in user1
   end
 
-  scenario "User edits his question" do
+  scenario "User edits his question", js: true do
     visit question_path(question1)
 
     click_link "edit-question"
 
-    expect(page).to have_content "Body"
+    within(".question") do
+      expect(page).to have_selector "textarea"
 
-    fill_in "Body", with: question1.body.reverse
-    click_on "Update Question"
+      fill_in "Body", with: question1.body.reverse
+      click_on "Update Question"
+    end
 
     expect(page).to have_content question1.body.reverse
   end
 
-  scenario "User can't edit not his question" do
+  scenario "User can't edit not his question", js: true do
     visit question_path(question2)
 
     expect(page).not_to have_selector "#edit-question"

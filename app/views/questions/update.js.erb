@@ -1,0 +1,6 @@
+<% if @question.errors.any? %>
+  Underflow.question.edit("<%= j render 'form' %>")
+<% else %>
+  Underflow.question.edit("<%= @question.body %>")
+  Underflow.question.setTitle("<%= @question.title %>")
+<% end %>

@@ -12,6 +12,7 @@ class Question
   constructor: () ->
     this.$el = $(".question")
     this.$body = this.$el.find(".question-body")
+    this.$title = $("#question-title h1")
     this.$commentBtn = this.$el.find(".comment-question")
     this.$commentForm = this.$el.find(".comment-question-form")
     this.$commentsWrapper = this.$el.find(".comments-wrapper")
@@ -29,6 +30,12 @@ class Question
       e.preventDefault()
       that.toggleCommentForm()
     )
+
+  edit: (form) ->
+    this.$body.html(form)
+
+  setTitle: (title) ->
+    this.$title.text(title)
 
   toggleCommentForm: () ->
     this.$commentForm.slideToggle()

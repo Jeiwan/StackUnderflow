@@ -104,7 +104,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
   describe "GET #edit" do
     let(:get_edit) do
-      get :edit, id: question.id
+      xhr :get, :edit, id: question.id, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -134,7 +134,7 @@ RSpec.describe QuestionsController, :type => :controller do
       before { get_edit } 
 
       it "redirects to the sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -146,7 +146,7 @@ RSpec.describe QuestionsController, :type => :controller do
       edited
     end
     let(:put_update) do
-      put :update, id: question.id, question: { title: edited_question.title, body: question.body }
+      put :update, id: question.id, question: { title: edited_question.title, body: question.body }, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -158,8 +158,8 @@ RSpec.describe QuestionsController, :type => :controller do
             expect(question.reload.title).to eq edited_question.title
           end
 
-          it "redirects to the question page" do
-            expect(response).to redirect_to question
+          it "render update view" do
+            expect(response).to render_template :update
           end
         end
 
@@ -173,8 +173,8 @@ RSpec.describe QuestionsController, :type => :controller do
             expect(question.reload.title).not_to eq edited_question.title
           end
 
-          it "renders edit view" do
-            expect(response).to render_template "edit"
+          it "renders update view" do
+            expect(response).to render_template :update
           end
         end
       end
@@ -197,7 +197,7 @@ RSpec.describe QuestionsController, :type => :controller do
       end
 
       it "redirects to the sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
 

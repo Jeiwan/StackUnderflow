@@ -34,10 +34,9 @@ class QuestionsController < ApplicationController
 
   def update
     if @question.update(question_params)
-      flash[:success] = "Question updated!"
-      redirect_to @question
+      flash.now[:success] = "Question updated!"
     else
-      render "edit"
+      flash.now[:danger] = "Question is not updated! See errors below."
     end
   end
 

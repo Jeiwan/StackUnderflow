@@ -1,7 +1,7 @@
 = title @question.title
 .row
   .col-md-12
-    header class="page-header"
+    header class="page-header" id="question-title"
       h1 = @question.title
 .row
   .col-md-10
@@ -19,10 +19,10 @@
         ul.question-management
           - if user_signed_in? && current_user == @question.user
             li
-              = link_to [:edit, @question], class: "edit-question", id: "edit-question" do
+              = link_to [:edit, @question], class: "edit-question", id: "edit-question", remote: true do
                 span.glyphicon.glyphicon-pencil
             li
-              = link_to @question, class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
+              = link_to @question, class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" }, remote: true do
                 span.glyphicon.glyphicon-remove
           - if user_signed_in?
             li
