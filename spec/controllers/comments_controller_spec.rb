@@ -49,7 +49,7 @@ RSpec.describe CommentsController, :type => :controller do
 
   describe "GET #edit" do
     let(:get_edit) do
-      get :edit, question_id: question.id, id: comment.id
+      xhr :get, :edit, question_id: question.id, id: comment.id, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -69,8 +69,8 @@ RSpec.describe CommentsController, :type => :controller do
         let(:comment) { create(:question_comment, user: user2, commentable: question) }
         before { get_edit }
 
-        it "redirects to question page" do
-          expect(response).to redirect_to question_path(question)
+        it "returns 403 error code" do
+          expect(response.status).to eq 403
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe CommentsController, :type => :controller do
       before { get_edit }
 
       it "redirects to sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -87,7 +87,7 @@ RSpec.describe CommentsController, :type => :controller do
   describe "PUT #update" do
     let(:attributes) { attributes_for(:question_comment, body: comment.body.reverse) }
     let(:put_update) do
-      put :update, question_id: question.id, id: comment.id, comment: attributes
+      put :update, question_id: question.id, id: comment.id, comment: attributes, format: :js
     end
 
     context "when signed in", sign_in: true do
@@ -96,12 +96,11 @@ RSpec.describe CommentsController, :type => :controller do
           before { put_update }
 
           it "changes comment's attribute" do
-            #expect(comment.body.reverse).to eq comment.reload.body
             expect(comment.reload.body).to eq attributes[:body]
           end
 
-          it "redirects to question page" do
-            expect(response).to redirect_to question_path(question)
+          it "renders update template" do
+            expect(response).to render_template :update
           end
         end
 
@@ -113,18 +112,19 @@ RSpec.describe CommentsController, :type => :controller do
             expect(comment.reload.body).not_to eq attributes[:body]
           end
 
-          it "renders edit view" do
-            expect(response).to render_template :edit
+          it "renders update template" do
+            expect(response).to render_template :update
           end
         end
       end
 
       context "comment doesn't belong to current user" do
-        let(:user) { user2 }
+        #let(:user) { user2 }
+        let(:comment) { comment2 }
         before { put_update }
 
-        it "redirects to question page" do
-          expect(response).to redirect_to question_path(question)
+        it "returns 403 error" do
+          expect(response.status).to eq 403
         end
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe CommentsController, :type => :controller do
       before { put_update }
 
       it "redirects to sign in page" do
-        expect(response).to redirect_to new_user_session_path
+        expect(response.status).to eq 401
       end
     end
   end
@@ -161,9 +161,9 @@ RSpec.describe CommentsController, :type => :controller do
           expect{delete_destroy}.not_to change(Comment, :count)
         end
 
-        it "redirects to question page" do
+        it "returns 403 error" do
           delete_destroy
-          expect(response).to redirect_to question_path(question)
+          expect(response.status).to eq 403
         end
       end
     end

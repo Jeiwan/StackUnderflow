@@ -38,9 +38,8 @@ end
 def edit_answer_comment answer_id, comment_id, text
   within("#answer_#{answer_id} #comment_#{comment_id}") do
     click_link "edit"
+    expect(page).to have_selector "textarea"
   end
-
-  expect(page).to have_content "Edit comment"
 
   fill_in "comment_body", with: text
   click_on "Update Comment"

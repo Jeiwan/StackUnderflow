@@ -1,9 +1,13 @@
 li class="comment" id="comment_#{comment.id}"
   p
-    = comment.body
+    span.comment-body
+      = comment.body
     small.comment-poster
       |  &mdash; #{comment.user.username}, #{time_ago_in_words(comment.created_at)} ago  
+      - if comment.updated_at > comment.created_at
+        span.text-muted
+          |  edited #{time_ago_in_words(comment.updated_at)} ago  
       - if user_signed_in? && comment.user == current_user
-        = link_to "edit", [:edit, comment.commentable, comment]
+        = link_to "edit", [:edit, comment.commentable, comment], class: "edit-comment", remote: true
         |  
         = link_to "delete", [comment.commentable, comment], method: :delete, data: { confirm: "Are you sure?" }, remote: true

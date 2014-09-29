@@ -6,7 +6,7 @@ if (commentable === "Question") {
 }
 
 <% if @comment.errors.any? %>
-commentable.renderCommentForm("<%= j render 'comments/form' %>");
+  commentable.commentById("<%= @comment.id %>").edit("<%= j render 'form', rows: 4 %>");
 <% else %>
-commentable.addComment("<%= j render 'comments/comment', comment: @comment %>");
+  commentable.commentById("<%= @comment.id %>").edit("<%= j render 'comment', comment: @comment %>");
 <% end %>

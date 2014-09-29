@@ -2,9 +2,19 @@ this.Underflow = {}
 $ ->
   Underflow.question = new Question
   Underflow.question.answers = []
+  Underflow.question.comments = []
 
   $(".answers .answer").each((i, e) ->
-    Underflow.question.answers.push(new Answer(e.id))
+    answer = new Answer(e.id)
+    answer.comments = []
+    answer.$el.find(".comment").each((i, e) ->
+      answer.comments.push(new Comment(e.id))
+    )
+    Underflow.question.answers.push(answer)
+  )
+
+  $(".question .comment").each((i, e) ->
+    Underflow.question.comments.push(new Comment(e.id))
   )
 
 #      QUESTION
@@ -53,6 +63,8 @@ class Question
     if (this.$comments.is(":empty"))
       this.$comments.remove()
 
+  editComment: (comment) ->
+
   renderCommentForm: (form) ->
     this.$commentForm.html(form)
 
@@ -73,16 +85,13 @@ class Question
     this.$answerForm.find(".has-error").removeClass("has-error").find(".help-block").remove()
 
   removeAnswer: (answerId) ->
-    console.log "REMOVE"
     this.$answers.find("#answer_#{answerId}").remove()
     this.decreaseAnswersCounter()
 
   renderAnswerForm: (form) ->
-    console.log this.$answerForm
     this.$answerForm.html(form)
 
   increaseAnswersCounter: () ->
-    console.log "Increasing"
     this.answersCounter++
     this.renderAnswersCounter()
 
@@ -92,12 +101,16 @@ class Question
 
   renderAnswersCounter: () ->
     answerText = if (this.answersCounter > 1 || this.answersCounter == 0) then "Answers" else "Answer"
-    console.log this.answersCounter
     this.$answersCounter.text(this.answersCounter + " " + answerText)
 
   answerById: (id) ->
     for answer in this.answers
       return answer if answer.id() == "answer_#{id}"
+    return null
+
+  commentById: (id) ->
+    for comment in this.comments
+      return comment if comment.id() == "comment_#{id}"
     return null
 
 
@@ -149,3 +162,21 @@ class Answer
 
   edit: (form) ->
     this.$body.html(form)
+
+  commentById: (id) ->
+    for comment in this.comments
+      return comment if comment.id() == "comment_#{id}"
+    return null
+
+
+#     COMMENT
+class Comment
+  constructor: (@commentId) ->
+    this.$el= $("##{commentId}")
+    this.$body = this.$el.find(".comment-body")
+
+  id: ->
+    @commentId
+
+  edit: (comment) ->
+    this.$el.html(comment)

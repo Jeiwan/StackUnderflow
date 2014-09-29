@@ -20,9 +20,9 @@ class CommentsController < ApplicationController
 
   def update
     if @comment.update(comment_params)
-      redirect_to @return_path, success: "Comment is edited!"
+      flash.now[:success] = "Comment is edited!"
     else
-      render "edit"
+      flash.now[:danger] = "Comment is not edited! See errors below."
     end
   end
 
@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
 
     def comment_belongs_to_current_user?
       unless @comment.user == current_user
-        redirect_to @return_path
+        redirect_to root_path, status: 403
       end
     end
 end
