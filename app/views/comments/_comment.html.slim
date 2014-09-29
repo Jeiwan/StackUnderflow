@@ -4,7 +4,7 @@ li class="comment" id="comment_#{comment.id}"
       = comment.body
     small.comment-poster
       |  &mdash; #{comment.user.username}, #{time_ago_in_words(comment.created_at)} ago  
-      - if comment.updated_at > comment.created_at
+      - if comment.updated_at.to_s > comment.created_at.to_s
         span.text-muted
           |  edited #{time_ago_in_words(comment.updated_at)} ago  
       - if user_signed_in? && comment.user == current_user

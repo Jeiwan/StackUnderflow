@@ -5,7 +5,7 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
     .answer-author.text-right
       small
         |by #{answer.user.username} #{time_ago_in_words(answer.created_at)}
-        - if answer.updated_at > answer.created_at
+        - if answer.updated_at.to_s > answer.created_at.to_s
           span.text-muted
             |  edited #{time_ago_in_words(answer.updated_at)} ago
     .comments-wrapper
