@@ -13,7 +13,7 @@ feature "Delete Answer" do
   end
 
   scenario "User deletes his answer", js: true do
-    answer_selector = ".answer[data-answer-id='#{answer2.id}']"
+    answer_selector = ".answers #answer_#{answer2.id}"
 
     within answer_selector do
       click_link "delete-answer"
@@ -24,7 +24,7 @@ feature "Delete Answer" do
   end
 
   scenario "User can't delete not his answer", js: true do
-    within ".answer[data-answer-id='#{answer1.id}']" do
+    within ".answers #answer_#{answer1.id}" do
       expect(page).not_to have_selector "#delete-answer"
     end
   end

@@ -22,7 +22,7 @@ feature "Answer Commenting", %q{
   scenario "User comments answer with invalid data", js: true do
     post_answer_comment answer.id, ""
 
-    expect(page).to have_content "Invalid data!"
+    expect(page).to have_content "problems"
   end
 end
 
@@ -30,7 +30,7 @@ def post_answer_comment answer_id, comment
     sign_in user
     visit question_path(question)
 
-    within(".answer[data-answer-id='#{answer_id}']") do
+    within("#answer_#{answer_id}") do
       click_on "Comment"
       fill_in :comment_body, with: comment
       click_on "Create Comment"

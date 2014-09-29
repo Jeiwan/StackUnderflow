@@ -17,7 +17,7 @@ feature "Edit Question Comment" do
   scenario "User edits his answer comment", js: true do
     edit_answer_comment answer.id, comment.id, comment.body.reverse
 
-    within(".answer[data-answer-id='#{answer.id}'] .comments") do
+    within("#answer_#{answer.id} .comments") do
       expect(page).to have_content comment.body.reverse
     end
   end
@@ -29,14 +29,14 @@ feature "Edit Question Comment" do
   end
 
   scenario "User can't edit not his comment", js: true do
-    within(".answer[data-answer-id='#{answer.id}'] .comment[data-comment-id='#{comment2.id}']") do
+    within("#answer_#{answer.id} #comment_#{comment2.id}") do
       expect(page).not_to have_selector "edit"
     end
   end
 end
 
 def edit_answer_comment answer_id, comment_id, text
-  within(".answer[data-answer-id='#{answer_id}'] .comment[data-comment-id='#{comment_id}']") do
+  within("#answer_#{answer_id} #comment_#{comment_id}") do
     click_link "edit"
   end
 

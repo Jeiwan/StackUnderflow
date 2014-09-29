@@ -1,9 +1,13 @@
-article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-answer" if answer.best?}"
+article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answer" if answer.best?}"
   .panel-body
     .answer-body
       = answer.body
     .answer-author.text-right
-      small by #{answer.user.username} #{time_ago_in_words(answer.created_at)}
+      small
+        |by #{answer.user.username} #{time_ago_in_words(answer.created_at)}
+        - if answer.updated_at > answer.created_at
+          span.text-muted
+            |  edited #{time_ago_in_words(answer.updated_at)} ago
     .comments-wrapper
       - if answer.comments.size > 0
         ul.comments

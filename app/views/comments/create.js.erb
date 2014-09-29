@@ -1,17 +1,12 @@
-$("header#header").html("<%= j render 'layouts/flash' %>");
-var commentable = "<%= @commentable.class.name.downcase %>";
-var $commentable = $("." + commentable + "[data-" + commentable + "-id='<%= @commentable.id %>']");
+commentable = "<%= @commentable.class.name %>";
+if (commentable === "Question") {
+  commentable = Underflow.question;
+} else if (commentable === "Answer") {
+  commentable = Underflow.question.answerById("<%= @commentable.id %>");
+}
 
-<% if flash[:danger] %>
-  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/form', commentable: @commentable, comment: @comment %>");
-<% elsif flash[:success]%>
-  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/form', commentable: @commentable, comment: Comment.new %>");
-  var $comments = $commentable.find(".comments");
-
-  if ($comments.length === 0) {
-    $comments = $("<ul class='comments'></ul>").appendTo($commentable.find(".comments-wrapper"));
-  }
-
-  $comments.append("<%= j render @comment %>");
-  $commentable.find(".comment-" + commentable + "-form").slideUp().find("textarea").val("");
+<% if @comment.errors.any? %>
+commentable.renderCommentForm("<%= j render 'comments/form', remote: true %>");
+<% else %>
+commentable.addComment("<%= j render 'comments/comment', comment: @comment %>");
 <% end %>

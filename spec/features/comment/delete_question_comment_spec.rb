@@ -14,16 +14,16 @@ feature "Delete Question Comment" do
   end
 
   scenario "User deletes his question comment", js: true do
-    within(".question .comment[data-comment-id='#{comment.id}']") do
+    within(".question #comment_#{comment.id}") do
       click_on "delete"
     end
     page.driver.browser.switch_to.alert.accept
 
-    expect(page).not_to have_selector ".content[data-comment-id='#{comment.id}']"
+    expect(page).not_to have_selector ".question #comment_#{comment.id}"
   end
 
   scenario "User can't delete not his question comment", js: true do
-    within(".question .comment[data-comment-id='#{comment2.id}']") do
+    within(".question #comment_#{comment2.id}") do
       expect(page).not_to have_content "delete"
     end
   end

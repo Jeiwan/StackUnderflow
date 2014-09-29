@@ -21,7 +21,7 @@ feature "Questions Commenting", %q{
   scenario "User comments question with invalid data", js: true do
     post_comment ""
 
-    expect(page).to have_content "Invalid data!"
+    expect(page).to have_content "problems"
   end
 end
 

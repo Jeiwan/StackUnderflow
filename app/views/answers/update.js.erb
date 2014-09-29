@@ -1,7 +1,6 @@
-var $answer = $(".answer[data-answer-id='<%= @answer.id %>']");
-
-<% if flash[:danger] %>
-  $answer.find(".answer-body").html("<%= j render 'form' %>")
-<% elsif flash[:success] %>
-  $answer.find(".answer-body").html("<%= @answer.body %>");
+answer = Underflow.question.answerById("<%= @answer.id %>");
+<% if @answer.errors.any? %>
+  answer.edit("<%= j render 'form' %>")
+<% else %>
+  answer.edit("<%= @answer.body %>")
 <% end %>

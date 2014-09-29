@@ -1,7 +1,5 @@
-$("header#header").html("<%= j render 'layouts/flash' %>");
-$("#new-answer-form").html("<%= j render 'form' %>");
-<% unless flash[:danger] %>
-  $(".answers").append("<%= j render @answer %>");
-  $("#answer_body").val("");
-  answersCounter.increase();
+<% if @answer.errors.any? %>
+  Underflow.question.renderAnswerForm("<%= j render 'answers/form' %>")
+<% else %>
+  Underflow.question.addAnswer("<%= j render @answer, has_best_answer: @answer.question.has_best_answer? %>")
 <% end %>

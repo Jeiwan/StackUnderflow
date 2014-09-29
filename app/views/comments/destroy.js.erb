@@ -1,9 +1,8 @@
-<% if flash[:success] %>
-  var commentable = "<%= @commentable.class.name.downcase %>";
-  var $commentable = $("." + commentable + "[data-" + commentable + "-id='<%= @commentable.id %>']");
-  var $comment = $commentable.find(".comment[data-comment-id='<%= @comment.id %>']");
-  $comment.remove();
-  var comments_length = $commentable.find(".comment").length;
-  if (comments_length === 0)
-    $commentable.find(".comments-wrapper").empty();
-<% end %>
+commentable = "<%= @commentable.class.name %>";
+if (commentable === "Question") {
+  commentable = Underflow.question;
+} else if (commentable === "Answer") {
+  commentable = Underflow.question.answerById("<%= @commentable.id %>");
+}
+
+commentable.removeComment("<%= @comment.id %>")
