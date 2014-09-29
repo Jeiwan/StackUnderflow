@@ -17,7 +17,6 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
               span.glyphicon.glyphicon-ok
         - if current_user == answer.user
           li
-            /= link_to "#", class: "edit-answer" do
             = link_to [:edit, answer.question, answer], class: "edit-answer", remote: true do
               span.glyphicon.glyphicon-pencil
           li
@@ -26,4 +25,4 @@ article data-answer-id="#{answer.id}" class="answer panel panel-default #{"best-
         li
           = link_to "Comment", "#", class: "comment-answer"
     .comment-answer-form
-      = render "comments/new_form", commentable: answer, comment: @comment
+      = render "comments/form", commentable: answer, remote: true

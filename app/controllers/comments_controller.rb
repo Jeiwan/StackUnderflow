@@ -41,15 +41,12 @@ class CommentsController < ApplicationController
         @commentable = Answer.find(params[:answer_id])
         @return_path = @commentable.question
       elsif !params[:question_id].nil?
-        puts "$$$$ Question #{Question.count}"
-        puts "$$$$ Question #{Question.first.inspect}"
         @commentable = Question.find(params[:question_id])
         @return_path = @commentable
       end
     end
 
     def find_comment
-      puts "$$$$ Comment #{Comment.count}"
       @comment = @commentable.comments.find(params[:id])
     end
 

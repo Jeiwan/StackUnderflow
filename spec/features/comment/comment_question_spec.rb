@@ -35,6 +35,6 @@ def post_comment comment
 
     fill_in :comment_body, with: comment
     within(".question") do
-      click_on "Post comment"
+      click_on "Create Comment"
     end
 end

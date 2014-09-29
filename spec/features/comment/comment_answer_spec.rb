@@ -33,6 +33,6 @@ def post_answer_comment answer_id, comment
     within(".answer[data-answer-id='#{answer_id}']") do
       click_on "Comment"
       fill_in :comment_body, with: comment
-      click_on "Post comment"
+      click_on "Create Comment"
     end
 end

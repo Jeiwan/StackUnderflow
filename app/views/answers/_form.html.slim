@@ -1,3 +1,4 @@
-= simple_form_for [@question || @answer.question, @answer], remote: true do |f|
+= simple_form_for [(@question || @answer.question), @answer], remote: true do |f|
+  = f.error_notification
   = f.input :body, input_html: { rows: 10 }, label: false
   = f.button :submit, class: "btn btn-success"

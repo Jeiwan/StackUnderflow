@@ -3,9 +3,9 @@ var commentable = "<%= @commentable.class.name.downcase %>";
 var $commentable = $("." + commentable + "[data-" + commentable + "-id='<%= @commentable.id %>']");
 
 <% if flash[:danger] %>
-  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/new_form', commentable: @commentable, comment: @comment %>");
+  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/form', commentable: @commentable, comment: @comment %>");
 <% elsif flash[:success]%>
-  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/new_form', commentable: @commentable, comment: Comment.new %>");
+  $commentable.find(".comment-" + commentable + "-form").html("<%= j render 'comments/form', commentable: @commentable, comment: Comment.new %>");
   var $comments = $commentable.find(".comments");
 
   if ($comments.length === 0) {

@@ -28,7 +28,7 @@
             li
               = link_to "Comment", "#", class: "comment-question", id: "show-question-comment-textarea"
         .comment-question-form
-          = render "comments/new_form", commentable: @question, comment: @comment
+          = render "comments/form", commentable: @question, remote: true
 
     .answers
       h3#answers-counter data-counter=(@answers.count) = pluralize(@answers.count, "Answer")

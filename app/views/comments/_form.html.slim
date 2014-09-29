@@ -1,4 +1,4 @@
-= simple_form_for [@comment.commentable, @comment] do |f|
+= simple_form_for [(@comment.commentable || commentable), @comment], html: { id: nil }, remote: ((defined? remote) ? remote : false) do |f|
   = f.error_notification
-  = f.input :body, input_html: { rows: 10 }
-  = f.button :submit, class: "btn btn-success"
+  = f.input :body, input_html: { rows: 10 }, label: false
+  = f.button :submit, class: "btn btn-primary"
