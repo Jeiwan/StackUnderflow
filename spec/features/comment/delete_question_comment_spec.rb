@@ -1,4 +1,4 @@
-require "rails_helper"
+require_relative "../features_helper"
 
 feature "Delete Question Comment" do
 
@@ -17,7 +17,6 @@ feature "Delete Question Comment" do
     within(".question #comment_#{comment.id}") do
       click_on "delete"
     end
-    page.driver.browser.switch_to.alert.accept
 
     expect(page).not_to have_selector ".question #comment_#{comment.id}"
   end

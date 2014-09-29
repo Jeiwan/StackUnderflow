@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative "../features_helper"
 
 feature "Sign in", %q{
   In order to ask and answer questions

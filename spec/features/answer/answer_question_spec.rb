@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative "../features_helper"
 
 feature "Answer a Question", %q{
   In order to help other people

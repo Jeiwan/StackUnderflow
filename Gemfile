@@ -6,6 +6,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'database_cleaner'
 end
 
 group :test do
@@ -37,5 +38,3 @@ gem 'jbuilder'
 gem 'devise'
 gem 'launchy'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form'
-gem 'selenium-webdriver'
-gem 'database_cleaner'

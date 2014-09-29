@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative "../features_helper"
 
 feature "Edit Answer" do
   given(:user1) { create(:user) }

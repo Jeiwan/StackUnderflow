@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative "../features_helper"
 
 feature "Ask Questions", %q{
   In order to resolve a problem
