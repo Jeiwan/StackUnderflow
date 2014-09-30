@@ -5,6 +5,7 @@ FactoryGirl.define do
     title "Very important questions"
     body "Answer my question ASAP!"
 		user
+    association :tags, factory: :tag
   end
   factory :invalid_question, class: "Question" do
     title ""

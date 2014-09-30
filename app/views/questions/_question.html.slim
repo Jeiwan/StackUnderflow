@@ -2,3 +2,6 @@ article
   h3
     =link_to question.title, question
     small  by #{question.user.username} #{time_ago_in_words(question.created_at)} ago
+  .question-tags
+    - question.tags.each do |tag|
+      span.label.label-default = tag.name

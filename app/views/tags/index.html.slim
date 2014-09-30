@@ -1,0 +1,8 @@
+= title "Tags"
+
+.row
+  .col-md-10
+    - @tags.each do |tag|
+      span.label.label-default = tag.name
+  .col-md-2
+    = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
