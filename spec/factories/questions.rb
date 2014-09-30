@@ -5,12 +5,10 @@ FactoryGirl.define do
     title "Very important questions"
     body "Answer my question ASAP!"
 		user
-		tag
   end
   factory :invalid_question, class: "Question" do
     title ""
     body ""
 		user
-		tag
   end
 end
