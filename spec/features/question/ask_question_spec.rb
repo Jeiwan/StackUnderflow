@@ -8,6 +8,7 @@ feature "Ask Questions", %q{
 
   given(:user) { create(:user) }
   given(:question) { build(:question) }
+  given(:tag) { create(:tag) }
 
   background do
     sign_in user
@@ -17,12 +18,14 @@ feature "Ask Questions", %q{
   scenario "Authenticated user asks a question" do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
+    fill_in "Tags", with: tag.name
     click_on "Create Question"
 
     expect(current_path).to match /\/questions\/\d+\z/
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body
+    expect(page).to have_content tag.name
   end
 
   scenario "Authenticated user asks a question without filling required fields" do
@@ -32,5 +35,4 @@ feature "Ask Questions", %q{
 
     expect(page).to have_content "problems"
   end
-  
 end
