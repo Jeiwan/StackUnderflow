@@ -22,6 +22,8 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
     
     if @question.save
+      Tag.new_from_list(params[:tags].split(" "), @question)
+
       flash[:success] = "Question is created!"
       redirect_to @question
     else

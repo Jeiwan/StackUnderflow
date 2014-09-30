@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
+  let(:tags) { build_list(:tag, 5) }
   let(:question) { create(:question, user: user) }
   let(:question2) { create(:question, user: user2) }
 
@@ -56,23 +57,54 @@ RSpec.describe QuestionsController, :type => :controller do
   describe "POST #create" do
     let(:attributes) { attributes_for(:question) }
     let(:post_create) do
-      post :create, question: attributes
+      post :create, question: attributes, tags: "macosx windows c++ android"
     end
 
     context "when signed in", sign_in: true do
       context "with valid data" do
-        it "increases total number of questions" do
-          expect{post_create}.to change(Question, :count).by(1)
+        context "with a new tag" do
+          it "increases number of tags" do
+            expect{post_create}.to change(Tag, :count).by(4)
+          end
+
+          it "increases total number of questions" do
+            expect{post_create}.to change(Question, :count).by(1)
+          end
+
+          it "increases current user's number of questions" do
+            expect{post_create}.to change(Question, :count).by(1)
+          end
+
+          it "redirects to the new question page" do
+            post_create
+            expect(response).to redirect_to(assigns(:question))
+          end
         end
 
-        it "increases current user's number of questions" do
-          expect{post_create}.to change(Question, :count).by(1)
+        context "with existing tags" do
+          let!(:tag) { create(:tag) }
+          let(:post_create) do
+            post :create, question: attributes, tags: "tag1 windows c++ android"
+          end
+
+          it "increases number of tags" do
+            expect{post_create}.to change(Tag, :count).by(3)
+          end
+
+          it "increases total number of questions" do
+            expect{post_create}.to change(Question, :count).by(1)
+          end
+
+          it "increases current user's number of questions" do
+            expect{post_create}.to change(Question, :count).by(1)
+          end
+
+          it "redirects to the new question page" do
+            post_create
+            expect(response).to redirect_to(assigns(:question))
+          end
         end
 
-        it "redirects to the new question page" do
-          post_create
-          expect(response).to redirect_to(assigns(:question))
-        end
       end
 
       context "with invalid data" do
