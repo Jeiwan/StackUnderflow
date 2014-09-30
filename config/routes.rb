@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :answers, only: [], concerns: :commentable
+  resources :tags, only: [:index]
 
   root "questions#index"
 end

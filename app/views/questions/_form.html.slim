@@ -2,4 +2,7 @@
   = f.error_notification
   = f.input :title
   = f.input :body, input_html: { rows: 10 }
+  .form-group
+    = label_tag :tags, nil, class: "control-label"
+    = text_field_tag :tags, nil, class: "form-control"
   = f.button :submit, class: "btn btn-success"

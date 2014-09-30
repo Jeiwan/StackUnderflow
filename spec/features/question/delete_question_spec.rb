@@ -3,8 +3,9 @@ require_relative "../features_helper"
 feature "Delete Question" do
   given(:user1) { create(:user) }
   given(:user2) { create(:user) }
-  given(:question1) { create(:question, user: user1) }
-  given(:question2) { create(:question, user: user2) }
+  given(:tags) { create_list(:tag, 5) }
+  given(:question1) { create(:question, user: user1, tags: tags) }
+  given(:question2) { create(:question, user: user2, tags: tags) }
 
   background do
     sign_in user1

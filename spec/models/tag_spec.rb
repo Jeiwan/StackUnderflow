@@ -15,12 +15,12 @@ RSpec.describe Tag, :type => :model do
   end
 
   describe "methods" do
-    let(:question) { create(:question) }
     let!(:tags) { create_list(:tag, 3) }
+    let!(:question) { create(:question, tags: tags) }
 
     describe ".new_from_list" do
       it "creates new tags from list" do
-        expect{Tag.new_from_list(["tag1", "tag2", "tag3", "macosx", "apple"], question)}.to change(Tag, :count).by(2)
+        expect{Tag.new_from_list([tags[0].name, tags[1].name, tags[2].name, "macosx", "apple"], question)}.to change(Tag, :count).by(2)
       end
     end
 

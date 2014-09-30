@@ -16,7 +16,7 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to have_and_belong_to_many :tags }
   end
 
-  describe "instance methods" do
+  describe "methods" do
     let(:question) { create(:question) }
     let!(:answer2) { create(:answer, question: question) }
 
