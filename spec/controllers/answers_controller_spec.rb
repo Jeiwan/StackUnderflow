@@ -24,7 +24,7 @@ RSpec.describe AnswersController, :type => :controller do
           expect{post_create}.to change(user.answers, :count).by(1)
         end
 
-        it "redirects to the question's show page" do
+        it "render create template" do
           post_create
           expect(response).to render_template :create
         end
@@ -41,7 +41,7 @@ RSpec.describe AnswersController, :type => :controller do
           expect{post_create}.not_to change(user.answers, :count)
         end
 
-        it "redirects to the question's show page" do
+        it "render create template" do
           post_create
           expect(response).to render_template :create
         end
@@ -50,7 +50,7 @@ RSpec.describe AnswersController, :type => :controller do
 
     context "when not signed in" do
       before { post_create }
-      it "redirects to sign in page" do
+      it "return 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -75,11 +75,9 @@ RSpec.describe AnswersController, :type => :controller do
 
       context "when answer doesn't belong to current user" do
         let(:answer) { create(:answer, question: question, user: user2) }
-        before do
-          get_edit
-        end
+        before { get_edit }
 
-        it "redirects to root path" do
+        it "redirects to question" do
           expect(response).to redirect_to answer.question
         end
       end
@@ -87,7 +85,7 @@ RSpec.describe AnswersController, :type => :controller do
 
     context "when not signed in" do
       before { get_edit }
-      it "redirects to sign in page" do
+      it "returns 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -112,7 +110,7 @@ RSpec.describe AnswersController, :type => :controller do
             expect(Answer.find(answer.id).body).to eq edited_answer.body
           end
 
-          it "redirects to the answer's question page" do
+          it "renders update template" do
             expect(response).to render_template :update
           end
         end
@@ -127,7 +125,7 @@ RSpec.describe AnswersController, :type => :controller do
             expect(answer.body).not_to eq edited_answer.body
           end
 
-          it "renders edit view" do
+          it "render update template" do
             expect(response).to render_template :update
           end
         end
@@ -141,7 +139,7 @@ RSpec.describe AnswersController, :type => :controller do
           expect(answer.body).not_to eq edited_answer.body
         end
 
-        it "redirects to root path" do
+        it "redirect to question" do
           expect(response).to redirect_to answer.question
         end
       end
@@ -154,7 +152,7 @@ RSpec.describe AnswersController, :type => :controller do
         expect(answer.body).not_to eq edited_answer.body
       end
       
-      it "redirects to sign in page" do
+      it "returns 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -172,7 +170,7 @@ RSpec.describe AnswersController, :type => :controller do
           expect{delete_destroy}.to change(Answer, :count).by(-1)
         end
 
-        it "redirects to root path" do
+        it "renders destroy template" do
           delete_destroy
           expect(response).to render_template :destroy
         end
@@ -185,7 +183,7 @@ RSpec.describe AnswersController, :type => :controller do
           expect{delete_destroy}.not_to change(Answer, :count)
         end
         
-        it" redirects to root path" do
+        it" redirects to question" do
           delete_destroy
           expect(response).to redirect_to answer.question
         end
@@ -197,7 +195,7 @@ RSpec.describe AnswersController, :type => :controller do
         expect{delete_destroy}.not_to change(Answer, :count)
       end
 
-      it "redirects to sign in path" do
+      it "returns 401 error" do
         delete_destroy
         expect(response.status).to eq 401
       end

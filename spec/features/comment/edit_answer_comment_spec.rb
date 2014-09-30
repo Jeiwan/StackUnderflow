@@ -29,18 +29,21 @@ feature "Edit Question Comment" do
   end
 
   scenario "User can't edit not his comment", js: true do
-    within("#answer_#{answer.id} #comment_#{comment2.id}") do
+    within(comment_block(answer.id, comment2.id)) do
       expect(page).not_to have_selector "edit"
     end
   end
 end
 
 def edit_answer_comment answer_id, comment_id, text
-  within("#answer_#{answer_id} #comment_#{comment_id}") do
+  within(comment_block(answer_id, comment_id)) do
     click_link "edit"
     expect(page).to have_selector "textarea"
+    fill_in "comment_body", with: text
+    click_on "Update Comment"
   end
+end
 
-  fill_in "comment_body", with: text
-  click_on "Update Comment"
+def comment_block(answer_id, comment_id)
+  "#answer_#{answer_id} #comment_#{comment_id}"
 end

@@ -133,7 +133,7 @@ RSpec.describe QuestionsController, :type => :controller do
     context "when not signed in" do
       before { get_edit } 
 
-      it "redirects to the sign in page" do
+      it "returns 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -196,7 +196,7 @@ RSpec.describe QuestionsController, :type => :controller do
         expect(question.reload.title).not_to eq edited_question.title
       end
 
-      it "redirects to the sign in page" do
+      it "returns 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -226,7 +226,7 @@ RSpec.describe QuestionsController, :type => :controller do
         let(:question) { question2 }
         before { delete_destroy }
 
-        it "renders root page" do
+        it "redirects to root path" do
           expect(response).to redirect_to root_path
         end
       end

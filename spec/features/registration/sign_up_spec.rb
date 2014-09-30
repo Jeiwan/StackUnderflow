@@ -13,7 +13,7 @@ feature "Sign up", %q{
     expect(page).to have_content user.username
   end
 
-  scenario "Non-registered user signs up not filling required fields" do
+  scenario "Non-registered user signs up without filling required fields" do
     sign_up_with "", "", ""
     expect(page).to have_content "errors"
   end

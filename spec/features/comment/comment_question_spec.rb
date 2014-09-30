@@ -21,7 +21,9 @@ feature "Questions Commenting", %q{
   scenario "User comments question with invalid data", js: true do
     post_comment ""
 
-    expect(page).to have_content "problems"
+    within(".question") do
+      expect(page).to have_content "problems"
+    end
   end
 end
 
@@ -31,10 +33,7 @@ def post_comment comment
 
     within(".question") do
       click_on "Comment"
-    end
-
-    fill_in :comment_body, with: comment
-    within(".question") do
+      fill_in :comment_body, with: comment
       click_on "Create Comment"
     end
 end

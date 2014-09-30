@@ -13,7 +13,7 @@ feature "Edit Answer" do
   end
 
   scenario "User edits his answer", js: true do
-    within "#answer_#{answer2.id}" do
+    within answer_block(answer2.id) do
       find("a.edit-answer").click
       fill_in "answer_body", with: answer2.body.reverse
       click_button "Update Answer"
@@ -23,8 +23,12 @@ feature "Edit Answer" do
   end
 
   scenario "User can't edit not his answer", js: true do
-    within "#answer_#{answer1.id}" do
+    within answer_block(answer1.id) do
       expect(page).not_to have_selector "edit-answer"
     end
   end
+end
+
+def answer_block(answer_id)
+  ".answers #answer_#{answer_id}"
 end

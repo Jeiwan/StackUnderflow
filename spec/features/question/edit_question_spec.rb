@@ -13,16 +13,17 @@ feature "Edit Question" do
   scenario "User edits his question", js: true do
     visit question_path(question1)
 
-    click_link "edit-question"
-
     within(".question") do
+      click_link "edit-question"
       expect(page).to have_selector "textarea"
 
+      fill_in "Title", with: question1.title.reverse
       fill_in "Body", with: question1.body.reverse
       click_on "Update Question"
     end
 
     expect(page).to have_content question1.body.reverse
+    expect(page).to have_content question1.title.reverse
   end
 
   scenario "User can't edit not his question", js: true do

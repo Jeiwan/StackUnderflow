@@ -13,26 +13,26 @@ feature "Select Best Answer" do
     sign_in user2
   end
 
-  scenario "User selects a best answer of his question" do
-    select_best_answer question2
+  scenario "User selects a best answer for his question" do
+    select_best_answer question2, answer1.id
 
-    expect(page).to have_selector ".best-answer"
+    expect(page).to have_selector ".best-answer", text: answer1.body
   end
 
-  scenario "User can't select a best answer of another user's question" do
+  scenario "User can't select a best answer for another user's question" do
     visit question_path(question1)
 
     expect(page).not_to have_selector ".mark-best-answer"
   end
 
   scenario "User can select only one best answer" do
-    select_best_answer question2
+    select_best_answer question2, answer1.id
 
     expect(page).not_to have_selector ".mark-best-answer"
   end
 end
 
-def select_best_answer(question)
+def select_best_answer(question, answer_id)
   visit question_path(question)
-  first(".answer").find(".mark-best-answer").click
+  find(".answers #answer_#{answer_id} .mark-best-answer").click
 end

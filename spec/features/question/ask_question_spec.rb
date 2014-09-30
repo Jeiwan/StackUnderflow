@@ -19,12 +19,16 @@ feature "Ask Questions", %q{
     fill_in "Body", with: question.body
     click_on "Create Question"
 
+    expect(current_path).to match /\/questions\/\d+\z/
+
     expect(page).to have_content question.title
     expect(page).to have_content question.body
   end
 
   scenario "Authenticated user asks a question without filling required fields" do
     click_on "Create Question"
+
+    expect(current_path).to match /\/questions\z/
 
     expect(page).to have_content "problems"
   end

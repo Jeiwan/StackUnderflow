@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :answer do
-		body "Very useful answer"
+		sequence(:body) { |n| "Very useful answer #{n}" }
 		best false
 		question
 		user

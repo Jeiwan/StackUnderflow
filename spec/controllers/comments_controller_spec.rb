@@ -20,7 +20,7 @@ RSpec.describe CommentsController, :type => :controller do
         it "adds a new comment to database" do
           expect{post_create}.to change(Comment, :count).by(1)
         end
-        it "redirects to the question page" do
+        it "renders create template" do
           post_create
           expect(response).to render_template :create
         end
@@ -31,17 +31,16 @@ RSpec.describe CommentsController, :type => :controller do
         it "doesn't add a new comment to database" do
           expect{post_create}.not_to change(Comment, :count)
         end
-        it "redirects to the question page" do
+        it "renders create template" do
           post_create
           expect(response).to render_template :create
         end
       end
     end
 
-    context "when not signed in" do
+    context "returns 401 error" do
       it "redirects to the sign in page" do
         post_create
-        #expect(response).to redirect_to new_user_session_path
         expect(response.status).to eq 401
       end
     end
@@ -78,7 +77,7 @@ RSpec.describe CommentsController, :type => :controller do
     context "when not signed in" do
       before { get_edit }
 
-      it "redirects to sign in page" do
+      it "returns 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -119,7 +118,6 @@ RSpec.describe CommentsController, :type => :controller do
       end
 
       context "comment doesn't belong to current user" do
-        #let(:user) { user2 }
         let(:comment) { comment2 }
         before { put_update }
 
@@ -132,7 +130,7 @@ RSpec.describe CommentsController, :type => :controller do
     context "when not signed in" do
       before { put_update }
 
-      it "redirects to sign in page" do
+      it "returns 401 error" do
         expect(response.status).to eq 401
       end
     end
@@ -149,7 +147,7 @@ RSpec.describe CommentsController, :type => :controller do
           expect{delete_destroy}.to change(Comment, :count).by(-1)
         end
 
-        it "redirects to question page" do
+        it "renders destroy template" do
           delete_destroy
           expect(response).to render_template :destroy
         end
@@ -169,9 +167,8 @@ RSpec.describe CommentsController, :type => :controller do
     end
 
     context "when not signed in" do
-      it "redirects to sign in page" do
+      it "returns 401 error" do
         delete_destroy
-        #expect(response).to redirect_to new_user_session_path
         expect(response.status).to eq 401
       end
     end

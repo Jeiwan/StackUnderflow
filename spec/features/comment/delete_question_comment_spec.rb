@@ -14,17 +14,20 @@ feature "Delete Question Comment" do
   end
 
   scenario "User deletes his question comment", js: true do
-    within(".question #comment_#{comment.id}") do
+    within(question_comment(comment.id)) do
       click_on "delete"
     end
 
-    expect(page).not_to have_selector ".question #comment_#{comment.id}"
+    expect(page).not_to have_selector ".question #comment_#{comment.id}", text: comment.body
   end
 
   scenario "User can't delete not his question comment", js: true do
-    within(".question #comment_#{comment2.id}") do
+    within(question_comment(comment2.id)) do
       expect(page).not_to have_content "delete"
     end
   end
+end
 
+def question_comment(comment_id)
+  ".question #comment_#{comment_id}"
 end

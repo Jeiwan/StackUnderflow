@@ -13,18 +13,22 @@ feature "Delete Answer" do
   end
 
   scenario "User deletes his answer", js: true do
-    answer_selector = ".answers #answer_#{answer2.id}"
 
-    within answer_selector do
+    within answer_block(answer2.id) do
       click_link "delete-answer"
     end
 
-    expect(page).not_to have_selector answer_selector
+    expect(page).not_to have_selector answer_block(answer2.id)
+    expect(page).not_to have_content answer2.body
   end
 
   scenario "User can't delete not his answer", js: true do
-    within ".answers #answer_#{answer1.id}" do
+    within answer_block(answer1.id) do
       expect(page).not_to have_selector "#delete-answer"
     end
   end
+end
+
+def answer_block(answer_id)
+  ".answers #answer_#{answer_id}"
 end
