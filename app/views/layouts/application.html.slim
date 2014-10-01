@@ -12,6 +12,9 @@ html lang="en"
       .container
         .navbar-header
           = link_to "StackUnderflow", root_path, class: "navbar-brand"
+        ul.nav.navbar-nav
+          li
+            = link_to "Tags", tags_path
         ul.nav.navbar-nav.navbar-right
           - unless user_signed_in?
             li

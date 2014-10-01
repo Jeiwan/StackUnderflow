@@ -21,6 +21,13 @@ feature "Question has tags" do
     end
   end
 
+  scenario "User can visit tag list page from the home page" do
+    visit root_path
+    click_link "Tags"
+
+    expect(current_path).to match /\/tags\z/
+  end
+
   scenario "User visits a tag list page and sees all tags" do
     visit tags_path
 
