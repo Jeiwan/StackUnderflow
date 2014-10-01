@@ -22,8 +22,6 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.new(question_params)
     
     if @question.save
-      Tag.new_from_list(params[:tags].split(" "), @question)
-
       flash[:success] = "Question is created!"
       redirect_to @question
     else
@@ -51,7 +49,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body)
+      params.require(:question).permit(:title, :body, :tag_list)
     end
 
     def find_question
