@@ -7,6 +7,7 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to ensure_length_of(:title).is_at_least(5).is_at_most(512) }
     it { is_expected.to ensure_length_of(:body).is_at_least(10).is_at_most(5000) }
+    it { is_expected.to validate_presence_of :tag_list }
   end
 
   describe "associations" do
@@ -17,7 +18,8 @@ RSpec.describe Question, :type => :model do
   end
 
   describe "methods" do
-    let(:question) { create(:question) }
+    let(:tags) { create_list(:tag, 1) }
+    let(:question) { create(:question, tag_list: tags.map(&:name).join(" ")) }
     let!(:answer2) { create(:answer, question: question) }
 
     describe "#has_best_answer?" do
@@ -34,6 +36,17 @@ RSpec.describe Question, :type => :model do
           expect(question.has_best_answer?).not_to be
         end
       end
+    end
+  end
+
+  describe "before_save" do
+    question = Question.new(title: "Some good title", body: "Some good body", tag_list: "test west east")
+    it "creates tags" do
+      expect{question.save}.to change(Tag, :count).by(3)
+    end
+
+    it "increases question's tags number" do
+      expect{question.save}.to change(question.tags, :count).by(3)
     end
   end
 
