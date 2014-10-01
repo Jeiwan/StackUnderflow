@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
-  let(:question) { create(:question, user: user2) }
+  let(:question) { create(:question, user: user2, tag_list: "test west east") }
   let(:answer) { create(:answer, question: question, user: user) }
 
   user_sign_in
@@ -209,7 +209,7 @@ RSpec.describe AnswersController, :type => :controller do
 
     context "when signed in", sign_in: true do
       context "when question belongs to current user" do
-        let(:question) { create(:question, user: user) }
+        let(:question) { create(:question, user: user, tag_list: "test west east") }
         let(:answer) { create(:answer, question: question, user: user2) }
 
         context "when question has no best answers" do

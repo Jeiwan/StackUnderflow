@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe CommentsController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let(:tags) { create_list(:tag, 5) }
+  let(:question) { create(:question, user: user, tag_list: tags.map(&:name).join(" ")) }
   let!(:comment) { create(:question_comment, user: user, commentable: question) }
   let!(:comment2) { create(:question_comment, user: user2, commentable: question) }
 
