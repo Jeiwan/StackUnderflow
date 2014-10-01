@@ -3,7 +3,7 @@ require_relative "../features_helper"
 feature "Edit Answer" do
   given(:user1) { create(:user) }
   given(:user2) { create(:user) }
-  given(:question) { create(:question, user: user1) }
+  given(:question) { create(:question, user: user1, tag_list: "test west best") }
   given!(:answer1) { create(:answer, user: user1, question: question) }
   given!(:answer2) { create(:answer, user: user2, question: question) }
 

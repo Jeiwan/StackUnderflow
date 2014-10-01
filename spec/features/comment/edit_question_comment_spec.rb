@@ -4,7 +4,7 @@ feature "Edit Question Comment" do
 
   given(:user) { create(:user) }
   given(:user2) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user, tag_list: "test west best") }
   given!(:question_comment) { create(:question_comment, user: user, commentable: question) }
   given!(:question_comment2) { create(:question_comment, user: user2, commentable: question) }
 

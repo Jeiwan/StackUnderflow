@@ -37,4 +37,14 @@ feature "Ask Questions", %q{
 
     expect(page).to have_content "problems"
   end
+
+  scenario "User creates a question without specifying a tag" do
+    fill_in "Title", with: question.title
+    fill_in "Body", with: question.body
+    fill_in "Tags", with: ""
+    click_on "Create Question"
+
+    expect(current_path).to match /\/questions\z/
+    expect(page).to have_content "problems"
+  end
 end

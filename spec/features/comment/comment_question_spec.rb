@@ -7,7 +7,7 @@ feature "Questions Commenting", %q{
 } do
 
   given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
+  given(:question) { create(:question, user: user, tag_list: "test west best") }
   given(:comment) { build(:question_comment, user: user, commentable: question) }
 
   scenario "User comments question", js: true do
