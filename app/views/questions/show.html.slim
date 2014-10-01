@@ -2,7 +2,7 @@
 .row
   .col-md-12
     header class="page-header" id="question-title"
-      h1 = @question.title
+      h1.question-title = @question.title
 .row
   .col-md-10
     .panel.panel-default.question data-question-id="#{@question.id}"
