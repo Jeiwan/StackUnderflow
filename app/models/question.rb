@@ -19,6 +19,6 @@ class Question < ActiveRecord::Base
   private
 
     def add_tags_from_list
-      self.tags = Tag.create_from_list(self.tag_list.split(" "))
+      self.tags = Tag.create_from_list(self.tag_list.split(","))
     end
 end

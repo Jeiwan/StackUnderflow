@@ -4,13 +4,13 @@ RSpec.describe QuestionsController, :type => :controller do
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:tags) { build_list(:tag, 5) }
-  let(:question) { create(:question, user: user, tag_list: tags.map(&:name).join(" ")) }
-  let(:question2) { create(:question, user: user2, tag_list: tags.map(&:name).join(" ")) }
+  let(:question) { create(:question, user: user, tag_list: tags.map(&:name).join(",")) }
+  let(:question2) { create(:question, user: user2, tag_list: tags.map(&:name).join(",")) }
 
   user_sign_in
 
   describe "GET #index" do
-    let(:questions) { create_list(:question, 2, tag_list: tags.map(&:name).join(" ")) }
+    let(:questions) { create_list(:question, 2, tag_list: tags.map(&:name).join(",")) }
     before { get :index }
 
     it "returns a list of questions" do
@@ -55,7 +55,7 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST #create" do
-    let(:attributes) { attributes_for(:question, tag_list: "macosx windows c++ android") }
+    let(:attributes) { attributes_for(:question, tag_list: "macosx,windows,c++,android") }
     let(:post_create) do
       post :create, question: attributes
     end
@@ -83,7 +83,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
         context "with existing tags" do
           let!(:tag) { create(:tag) }
-          let(:attributes) { attributes_for(:question, tag_list: "#{tag.name} windows c++ android") }
+          let(:attributes) { attributes_for(:question, tag_list: "#{tag.name},windows,c++,android") }
 
           it "increases number of tags" do
             expect{post_create}.to change(Tag, :count).by(3)
@@ -176,7 +176,7 @@ RSpec.describe QuestionsController, :type => :controller do
       edited
     end
     let(:put_update) do
-      put :update, id: question.id, question: { title: edited_question.title, body: question.body, tag_list: tags.map(&:name).join(" ") }, format: :js
+      put :update, id: question.id, question: { title: edited_question.title, body: question.body, tag_list: tags.map(&:name).join(",") }, format: :js
     end
 
     context "when signed in", sign_in: true do

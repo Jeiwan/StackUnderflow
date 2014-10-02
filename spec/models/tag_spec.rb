@@ -16,7 +16,7 @@ RSpec.describe Tag, :type => :model do
 
   describe "methods" do
     let!(:tags) { create_list(:tag, 3) }
-    let!(:question) { create(:question, tag_list: tags.map(&:name).join(" ")) }
+    let!(:question) { create(:question, tag_list: tags.map(&:name).join(",")) }
 
     describe ".create_from_list" do
       context "with valid data" do

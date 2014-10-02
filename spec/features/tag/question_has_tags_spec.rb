@@ -3,7 +3,7 @@ require_relative "../features_helper"
 feature "Question has tags" do
 
   given!(:tags) { create_list(:tag, 5) }
-  given!(:question) { create(:question, tag_list: tags.map(&:name).join(" "))  }
+  given!(:question) { create(:question, tag_list: tags.map(&:name).join(","))  }
 
   scenario "User visits root path and sees that questions have tags" do
     visit root_path

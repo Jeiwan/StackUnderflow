@@ -8,8 +8,8 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to ensure_length_of(:title).is_at_least(5).is_at_most(512) }
     it { is_expected.to ensure_length_of(:body).is_at_least(10).is_at_most(5000) }
     it { is_expected.to validate_presence_of :tag_list }
-    it { is_expected.to allow_value("tag1 tag2 tag3 c++ c# andoird-4.0 c-- some_tag", "sole_tag").for(:tag_list) }
-    it { is_expected.not_to allow_value("tag1 ###", "tag1 123a", "tag1 +++", "123tag tag2", "##woot##", "tag@tag").for(:tag_list) }
+    it { is_expected.to allow_value("tag1,tag2,tag3,c++,c#,andoird-4.0,c--,some_tag", "sole_tag").for(:tag_list) }
+    it { is_expected.not_to allow_value("tag1,###", "tag1,123a", "tag1,+++", "123tag,tag2", "##woot##", "tag@tag").for(:tag_list) }
   end
 
   describe "associations" do
@@ -21,7 +21,7 @@ RSpec.describe Question, :type => :model do
 
   describe "methods" do
     let(:tags) { create_list(:tag, 1) }
-    let(:question) { create(:question, tag_list: tags.map(&:name).join(" ")) }
+    let(:question) { create(:question, tag_list: tags.map(&:name).join(",")) }
     let!(:answer2) { create(:answer, question: question) }
 
     describe "#has_best_answer?" do
@@ -42,7 +42,7 @@ RSpec.describe Question, :type => :model do
   end
 
   describe "before_save" do
-    question = Question.new(title: "Some good title", body: "Some good body", tag_list: "test west east")
+    question = Question.new(title: "Some good title", body: "Some good body", tag_list: "test,west,east")
     it "creates tags" do
       expect{question.save}.to change(Tag, :count).by(3)
     end

@@ -3,7 +3,7 @@ class TagListValidator < ActiveModel::EachValidator
     if value.nil?
       record.errors[attribute] << "must include at least one tag."
     else
-      value.split(" ").each do |tag|
+      value.split(",").each do |tag|
         unless tag =~ /\A[a-zA-Z][\w#\+\-\.]*\z/
           record.errors[attribute] << "Every tag must begin with a letter and contain only: letters, digits, ., +, -, _, and #. Tags must be separated by a space."
         end

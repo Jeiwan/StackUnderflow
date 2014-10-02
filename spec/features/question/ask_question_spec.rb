@@ -18,7 +18,7 @@ feature "Ask Questions", %q{
   scenario "Authenticated user asks a question" do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
-    fill_in "Tags", with: tags.map(&:name).join(" ")
+    fill_in "Tags", with: tags.map(&:name).join(",")
     click_on "Create Question"
 
     expect(current_path).to match /\/questions\/\d+\z/
