@@ -1,7 +1,7 @@
 class Question < ActiveRecord::Base
   attr_accessor :tag_list
 
-  before_save :create_tags_from_list
+  before_save :add_tags_from_list
 
   has_many :answers
   belongs_to :user
@@ -18,7 +18,7 @@ class Question < ActiveRecord::Base
 
   private
 
-    def create_tags_from_list
+    def add_tags_from_list
       self.tags = Tag.create_from_list(self.tag_list.split(" "))
     end
 end
