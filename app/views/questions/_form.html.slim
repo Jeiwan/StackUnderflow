@@ -1,8 +1,10 @@
+- if @question.errors.any?
+  ul
+    - @question.errors.full_messages.each do |message|
+      li = message
 = simple_form_for @question, remote: ((defined? remote) ? remote : false) do |f|
   = f.error_notification
   = f.input :title
   = f.input :body, input_html: { rows: 10 }
-  .form-group
-    = label_tag :question_tag_list, "Tags", class: "control-label"
-    = text_field_tag "question[tag_list]", nil, class: "form-control"
+  = f.input :tag_list, label: "Tags"
   = f.button :submit, class: "btn btn-success"

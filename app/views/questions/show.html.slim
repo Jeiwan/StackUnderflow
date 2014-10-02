@@ -11,7 +11,7 @@
           = @question.body
         .question-tags
           - @question.tags.each do |tag|
-            span.label.labe-default = tag.name
+            span.label.label-default = tag.name
         .question-author.text-right
           small by #{@question.user.username} #{time_ago_in_words(@question.created_at)}
         .comments-wrapper
