@@ -25,7 +25,7 @@
               = link_to [:edit, @question], class: "edit-question", id: "edit-question", remote: true do
                 span.glyphicon.glyphicon-pencil
             li
-              = link_to @question, class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" }, remote: true do
+              = link_to @question, class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
                 span.glyphicon.glyphicon-remove
           - if user_signed_in?
             li
