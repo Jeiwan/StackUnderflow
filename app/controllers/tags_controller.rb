@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
   def index
-    @tags = Tag.all.order("name DESC")
+    @tags = Tag.all.order("name")
   end
 end
