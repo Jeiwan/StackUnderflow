@@ -1,7 +1,7 @@
 class Question < ActiveRecord::Base
   attr_accessor :tag_list
 
-  before_save :add_tags_from_list
+  after_validation :add_tags_from_list
 
   has_many :answers
   belongs_to :user
@@ -12,7 +12,7 @@ class Question < ActiveRecord::Base
 
   validates :body, presence: true, length: { in: 10..5000 }
   validates :title, presence: true, length: { in: 5..512 }
-  validates :tag_list, presence: true, tag_list: true
+  validates :tag_list, presence: true
 
   def has_best_answer?
     answers.find_by(best: true) ? true : false
@@ -21,6 +21,13 @@ class Question < ActiveRecord::Base
   private
 
     def add_tags_from_list
-      self.tags = Tag.create_from_list(self.tag_list.split(","))
+      !tag_list.nil? && tag_list.split(",").each do |tag|
+        t = Tag.find_by_name(tag) || Tag.create(name: tag)
+        if t.valid?
+          tags << t
+        else
+          errors[:tag_list] << "Tags #{t.errors['name'][0]}"
+        end
+      end
     end
 end
