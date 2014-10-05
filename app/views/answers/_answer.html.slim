@@ -8,9 +8,10 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
         - if answer.updated_at.to_s > answer.created_at.to_s
           span.text-muted
             |  edited #{time_ago_in_words(answer.updated_at)} ago
-    ul.answer-attachments
-      - answer.attachments.each do |a|
-        li = link_to a.file.filename, a.file.url
+    - if answer.attachments.any?
+      ul.answer-attachments
+        - answer.attachments.each do |a|
+          li = link_to a.file.filename, a.file.url
     .comments-wrapper
       - if answer.comments.size > 0
         ul.comments
