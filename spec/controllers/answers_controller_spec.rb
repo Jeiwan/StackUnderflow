@@ -11,7 +11,7 @@ RSpec.describe AnswersController, :type => :controller do
   describe "POST #create" do
     let(:attributes) { attributes_for :answer } 
     let(:post_create) do
-      post :create, question_id: question.id, answer: attributes, format: :js
+      post :create, question_id: question.id, answer: attributes, format: :json
     end
 
     context "when signed in", sign_in: true do
@@ -24,9 +24,9 @@ RSpec.describe AnswersController, :type => :controller do
           expect{post_create}.to change(user.answers, :count).by(1)
         end
 
-        it "render create template" do
+        it "returns 201 status code" do
           post_create
-          expect(response).to render_template :create
+          expect(response.status).to eq 201
         end
       end
 
@@ -41,9 +41,9 @@ RSpec.describe AnswersController, :type => :controller do
           expect{post_create}.not_to change(user.answers, :count)
         end
 
-        it "render create template" do
+        it "returns 422 status code" do
           post_create
-          expect(response).to render_template :create
+          expect(response.status).to eq 422
         end
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe AnswersController, :type => :controller do
       edited_answer
     end
     let(:put_update) do
-      put :update, question_id: question.id, id: answer.id, answer: {body: edited_answer.body}, format: :js
+      put :update, question_id: question.id, id: answer.id, answer: {body: edited_answer.body}, format: :json
     end
 
     context "when signed in", sign_in: true do
@@ -110,8 +110,8 @@ RSpec.describe AnswersController, :type => :controller do
             expect(Answer.find(answer.id).body).to eq edited_answer.body
           end
 
-          it "renders update template" do
-            expect(response).to render_template :update
+          it "returns 200 status" do
+            expect(response.status).to eq 200
           end
         end
 
@@ -125,8 +125,8 @@ RSpec.describe AnswersController, :type => :controller do
             expect(answer.body).not_to eq edited_answer.body
           end
 
-          it "render update template" do
-            expect(response).to render_template :update
+          it "returns 422 status" do
+            expect(response.status).to eq 422
           end
         end
       end

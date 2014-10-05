@@ -1,0 +1,42 @@
+<article class="answer panel panel-default {{#if is_best}}best-answer{{/if}}" id="answer_{{id}}">
+  <div class="panel-body">
+    <div class="answer-body">{{body}}</div>
+    <div class="answer-author text-right">
+      <small>
+        by {{user.username}} at {{created}}
+        {{#if edited}}
+        <span class="muted">{{edited}}</span>
+        {{/if}}
+      </small>
+    </div>
+    {{#if attachments}}
+    <ul class="answer-attachments">
+      {{#each attachments}}
+      <li><a href="{{ url }}">{{ file }}</a></li>
+      {{/each}}
+    </ul>
+    {{/if}}
+    <div class="comments-wrapper">
+    {{#if comments}}
+      <ul class="comments">
+        {{> _comment}}
+      </ul>
+    {{/if}}
+    </div>
+  </div>
+  <div class="panel-footer">
+    <ul class="answer-management">
+      <li><a class="mark-best-answer" data-method="post" href="/questions/{{question.id}}/answers/{{id}}/mark_best" rel="nofollow"><span class="glyphicon glyphicon-ok"></span></a></li>
+      <li><a class="edit-answer" data-remote="true" href="/questions/{{question.id}}/answers/{{id}}/edit"><span class="glyphicon glyphicon-pencil"></span></a></li>
+      <li><a class="delete-answer" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/questions/{{question.id}}/answers/{{id}}" id="delete-answer" rel="nofollow"><span class="glyphicon glyphicon-remove"></span></a></li>
+      <li><a class="comment-answer" href="#">Comment</a></li>
+    </ul>
+    <div class="comment-answer-form">
+      <form accept-charset="UTF-8" action="/answers/{{id}}/comments" class="simple_form new_comment" data-remote="true" method="post" novalidate="novalidate">
+        <div style="display:none"><input name="utf8" type="hidden" value="✓"></div>
+        <div class="form-group text required comment_body"><textarea class="text required form-control" id="comment_body" name="comment[body]" rows="10"></textarea></div>
+        <input class="btn btn-default btn btn-primary" name="commit" type="submit" value="Create Comment">
+      </form>
+    </div>
+  </div>
+</article>

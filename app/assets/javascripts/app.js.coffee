@@ -33,6 +33,7 @@ class Question
     this.answersCounter = this.$answersCounter.data("counter")
 
     this.bind()
+    this.setAjaxHooks()
 
   bind: () ->
     that = this
@@ -40,6 +41,14 @@ class Question
       e.preventDefault()
       that.toggleCommentForm()
     )
+
+  setAjaxHooks: () ->
+    that = this
+    this.$answerForm.on "ajax:success", (e, data, status, xhr) ->
+      that.addAnswer(xhr.responseJSON)
+
+    this.$answerForm.on "ajax:error", (e, xhr, status) ->
+      that.renderAnswerErrors(xhr.responseJSON)
 
   edit: (form) ->
     this.$body.html(form)
@@ -74,10 +83,24 @@ class Question
     this.$commentForm.find(".has-error").removeClass("has-error").find(".help-block").remove()
 
   addAnswer: (answer) ->
-    this.$answers.append(answer)
+    this.$answers.append(HandlebarsTemplates["answer"](answer))
     this.increaseAnswersCounter()
     this.answers.push(new Answer($(answer).attr("id")))
     this.clearAnswerForm()
+
+  renderAnswerErrors: (response) ->
+    this.clearAnswerFormErrors()
+    this.$answerForm.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")
+    for field, error of response
+      field = this.$answerForm.find(".form-control#answer_#{field}")
+      formGroup = field.parents(".form-group").addClass("has-error")
+      formGroup.append("<span class='help-block error'>#{error[0]}</a>")
+
+  clearAnswerFormErrors: () ->
+    this.$answerForm.find(".alert.alert-danger").remove()
+    formGroup = this.$answerForm.find(".has-error")
+    formGroup.find(".help-block.error").remove()
+    formGroup.removeClass("has-error")
 
   clearAnswerForm: () ->
     this.$answerForm.find("textarea").val("")
@@ -125,6 +148,7 @@ class Answer
     this.$comments = this.$commentsWrapper.find(".comments")
 
     this.binds()
+    this.setAjaxHooks()
 
   id: () ->
     @answer_id
@@ -135,6 +159,33 @@ class Answer
       e.preventDefault()
       that.toggleCommentForm()
     )
+
+  setAjaxHooks: () ->
+    that = this
+    this.$el.on "ajax:success", "form.edit_answer", (e, data, status, xhr) ->
+      that.$el.replaceWith(HandlebarsTemplates["answer"](xhr.responseJSON))
+
+    this.$el.on "ajax:error", "form.edit_answer", (e, xhr, status) ->
+      console.log "ALARM!!!"
+      console.log xhr
+      that.renderFormErrors(this, xhr.responseJSON)
+
+  renderFormErrors: (form, response) ->
+    $form = $(form)
+    this.clearFormErrors(form)
+    $form.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")
+    console.log typeof response
+    for field, error of response
+      field = $form.find(".form-control#answer_#{field}")
+      formGroup = field.parents(".form-group").addClass("has-error")
+      formGroup.append("<span class='help-block error'>#{error[0]}</a>")
+
+  clearFormErrors: (form) ->
+    $form = $(form)
+    $form.find(".alert.alert-danger").remove()
+    formGroup = $form.find(".has-error")
+    formGroup.find(".help-block.error").remove()
+    formGroup.removeClass("has-error")
 
   toggleCommentForm: () ->
     this.$commentForm.slideToggle()

@@ -33,6 +33,8 @@ GEM
       activesupport (= 4.1.5)
       builder (~> 3.1)
       erubis (~> 2.7.0)
+    active_model_serializers (0.9.0)
+      activemodel (>= 3.2)
     activemodel (4.1.5)
       activesupport (= 4.1.5)
       builder (~> 3.1)
@@ -95,6 +97,11 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    handlebars_assets (0.18)
+      execjs (>= 1.2.9)
+      multi_json
+      sprockets (>= 2.0.3)
+      tilt
     hike (1.2.3)
     i18n (0.6.11)
     jbuilder (2.1.3)
@@ -217,6 +224,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers
   better_errors
   binding_of_caller
   capybara
@@ -226,6 +234,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  handlebars_assets
   jbuilder
   jquery-rails
   launchy
