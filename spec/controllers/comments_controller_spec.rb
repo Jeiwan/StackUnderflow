@@ -13,7 +13,7 @@ RSpec.describe CommentsController, :type => :controller do
   describe "POST #create" do
     let(:attributes) { attributes_for(:question_comment) }
     let(:post_create) do
-      post :create, question_id: question.id, comment: attributes, format: :js
+      post :create, question_id: question.id, comment: attributes, format: :json
     end
 
     context "when signed in", sign_in: true do
@@ -21,9 +21,9 @@ RSpec.describe CommentsController, :type => :controller do
         it "adds a new comment to database" do
           expect{post_create}.to change(Comment, :count).by(1)
         end
-        it "renders create template" do
+        it "returns 201 status" do
           post_create
-          expect(response).to render_template :create
+          expect(response.status).to eq 201
         end
       end
 
@@ -32,9 +32,9 @@ RSpec.describe CommentsController, :type => :controller do
         it "doesn't add a new comment to database" do
           expect{post_create}.not_to change(Comment, :count)
         end
-        it "renders create template" do
+        it "returns 422 status" do
           post_create
-          expect(response).to render_template :create
+          expect(response.status).to eq 422
         end
       end
     end
@@ -87,7 +87,7 @@ RSpec.describe CommentsController, :type => :controller do
   describe "PUT #update" do
     let(:attributes) { attributes_for(:question_comment, body: comment.body.reverse) }
     let(:put_update) do
-      put :update, question_id: question.id, id: comment.id, comment: attributes, format: :js
+      put :update, question_id: question.id, id: comment.id, comment: attributes, format: :json
     end
 
     context "when signed in", sign_in: true do
@@ -99,8 +99,8 @@ RSpec.describe CommentsController, :type => :controller do
             expect(comment.reload.body).to eq attributes[:body]
           end
 
-          it "renders update template" do
-            expect(response).to render_template :update
+          it "returns 200 status" do
+            expect(response.status).to eq 200
           end
         end
 
@@ -112,8 +112,8 @@ RSpec.describe CommentsController, :type => :controller do
             expect(comment.reload.body).not_to eq attributes[:body]
           end
 
-          it "renders update template" do
-            expect(response).to render_template :update
+          it "returns 422 status" do
+            expect(response.status).to eq 422
           end
         end
       end

@@ -1,1 +1,10 @@
-this is a comment
+<li class="comment" id="comment_{{id}}">
+  <p>
+    <span class="comment-body">{{body}}</span>
+    <small class="comment-poster"> 
+      — {{author}}, {{created}} ago  
+      {{#if edited}}
+      <span class="text-muted"> edited {{edited}}</span>
+      {{/if}}
+      <a class="edit-comment" data-remote="true" href="/{{commentable}}/{{commentable_id}}/comments/{{id}}/edit">edit</a> <a data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/{{commentable}}/{{commentable_id}}/comments/{{id}}" rel="nofollow">delete</a></small></p>
+</li>

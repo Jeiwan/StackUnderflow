@@ -48,7 +48,20 @@ class Question
       that.addAnswer(xhr.responseJSON)
 
     this.$answerForm.on "ajax:error", (e, xhr, status) ->
-      that.renderAnswerErrors(xhr.responseJSON)
+      that.renderFormErrors(this, xhr.responseJSON)
+
+    this.$commentForm.on "ajax:success", (e, data, status, xhr) ->
+      console.log xhr
+      that.addComment(xhr.responseJSON)
+
+    this.$commentForm.on "ajax:error", (e, xhr, status) ->
+      that.renderFormErrors(this, xhr.responseJSON)
+
+    this.$el.on "ajax:success", "form.edit_comment", (e, data, status, xhr) ->
+      $(this).parents(".comment").replaceWith(HandlebarsTemplates["comment"](xhr.responseJSON))
+
+    this.$el.on "ajax:error", "form.edit_comment", (e, xhr, status) ->
+      that.renderFormErrors(this, xhr.responseJSON)
 
   edit: (form) ->
     this.$body.html(form)
@@ -63,7 +76,7 @@ class Question
   addComment: (comment) ->
     if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)
       this.$comments = $("<ul class='comments'></ul>").appendTo(this.$commentsWrapper)
-    this.$comments.append(comment)
+    this.$comments.append(HandlebarsTemplates["comment"](comment))
     this.toggleCommentForm()
     this.clearCommentForm()
 
@@ -88,17 +101,19 @@ class Question
     this.answers.push(new Answer($(answer).attr("id")))
     this.clearAnswerForm()
 
-  renderAnswerErrors: (response) ->
-    this.clearAnswerFormErrors()
-    this.$answerForm.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")
+  renderFormErrors: (form, response) ->
+    this.clearFormErrors(form)
+    $form = $(form)
+    $form.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")
     for field, error of response
-      field = this.$answerForm.find(".form-control#answer_#{field}")
+      field = $form.find(".form-control[id$=#{field}]")
       formGroup = field.parents(".form-group").addClass("has-error")
       formGroup.append("<span class='help-block error'>#{error[0]}</a>")
 
-  clearAnswerFormErrors: () ->
-    this.$answerForm.find(".alert.alert-danger").remove()
-    formGroup = this.$answerForm.find(".has-error")
+  clearFormErrors: (form) ->
+    $form = $(form)
+    $form.find(".alert.alert-danger").remove()
+    formGroup = $form.find(".has-error")
     formGroup.find(".help-block.error").remove()
     formGroup.removeClass("has-error")
 
@@ -170,6 +185,19 @@ class Answer
       console.log xhr
       that.renderFormErrors(this, xhr.responseJSON)
 
+    this.$commentForm.on "ajax:success", (e, data, status, xhr) ->
+      console.log xhr
+      that.addComment(xhr.responseJSON)
+
+    this.$commentForm.on "ajax:error", (e, xhr, status) ->
+      that.renderFormErrors(this, xhr.responseJSON)
+
+    this.$el.on "ajax:success", "form.edit_comment", (e, data, status, xhr) ->
+      $(this).parents(".comment").replaceWith(HandlebarsTemplates["comment"](xhr.responseJSON))
+
+    this.$el.on "ajax:error", "form.edit_comment", (e, xhr, status) ->
+      that.renderFormErrors(this, xhr.responseJSON)
+
   renderFormErrors: (form, response) ->
     $form = $(form)
     this.clearFormErrors(form)
@@ -194,7 +222,7 @@ class Answer
   addComment: (comment) ->
     if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)
       this.$comments = $("<ul class='comments'></ul>").appendTo(this.$commentsWrapper)
-    this.$comments.append(comment)
+    this.$comments.append(HandlebarsTemplates["comment"](comment))
     this.toggleCommentForm()
     this.clearCommentForm()
 
