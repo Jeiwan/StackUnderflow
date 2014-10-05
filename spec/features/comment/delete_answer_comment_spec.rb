@@ -4,7 +4,7 @@ feature "Delete Answer Comment" do
 
   given(:user) { create(:user) }
   given(:user2) { create(:user) }
-  given(:question) { create(:question, user: user, tag_list: "test,west,best") }
+  given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, user:user, question: question) }
   given!(:comment) { create(:answer_comment, user: user, commentable: answer) }
   given!(:comment2) { create(:answer_comment, user: user2, commentable: answer) }

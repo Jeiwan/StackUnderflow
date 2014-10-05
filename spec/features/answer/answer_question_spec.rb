@@ -7,7 +7,7 @@ feature "Answer a Question", %q{
 } do
 
   given(:inquirer) { create(:user) }
-  given(:question) { create(:question, user: inquirer, tag_list: "test,west,best") }
+  given(:question) { create(:question, user: inquirer) }
   given(:answerer) { create(:user) }
   given(:answer) { build(:answer, question: question, user: answerer) }
 

@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :question do
     title "Very important questions"
     body "Answer my question ASAP!"
+    tag_list "windows,c++,c#,macosx,android-5.0"
 		user
-    #association :tags, factory: :tag
   end
   factory :invalid_question, class: "Question" do
     title ""

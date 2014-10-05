@@ -4,8 +4,8 @@ feature "Edit Question" do
   given(:user1) { create(:user) }
   given(:user2) { create(:user) }
   given(:tags) { create_list(:tag, 5) }
-  given(:question1) { create(:question, user: user1, tag_list: "test,west,best") }
-  given(:question2) { create(:question, user: user2, tag_list: "test,west,best") }
+  given(:question1) { create(:question, user: user1) }
+  given(:question2) { create(:question, user: user2) }
 
   background do
     sign_in user1

@@ -17,7 +17,7 @@ RSpec.describe Answer, :type => :model do
 
   describe "instance methods" do
     describe "#mark_best!" do
-      let(:question) { create(:question, tag_list: "test,west,east") }
+      let(:question) { create(:question) }
       let!(:answer) { create(:answer, question: question) }
 
       context "when question has no best answer" do
