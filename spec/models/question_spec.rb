@@ -17,6 +17,8 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to belong_to :user }
     it { is_expected.to have_many :comments }
     it { is_expected.to have_and_belong_to_many :tags }
+    it { is_expected.to have_many :attachments }
+    it { is_expected.to accept_nested_attributes_for :attachments }
   end
 
   describe "methods" do
