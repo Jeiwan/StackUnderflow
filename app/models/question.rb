@@ -7,7 +7,7 @@ class Question < ActiveRecord::Base
   belongs_to :user
   has_many :comments, as: :commentable
   has_and_belongs_to_many :tags
-  has_many :attachments
+  has_many :attachments, as: :attachable
   accepts_nested_attributes_for :attachments
 
   validates :body, presence: true, length: { in: 10..5000 }
