@@ -42,3 +42,4 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'handlebars_assets'
 gem 'active_model_serializers'
+gem 'rubocop', require: false
