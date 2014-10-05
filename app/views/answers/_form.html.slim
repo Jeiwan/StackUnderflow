@@ -1,4 +1,6 @@
 = simple_form_for [(@question || @answer.question), @answer], remote: true do |f|
   = f.error_notification
   = f.input :body, input_html: { rows: 10 }, label: false
+  = f.simple_fields_for :attachments do |a|
+    = a.input :file, as: :file, label: "File"
   = f.button :submit, class: "btn btn-success"

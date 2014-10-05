@@ -17,6 +17,7 @@ class QuestionsController < ApplicationController
     @comments = @question.comments.order('created_at')
     @comment = Comment.new
     @answer = Answer.new
+    @attachment = @answer.attachments.build
   end
 
   def create

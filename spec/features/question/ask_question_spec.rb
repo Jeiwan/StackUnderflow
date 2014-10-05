@@ -29,7 +29,7 @@ feature "Ask Questions", %q{
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_content "Gemfile"
+    expect(page).to have_link "Gemfile"
   end
 
   scenario "Authenticated user asks a question without filling required fields" do
