@@ -14,6 +14,9 @@
             span.label.label-default = tag.name
         .question-author.text-right
           small by #{@question.user.username} #{time_ago_in_words(@question.created_at)}
+        ul.question-attachments
+          - @question.attachments.each do |a|
+            li = a.file.file.filename
         .comments-wrapper
           - if @comments.size > 0
             ul.comments

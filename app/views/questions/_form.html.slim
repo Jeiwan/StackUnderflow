@@ -1,10 +1,8 @@
-- if @question.errors.any?
-  ul
-    - @question.errors.full_messages.each do |message|
-      li = message
 = simple_form_for @question, remote: ((defined? remote) ? remote : false) do |f|
   = f.error_notification
   = f.input :title
   = f.input :body, input_html: { rows: 10 }
   = f.input :tag_list, label: "Tags"
+  = f.simple_fields_for :attachments do |a|
+    = a.input :file, as: :file, label: "File"
   = f.button :submit, class: "btn btn-success"
