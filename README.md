@@ -7,8 +7,8 @@ The project is developed for learning purposes.
 Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 
 ##Fix and refactor
-1. Fix tag_list property of question factory
-2. Check tag_list validation and refactor it
+1. ~~Fix tag_list property of question factory~~
+2. ~~Check tag_list validation and refactor it~~
 3. Make 'edit' link work for newly created answers and comments
 4. Test question and answers editing with upload files 
 5. Hide double forms
