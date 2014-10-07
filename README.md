@@ -9,12 +9,18 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 ##Fix and refactor
 1. ~~Fix tag_list property of question factory~~
 2. ~~Check tag_list validation and refactor it~~
-3. Make 'edit' link work for newly created answers and comments
-4. Test question and answers editing with upload files 
+3. ~~Make 'edit' link work for newly created answers and comments~~
+4. ~~Test question and answers editing with upload files~~
 5. Hide double forms
 6. Refactor routes (add shallow)
 7. Add indices to Comments model
-8. Delete update actions
+8. ~~Delete edit actions~~
 9. Improve file uploading and showing
 10. Use save! everywhere except controller tests
-11. 
+11. ~~Add `dependent` to models~~
+12. ~~Check tag creation tests~~
+
+##ToDo
+1. Add information about questions' count on the Tags page.
+2. Add voting functional.
+3. Relax and take a rest.
