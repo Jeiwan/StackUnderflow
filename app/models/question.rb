@@ -18,15 +18,22 @@ class Question < ActiveRecord::Base
     answers.find_by(best: true) ? true : false
   end
 
+  def form_tag_list
+    tags.map(&:name).join(",")
+  end
+
   private
 
     def add_tags_from_list
-      !tag_list.nil? && tag_list.split(",").each do |tag|
-        t = Tag.find_by_name(tag) || Tag.create(name: tag)
-        if t.valid?
-          tags << t
-        else
-          errors[:tag_list] << "Tags #{t.errors['name'][0]}"
+      if tag_list.present?
+        tags.clear
+        tag_list.split(",").each do |tag|
+          t = Tag.find_by_name(tag) || Tag.create(name: tag)
+          if t.valid?
+            tags << t
+          else
+            errors[:tag_list] << "Tags #{t.errors['name'][0]}"
+          end
         end
       end
     end

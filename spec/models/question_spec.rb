@@ -41,17 +41,49 @@ RSpec.describe Question, :type => :model do
         end
       end
     end
+
+    describe "#form_tag_list" do
+      it "returns question's tags separated by comma" do
+        expect(question.form_tag_list).to eq tags.map(&:name).join(",")
+      end
+    end
   end
 
   describe "before_save" do
-    question = Question.new(title: "Some good title", body: "Some good body", tag_list: "test,west,east")
-    it "creates tags" do
-      expect{question.save}.to change(Tag, :count).by(3)
+    let(:question) { build(:question, title: "Some good title", body: "Some good body", tag_list: "test,west,east") }
+
+    context "when question has no tags" do
+      it "creates tags" do
+        expect{question.save}.to change(Tag, :count).by(3)
+      end
+
+      it "increases question's tags number" do
+        expect{question.save}.to change(question.tags, :count).by(3)
+      end
+
+      it "sets question's tags" do
+        question.save
+        expect(question.tags.map(&:name).join(",")).to match "test,west,east"
+      end
     end
 
-    it "increases question's tags number" do
-      expect{question.save}.to change(question.tags, :count).by(3)
+    context "when question already has tags" do
+      before do
+        question.save
+        question.tag_list = "best,west"
+      end
+      it "creates tags" do
+        expect{question.save}.to change(Tag, :count).by(1)
+      end
+
+      it "changes question's tags number" do
+        expect{question.save}.to change(question.tags, :count).by(-1)
+      end
+
+      it "sets question's tags" do
+        question.save
+        expect(question.tags.map(&:name).join(",")).to match "best,west"
+      end
     end
   end
-
 end
