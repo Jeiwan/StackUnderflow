@@ -2,6 +2,8 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:edit, :update, :destroy]
+  
+  respond_to :json, only: [:update]
 
   def index
     @questions = Question.all.order("created_at DESC")
@@ -31,14 +33,13 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def update
     if @question.update(question_params)
       flash.now[:success] = "Question updated!"
+      render json: @question, root: false
     else
       flash.now[:danger] = "Question is not updated! See errors below."
+      render json: @question.errors.as_json, status: :unprocessable_entity
     end
   end
 

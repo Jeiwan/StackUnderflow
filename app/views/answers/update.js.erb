@@ -1,6 +1,0 @@
-answer = Underflow.question.answerById("<%= @answer.id %>");
-<% if @answer.errors.any? %>
-  answer.edit("<%= j render 'form' %>")
-<% else %>
-  answer.edit("<%= @answer.body %>")
-<% end %>

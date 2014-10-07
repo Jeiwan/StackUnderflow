@@ -6,5 +6,5 @@
       {{#if edited}}
       <span class="text-muted"> edited {{edited}}</span>
       {{/if}}
-      <a class="edit-comment" data-remote="true" href="/{{commentable}}/{{commentable_id}}/comments/{{id}}/edit">edit</a> <a data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/{{commentable}}/{{commentable_id}}/comments/{{id}}" rel="nofollow">delete</a></small></p>
+      <a class="edit-comment" href="#">edit</a> <a class="delete-comment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/{{commentable}}/{{commentable_id}}/comments/{{id}}" rel="nofollow" data-id="{{id}}">delete</a></small></p>
 </li>

@@ -1,9 +1,11 @@
 class AnswerSerializer < ActiveModel::Serializer
+  include ActionView::Helpers::DateHelper
+
   attributes :id, :body, :created, :question, :comments, :edited, :attachments, :is_best
   has_one :user
 
   def created
-    object.created_at.strftime("%d/%m/%Y, %R")
+    time_ago_in_words(object.created_at)
   end
 
   def question
@@ -20,7 +22,7 @@ class AnswerSerializer < ActiveModel::Serializer
   end
 
   def edited
-    object.updated_at.to_s > object.created_at.to_s ? object.updated_at.strftime("%d/%m/%Y, %R") : false
+    object.updated_at.to_s > object.created_at.to_s ? time_ago_in_words(object.updated_at) : false
   end
 
   def attachments

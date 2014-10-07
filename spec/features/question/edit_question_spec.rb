@@ -16,16 +16,20 @@ feature "Edit Question" do
 
     within(".question") do
       click_link "edit-question"
-      expect(page).to have_selector "textarea"
+      expect(page).to have_selector "textarea#question_body"
 
       fill_in "Title", with: question1.title.reverse
       fill_in "Body", with: question1.body.reverse
-      fill_in "Tags", with: question1.tags.map(&:name).join(",")
-      click_on "Update Question"
+      page.execute_script("$('#question_tag_list').val('edit-me')")
+      click_button "Update Question"
+
+      expect(page).not_to have_content "problem"
+      expect(page).not_to have_selector "textarea#question_body"
     end
 
     expect(page).to have_content question1.body.reverse
     expect(page).to have_content question1.title.reverse
+    expect(page).to have_content "edit-me"
   end
 
   scenario "User can't edit not his question", js: true do

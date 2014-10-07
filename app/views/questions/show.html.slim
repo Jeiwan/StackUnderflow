@@ -9,15 +9,20 @@
       .panel-body
         .question-body
           = @question.body
-        .question-tags
+        .question-tags data-tags="#{@question.form_tag_list}"
           - @question.tags.each do |tag|
             span.label.label-default = tag.name
         .question-author.text-right
-          small by #{@question.user.username} #{time_ago_in_words(@question.created_at)}
+          small
+            | by #{@question.user.username} #{time_ago_in_words(@question.created_at)}  
+            - if @question.updated_at.to_s > @question.created_at.to_s
+              span.text-muted
+                = time_ago_in_words(@question.updated_at)
+                |  ago
         - if @question.attachments.any?
           ul.question-attachments
             - @question.attachments.each do |a|
-              li = link_to a.file.filename, a.file.url
+              li = link_to a.file.file.filename, a.file.url
         .comments-wrapper
           - if @comments.size > 0
             ul.comments
@@ -26,7 +31,7 @@
         ul.question-management
           - if user_signed_in? && current_user == @question.user
             li
-              = link_to [:edit, @question], class: "edit-question", id: "edit-question", remote: true do
+              = link_to "#", class: "edit-question", id: "edit-question" do
                 span.glyphicon.glyphicon-pencil
             li
               = link_to @question, class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do

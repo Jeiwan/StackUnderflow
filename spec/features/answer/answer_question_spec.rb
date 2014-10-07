@@ -6,13 +6,13 @@ feature "Answer a Question", %q{
   I want to have an ability to answer other users' questions
 } do
 
-  given(:inquirer) { create(:user) }
-  given(:question) { create(:question, user: inquirer) }
-  given(:answerer) { create(:user) }
-  given(:answer) { build(:answer, question: question, user: answerer) }
+  given(:user1) { create(:user) }
+  given(:question) { create(:question, user: user1) }
+  given(:user2) { create(:user) }
+  given(:answer) { build(:answer, question: question, user: user2) }
 
   background do
-    sign_in answerer
+    sign_in user2
     visit question_path(question)
   end
 
@@ -26,6 +26,7 @@ feature "Answer a Question", %q{
     expect(page).to have_content answer.user.username
     expect(page).to have_link "README.md"
   end
+
 
   scenario "Authenticated user answers another user's question without filling a required field", js: true do
     click_on "Answer"

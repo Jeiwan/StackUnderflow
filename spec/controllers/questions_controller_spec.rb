@@ -139,43 +139,6 @@ RSpec.describe QuestionsController, :type => :controller do
 
   end
 
-  describe "GET #edit" do
-    let(:get_edit) do
-      xhr :get, :edit, id: question.id, format: :js
-    end
-
-    context "when signed in", sign_in: true do
-      context "when question belongs to current user" do
-        before { get_edit }
-
-        it "returns a question" do
-          expect(assigns(:question)).to eq question
-        end
-
-        it "renders edit view" do
-          expect(response).to render_template "edit"
-        end
-      end
-
-      context "when question doesn't belong to current user" do
-        let(:question) { question2 }
-        before { get_edit }
-
-        it "redirects to root page" do
-          expect(response).to redirect_to root_path
-        end
-      end
-    end
-
-    context "when not signed in" do
-      before { get_edit } 
-
-      it "returns 401 error" do
-        expect(response.status).to eq 401
-      end
-    end
-  end
-
   describe "PUT #update" do
     let(:edited_question) do
       edited = question.dup
@@ -195,8 +158,8 @@ RSpec.describe QuestionsController, :type => :controller do
             expect(question.reload.title).to eq edited_question.title
           end
 
-          it "render update view" do
-            expect(response).to render_template :update
+          it "return 200 status" do
+            expect(response.status).to eq 200
           end
         end
 
@@ -210,8 +173,8 @@ RSpec.describe QuestionsController, :type => :controller do
             expect(question.reload.title).not_to eq edited_question.title
           end
 
-          it "renders update view" do
-            expect(response).to render_template :update
+          it "returns 422 status" do
+            expect(response.status).to eq 422
           end
         end
       end

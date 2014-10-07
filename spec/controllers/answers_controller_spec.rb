@@ -56,41 +56,6 @@ RSpec.describe AnswersController, :type => :controller do
     end
   end
 
-  describe "GET #edit" do
-    let(:get_edit) do
-      xhr :get, :edit, question_id: question.id, id: answer.id, format: :js
-    end
-
-    context "when signed in", sign_in: true do
-      context "when answer belongs to current user" do
-        before { get_edit }
-
-        it "returns an answer" do
-          expect(assigns[:answer]).to eq answer
-        end
-        it "renders edit view" do
-          expect(response).to render_template :edit
-        end
-      end
-
-      context "when answer doesn't belong to current user" do
-        let(:answer) { create(:answer, question: question, user: user2) }
-        before { get_edit }
-
-        it "redirects to question" do
-          expect(response).to redirect_to answer.question
-        end
-      end
-    end
-
-    context "when not signed in" do
-      before { get_edit }
-      it "returns 401 error" do
-        expect(response.status).to eq 401
-      end
-    end
-  end
-
   describe "PUT #update" do
     let(:edited_answer) do
       edited_answer = answer.dup
@@ -160,7 +125,7 @@ RSpec.describe AnswersController, :type => :controller do
 
   describe "DELETE #destroy" do
     let(:delete_destroy) do
-      delete :destroy, question_id: question, id: answer, format: :js
+      delete :destroy, question_id: question, id: answer, format: :json
     end
     before { answer }
 
@@ -170,9 +135,9 @@ RSpec.describe AnswersController, :type => :controller do
           expect{delete_destroy}.to change(Answer, :count).by(-1)
         end
 
-        it "renders destroy template" do
+        it "returns 204 code" do
           delete_destroy
-          expect(response).to render_template :destroy
+          expect(response.status).to eq 204
         end
       end
 

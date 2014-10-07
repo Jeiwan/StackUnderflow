@@ -4,7 +4,7 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
       = answer.body
     .answer-author.text-right
       small
-        |by #{answer.user.username} #{time_ago_in_words(answer.created_at)}
+        |by #{answer.user.username} #{time_ago_in_words(answer.created_at)} ago  
         - if answer.updated_at.to_s > answer.created_at.to_s
           span.text-muted
             |  edited #{time_ago_in_words(answer.updated_at)} ago
@@ -25,10 +25,10 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
               span.glyphicon.glyphicon-ok
         - if current_user == answer.user
           li
-            = link_to [:edit, answer.question, answer], class: "edit-answer", remote: true do
+            = link_to "#", class: "edit-answer" do
               span.glyphicon.glyphicon-pencil
           li
-            = link_to [answer.question, answer], remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?" } do
+            = link_to [answer.question, answer], remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?", id: answer.id } do
               span.glyphicon.glyphicon-remove
         li
           = link_to "Comment", "#", class: "comment-answer"

@@ -5,7 +5,7 @@ class AnswersController < ApplicationController
   before_action :answer_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:mark_best]
 
-  respond_to :json, only: [:create, :update]
+  respond_to :json, only: [:create, :update, :destroy]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -19,10 +19,6 @@ class AnswersController < ApplicationController
       flash.now[:danger] = "Answer is not created! See errors below."
       respond_with(@answer.errors.as_json, status: :unprocessable_entity, location: nil)
     end
-  end
-
-  def edit
-    @attachment = @answer.attachments.build
   end
 
   def update
@@ -39,6 +35,7 @@ class AnswersController < ApplicationController
     @answer_id = @answer.id
     @answer.destroy
     flash.now[:success] = "Answer is deleted!"
+    respond_with :nothing, status: 204
   end
 
   def mark_best

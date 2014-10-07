@@ -3,9 +3,9 @@
     <div class="answer-body">{{body}}</div>
     <div class="answer-author text-right">
       <small>
-        by {{user.username}} at {{created}}
+        by {{user.username}} {{created}} ago
         {{#if edited}}
-        <span class="muted">{{edited}}</span>
+        <span class="text-muted">{{edited}} ago</span>
         {{/if}}
       </small>
     </div>
@@ -19,7 +19,9 @@
     <div class="comments-wrapper">
     {{#if comments}}
       <ul class="comments">
-        {{> _comment}}
+        {{#each comments}}
+        {{> _comment }}
+        {{/each}}
       </ul>
     {{/if}}
     </div>
@@ -27,8 +29,8 @@
   <div class="panel-footer">
     <ul class="answer-management">
       <li><a class="mark-best-answer" data-method="post" href="/questions/{{question.id}}/answers/{{id}}/mark_best" rel="nofollow"><span class="glyphicon glyphicon-ok"></span></a></li>
-      <li><a class="edit-answer" data-remote="true" href="/questions/{{question.id}}/answers/{{id}}/edit"><span class="glyphicon glyphicon-pencil"></span></a></li>
-      <li><a class="delete-answer" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/questions/{{question.id}}/answers/{{id}}" id="delete-answer" rel="nofollow"><span class="glyphicon glyphicon-remove"></span></a></li>
+      <li><a class="edit-answer" href="#"><span class="glyphicon glyphicon-pencil"></span></a></li>
+      <li><a class="delete-answer" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/questions/{{question.id}}/answers/{{id}}" id="delete-answer" rel="nofollow" data-id="{{id}}"><span class="glyphicon glyphicon-remove"></span></a></li>
       <li><a class="comment-answer" href="#">Comment</a></li>
     </ul>
     <div class="comment-answer-form">

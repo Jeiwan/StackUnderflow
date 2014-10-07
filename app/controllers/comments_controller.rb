@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   before_action :find_comment, only: [:edit, :update, :destroy]
   before_action :comment_belongs_to_current_user?, only: [:edit, :update, :destroy]
 
-  respond_to :json, only: [:create, :update]
+  respond_to :json, only: [:create, :update, :destroy]
   
   def create
     @comment = @commentable.comments.new(comment_params)
@@ -17,9 +17,6 @@ class CommentsController < ApplicationController
       flash.now[:danger] = "Invalid data! Comment length should be more than 10 symbols!"
       respond_with(@comment.errors.as_json, status: :unprocessable_entity, location: nil)
     end
-  end
-
-  def edit
   end
 
   def update
@@ -35,6 +32,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     flash.now[:success] = "Comment is deleted!"
+    respond_with :nothing, status: 204
   end
 
   private
