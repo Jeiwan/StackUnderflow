@@ -3,11 +3,11 @@ class Question < ActiveRecord::Base
 
   after_validation :add_tags_from_list
 
-  has_many :answers
   belongs_to :user
-  has_many :comments, as: :commentable
   has_and_belongs_to_many :tags
-  has_many :attachments, as: :attachable
+  has_many :answers, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :attachments, as: :attachable, dependent: :destroy
   accepts_nested_attributes_for :attachments
 
   validates :body, presence: true, length: { in: 10..5000 }

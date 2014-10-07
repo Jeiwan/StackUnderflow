@@ -124,6 +124,7 @@ RSpec.describe AnswersController, :type => :controller do
   end
 
   describe "DELETE #destroy" do
+    let!(:comment) { create(:answer_comment, commentable: answer) }
     let(:delete_destroy) do
       delete :destroy, question_id: question, id: answer, format: :json
     end
@@ -133,6 +134,10 @@ RSpec.describe AnswersController, :type => :controller do
       context "when asnwer belongs to current user" do
         it "deletes the answer" do
           expect{delete_destroy}.to change(Answer, :count).by(-1)
+        end
+
+        it "deletes comments to the answer" do
+          expect{delete_destroy}.to change(Comment, :count).by(-1)
         end
 
         it "returns 204 code" do
