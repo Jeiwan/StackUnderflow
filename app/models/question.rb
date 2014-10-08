@@ -27,6 +27,11 @@ class Question < ActiveRecord::Base
     save!
   end
 
+  def vote_down
+    decrement(:votes)
+    save!
+  end
+
   private
 
     def add_tags_from_list

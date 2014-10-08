@@ -53,6 +53,12 @@ RSpec.describe Question, :type => :model do
         expect{question.vote_up}.to change(question, :votes).by(1)
       end
     end
+
+    describe "#vote_up" do
+      it "decreases question's votes number" do
+        expect{question.vote_down}.to change(question, :votes).by(-1)
+      end
+    end
   end
 
   describe "before_save" do
