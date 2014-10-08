@@ -7,12 +7,12 @@ class VotesController < ApplicationController
 
   def vote_up
     @votable.vote_up current_user
-    render json: {votes: @votable.votes}, status: 200
+    render json: {votes: @votable.total_votes}, status: 200
   end
 
   def vote_down
     @votable.vote_down current_user
-    render json: {votes: @votable.votes}, status: 200
+    render json: {votes: @votable.total_votes}, status: 200
   end
 
   private

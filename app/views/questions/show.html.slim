@@ -10,10 +10,10 @@
         .col-md-1
           - unless @question.user == current_user
             .voting
-              = link_to question_vote_path(@question, :up), class: "vote-up", remote: true, data: { type: :json }, method: :patch do
+              = link_to question_vote_up_path(@question), class: "vote-up", remote: true, data: { type: :json }, method: :patch do
                 span.glyphicon.glyphicon-chevron-up
-              strong.votes = @question.votes
-              = link_to question_vote_path(@question, :down), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
+              strong.votes = @question.total_votes
+              = link_to question_vote_down_path(@question), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
                 span.glyphicon.glyphicon-chevron-down
         .col-md-11
           .question-body
