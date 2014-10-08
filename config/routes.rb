@@ -14,5 +14,7 @@ Rails.application.routes.draw do
   resources :answers, only: [], concerns: :commentable
   resources :tags, only: [:index]
 
+  patch "/questions/:id/vote/:vote" => "questions#vote", as: :question_vote
+
   root "questions#index"
 end
