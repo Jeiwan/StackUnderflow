@@ -23,6 +23,8 @@ class Question
     this.$tags = this.$el.find(".question-tags")
     this.tagList = this.$tags.data("tags")
     this.$files = this.$el.find(".question-attachments")
+    this.$voting = this.$el.find(".voting")
+    this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".comment-question")
     this.$commentForm = this.$el.find(".comment-question-form")
     this.$commentsWrapper = this.$el.find(".comments-wrapper")
@@ -86,6 +88,11 @@ class Question
     this.$answers.on "ajax:success", "a.delete-answer", (e, xhr, status) ->
       that.removeAnswer($(this).data("id"))
 
+    this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->
+      that.$votes.text(xhr.responseJSON.votes)
+
+    this.$voting.on "ajax:success", "a.vote-down", (e, data, status, xhr) ->
+      that.$votes.text(xhr.responseJSON.votes)
 
   edit: (form) ->
     this.$body.html(form)

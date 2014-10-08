@@ -6,9 +6,17 @@
 .row
   .col-md-10
     .panel.panel-default.question data-question-id="#{@question.id}"
-      .panel-body
-        .question-body
-          = @question.body
+      .panel-body.row
+        .col-md-1
+          .voting
+            = link_to question_vote_path(@question, :up), class: "vote-up", remote: true, data: { type: :json }, method: :patch do
+              span.glyphicon.glyphicon-chevron-up
+            strong.votes = @question.votes
+            = link_to question_vote_path(@question, :down), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
+              span.glyphicon.glyphicon-chevron-down
+        .col-md-11
+          .question-body
+            = @question.body
         .question-tags data-tags="#{@question.form_tag_list}"
           - @question.tags.each do |tag|
             span.label.label-default = tag.name
