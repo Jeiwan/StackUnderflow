@@ -19,10 +19,12 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to have_and_belong_to_many :tags }
     it { is_expected.to have_many :attachments }
     it { is_expected.to accept_nested_attributes_for :attachments }
+    it { is_expected.to have_many :votes }
   end
 
   describe "methods" do
-    let(:tags) { create_list(:tag, 1) }
+    let(:user) { create(:user) }
+    let(:tags) { create_list(:tag, 2) }
     let(:question) { create(:question, tag_list: tags.map(&:name).join(",")) }
     let!(:answer2) { create(:answer, question: question) }
 
@@ -48,15 +50,21 @@ RSpec.describe Question, :type => :model do
       end
     end
 
+    describe "#total_votes" do
+      it "returns total votes for the question" do
+        expect(question.total_votes).to eq 0
+      end
+    end
+
     describe "#vote_up" do
       it "increases question's votes number" do
-        expect{question.vote_up}.to change(question, :votes).by(1)
+        expect{question.vote_up(user)}.to change(question, :total_votes).by(1)
       end
     end
 
     describe "#vote_up" do
       it "decreases question's votes number" do
-        expect{question.vote_down}.to change(question, :votes).by(-1)
+        expect{question.vote_down(user)}.to change(question, :total_votes).by(-1)
       end
     end
   end

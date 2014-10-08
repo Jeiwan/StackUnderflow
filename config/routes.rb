@@ -5,7 +5,12 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :edit, :update, :destroy]
   end
 
-  resources :questions, concerns: :commentable do
+  concern :votable do
+    patch "/vote_up" => "votes#vote_up", as: :vote_up
+    patch "/vote_down" => "votes#vote_down", as: :vote_down
+  end
+
+  resources :questions, concerns: [:commentable, :votable] do
     resources :answers, only: [:new, :create, :edit, :update, :destroy], concerns: :commentable do
       post "mark_best", on: :member
     end

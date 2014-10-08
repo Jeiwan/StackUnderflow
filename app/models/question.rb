@@ -8,6 +8,7 @@ class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
+  has_many :votes, as: :votable, dependent: :destroy
   accepts_nested_attributes_for :attachments
 
   validates :body, presence: true, length: { in: 10..5000 }
@@ -22,14 +23,16 @@ class Question < ActiveRecord::Base
     tags.map(&:name).join(",")
   end
 
-  def vote_up
-    increment(:votes)
-    save!
+  def vote_up(user)
+    votes.create(user_id: user.id, vote: 1)
   end
 
-  def vote_down
-    decrement(:votes)
-    save!
+  def vote_down(user)
+    votes.create(user_id: user.id, vote: -1)
+  end
+
+  def total_votes
+    votes.inject(0) { |s, v| s + v.vote }
   end
 
   private
