@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :answers, only: [], concerns: :commentable
+  resources :answers, only: [], concerns: [:commentable, :votable]
   resources :tags, only: [:index]
 
   patch "/questions/:id/vote/:vote" => "questions#vote", as: :question_vote
