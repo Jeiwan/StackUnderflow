@@ -13,7 +13,7 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 4. ~~Test question and answers editing with upload files~~
 5. Hide double forms
 6. Refactor routes (add shallow)
-7. Add indices to Comments model
+7. ~~Add indices to Comments model~~
 8. ~~Delete edit actions~~
 9. Improve file uploading and showing
 10. Use save! everywhere except controller tests
