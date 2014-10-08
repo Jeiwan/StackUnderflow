@@ -8,11 +8,12 @@
     .panel.panel-default.question data-question-id="#{@question.id}"
       .panel-body.row
         .col-md-1
-          - unless @question.user == current_user
-            .voting
+          .voting
+            - unless @question.user == current_user
               = link_to question_vote_up_path(@question), class: "vote-up", remote: true, data: { type: :json }, method: :patch do
                 span.glyphicon.glyphicon-chevron-up
-              strong.votes = @question.total_votes
+            strong.votes = @question.total_votes
+            - unless @question.user == current_user
               = link_to question_vote_down_path(@question), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
                 span.glyphicon.glyphicon-chevron-down
         .col-md-11
