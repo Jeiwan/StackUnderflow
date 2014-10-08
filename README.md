@@ -19,6 +19,7 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 10. Use save! everywhere except controller tests
 11. ~~Add `dependent` to models~~
 12. ~~Check tag creation tests~~
+13. Fix routes (remove excessive concerns)
 
 ##ToDo
 1. Add information about questions' count on the Tags page.
