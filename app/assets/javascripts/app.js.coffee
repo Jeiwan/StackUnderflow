@@ -103,7 +103,10 @@ class Question
   subscribeToAnswers: () ->
     that = this
     PrivatePub.subscribe "/questions/#{this.id}/answers", (data, channel) ->
-      that.addAnswer($.parseJSON(data.answer))
+      if (typeof data.create != 'undefined')
+        that.addAnswer($.parseJSON(data.create))
+      if (typeof data.destroy != 'undefined')
+        that.removeAnswer($.parseJSON(data.destroy))
 
   edit: (form) ->
     this.$body.html(form)
@@ -171,11 +174,13 @@ class Question
     this.$answerForm.find(".has-error").removeClass("has-error").find(".help-block").remove()
 
   removeAnswer: (answerId) ->
-    this.$answers.find("#answer_#{answerId}").remove()
-    for answer in this.answers
-      if answer.id == parseInt(answerId, 10)
-        this.answers.splice(this.answers.indexOf(answer), 1)
-    this.decreaseAnswersCounter()
+    console.log answerId
+    if this.answerById(answerId)
+      this.$answers.find("#answer_#{answerId}").remove()
+      for answer in this.answers
+        if answer.id == parseInt(answerId, 10)
+          this.answers.splice(this.answers.indexOf(answer), 1)
+      this.decreaseAnswersCounter()
 
   renderAnswerForm: (form) ->
     this.$answerForm.html(form)
