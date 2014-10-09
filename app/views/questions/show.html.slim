@@ -68,3 +68,6 @@
     = link_to "Ask a Question", new_question_path, class: "btn btn-primary"
 
 = subscribe_to "/questions/#{@question.id}/answers"
+= subscribe_to "/questions/#{@question.id}"
+- @question.answers.each do |answer|
+  = subscribe_to "/answers/#{answer.id}"

@@ -7,11 +7,13 @@ class VotesController < ApplicationController
 
   def vote_up
     @votable.vote_up current_user
+    publish_votes
     render json: {votes: @votable.total_votes}, status: 200
   end
 
   def vote_down
     @votable.vote_down current_user
+    publish_votes
     render json: {votes: @votable.total_votes}, status: 200
   end
 
@@ -30,5 +32,10 @@ class VotesController < ApplicationController
       if @votable.user == current_user
         respond_with nil, status: 501, location: nil
       end
+    end
+
+    def publish_votes
+      puts "/#{@votable.to_s.downcase.pluralize}/#{@votable.id}"
+      PrivatePub.publish_to "/#{@votable.class.name.to_s.downcase.pluralize}/#{@votable.id}", votes: @votable.total_votes
     end
 end
