@@ -35,7 +35,6 @@ class VotesController < ApplicationController
     end
 
     def publish_votes
-      puts "/#{@votable.to_s.downcase.pluralize}/#{@votable.id}"
       PrivatePub.publish_to "/#{@votable.class.name.to_s.downcase.pluralize}/#{@votable.id}", votes: @votable.total_votes
     end
 end
