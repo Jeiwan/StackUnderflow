@@ -46,14 +46,34 @@ RSpec.describe Answer, :type => :model do
     end
 
     describe "#vote_up" do
-      it "increases answer's votes number" do
-        expect{answer.vote_up(user)}.to change(answer, :total_votes).by(1)
+      context "when user never voted before" do
+        it "increases answer's votes number" do
+          expect{answer.vote_up(user)}.to change(answer, :total_votes).by(1)
+        end
+      end
+      
+      context "when user already voted" do
+        before { answer.vote_up(user) }
+        
+        it "doesn't increase answer's votes number" do
+          expect{answer.vote_up(user)}.not_to change(answer, :total_votes)
+        end
       end
     end
 
-    describe "#vote_up" do
-      it "decreases answer's votes number" do
-        expect{answer.vote_down(user)}.to change(answer, :total_votes).by(-1)
+    describe "#vote_down" do
+      context "when user never voted before" do
+        it "decreases answer's votes number" do
+          expect{answer.vote_down(user)}.to change(answer, :total_votes).by(-1)
+        end
+      end
+
+      context "when user already voted" do
+        before { answer.vote_down(user) }
+        
+        it "doesn't increase answer's votes number" do
+          expect{answer.vote_down(user)}.not_to change(answer, :total_votes)
+        end
       end
     end
 

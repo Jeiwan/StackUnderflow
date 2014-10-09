@@ -14,11 +14,15 @@ class Answer < ActiveRecord::Base
   end
 
   def vote_up(user)
-    votes.create(user_id: user.id, vote: 1)
+    unless voted_by? user
+      votes.create(user_id: user.id, vote: 1)
+    end
   end
 
   def vote_down(user)
-    votes.create(user_id: user.id, vote: -1)
+    unless voted_by? user
+      votes.create(user_id: user.id, vote: -1)
+    end
   end
 
   def total_votes
