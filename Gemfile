@@ -43,3 +43,5 @@ gem 'remotipart'
 gem 'handlebars_assets'
 gem 'active_model_serializers'
 gem 'rubocop', require: false
+gem 'private_pub'
+gem 'thin'

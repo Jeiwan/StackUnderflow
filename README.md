@@ -20,8 +20,4 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 11. ~~Add `dependent` to models~~
 12. ~~Check tag creation tests~~
 13. Fix routes (remove excessive concerns)
-
-##ToDo
-1. Add information about questions' count on the Tags page.
-2. Add voting functional.
-3. Relax and take a rest.
+14. Fix `mark best` link when a new answer is added

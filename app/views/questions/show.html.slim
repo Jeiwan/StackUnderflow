@@ -66,3 +66,5 @@
         p #{link_to "Register", new_user_registration_path} or #{link_to "log in", new_user_session_path} to post an answer to this question.
   .col-md-2
     = link_to "Ask a Question", new_question_path, class: "btn btn-primary"
+
+= subscribe_to "/questions/#{@question.id}/answers"
