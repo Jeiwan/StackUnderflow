@@ -24,4 +24,8 @@ class Answer < ActiveRecord::Base
   def total_votes
     votes.inject(0) { |s, v| s + v.vote }
   end
+
+  def voted_by?(user)
+    votes.find_by_user_id(user) ? true : false
+  end
 end
