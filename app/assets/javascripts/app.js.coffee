@@ -90,9 +90,13 @@ class Question
 
     this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
+      $(this).remove()
+      that.$voting.find("a.vote-down").remove()
 
     this.$voting.on "ajax:success", "a.vote-down", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
+      $(this).remove()
+      that.$voting.find("a.vote-up").remove()
 
   edit: (form) ->
     this.$body.html(form)
@@ -237,9 +241,13 @@ class Answer
 
     this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
+      $(this).remove()
+      that.$voting.find("a.vote-down").remove()
 
     this.$voting.on "ajax:success", "a.vote-down", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
+      $(this).remove()
+      that.$voting.find("a.vote-up").remove()
 
   renderFormErrors: (form, response) ->
     $form = $(form)

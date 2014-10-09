@@ -9,11 +9,11 @@
       .panel-body.row
         .col-md-1
           .voting
-            - unless @question.user == current_user
+            - unless @question.user == current_user || @question.voted_by?(current_user)
               = link_to question_vote_up_path(@question), class: "vote-up", remote: true, data: { type: :json }, method: :patch do
                 span.glyphicon.glyphicon-chevron-up
             strong.votes = @question.total_votes
-            - unless @question.user == current_user
+            - unless @question.user == current_user || @question.voted_by?(current_user)
               = link_to question_vote_down_path(@question), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
                 span.glyphicon.glyphicon-chevron-down
         .col-md-11
