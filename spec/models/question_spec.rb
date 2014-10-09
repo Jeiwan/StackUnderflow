@@ -67,6 +67,23 @@ RSpec.describe Question, :type => :model do
         expect{question.vote_down(user)}.to change(question, :total_votes).by(-1)
       end
     end
+
+    describe "#voted_by?(user)" do
+      context "when user didn't vote yet" do
+        it "checks whether the user voted for the question or not" do
+          expect(question.voted_by?(user)).to eq false
+        end
+      end
+      
+      context "when user already voted" do
+        before do
+          question.vote_up(user)
+        end
+        it "checks whether the user voted for the question or not" do
+          expect(question.voted_by?(user)).to eq true
+        end
+      end
+    end
   end
 
   describe "before_save" do

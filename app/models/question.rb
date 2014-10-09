@@ -35,6 +35,10 @@ class Question < ActiveRecord::Base
     votes.inject(0) { |s, v| s + v.vote }
   end
 
+  def voted_by?(user)
+    votes.find_by_user_id(user) ? true : false
+  end
+
   private
 
     def add_tags_from_list
