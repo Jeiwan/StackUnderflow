@@ -5,12 +5,7 @@ class Question < ActiveRecord::Base
   after_save :add_tags_from_list
 
   belongs_to :user
-  has_and_belongs_to_many :tags do
-    def add(tag)
-      new_tag = Tag.find_or_create_by(name: tag) if tag.present?
-      push new_tag
-    end
-  end
+  has_and_belongs_to_many :tags
 
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
@@ -44,7 +39,7 @@ class Question < ActiveRecord::Base
     def add_tags_from_list
       tags.clear
       split_tags(tag_list) do |tag|
-        tags.add(tag)
+        tags.push Tag.find_or_create_by(name: tag)
       end
     end
 
