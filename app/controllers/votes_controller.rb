@@ -1,40 +1,27 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_votable
+  before_action :find_parent
   before_action :votable_doesnt_belong_to_current_user?
 
-  respond_to :json
-
   def vote_up
-    @votable.vote_up current_user
-    publish_votes
-    render json: {votes: @votable.total_votes}, status: 200
+    @parent.vote_up current_user
+    publish_and_return_votes
   end
 
   def vote_down
-    @votable.vote_down current_user
-    publish_votes
-    render json: {votes: @votable.total_votes}, status: 200
+    @parent.vote_down current_user
+    publish_and_return_votes
   end
 
   private
-    def find_votable
-      if !params[:answer_id].nil?
-        @votable = Answer.find(params[:answer_id])
-        @return_path = @votable.question
-      elsif !params[:question_id].nil?
-        @votable = Question.find(params[:question_id])
-        @return_path = @votable
-      end
-    end
-
     def votable_doesnt_belong_to_current_user?
-      if @votable.user == current_user
-        respond_with nil, status: 501, location: nil
+      if @parent.user == current_user
+        render json: :nothing, status: 403
       end
     end
 
-    def publish_votes
-      PrivatePub.publish_to "/#{@votable.class.name.to_s.downcase.pluralize}/#{@votable.id}", votes: @votable.total_votes
+    def publish_and_return_votes
+      PrivatePub.publish_to "/#{@parent.class.name.to_s.downcase.pluralize}/#{@parent.id}", votes: @parent.total_votes
+      render json: {votes: @parent.total_votes}, status: 200
     end
 end

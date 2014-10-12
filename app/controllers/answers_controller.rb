@@ -5,8 +5,6 @@ class AnswersController < ApplicationController
   before_action :answer_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:mark_best]
 
-  respond_to :json, only: [:create, :update, :destroy]
-
   def create
     @answer = @question.answers.new(answer_params)
     @comment = Comment.new
@@ -15,17 +13,17 @@ class AnswersController < ApplicationController
       current_user.answers << @answer
       flash.now[:success] = "Answer is created!"
       PrivatePub.publish_to "/questions/#{@answer.question.id}/answers", create: AnswerSerializer.new(@answer, root: false).to_json
-      respond_with @answer, location: nil, root: false
+      render json: @answer, root: false, status: 201
     else
       flash.now[:danger] = "Answer is not created! See errors below."
-      respond_with(@answer.errors.as_json, status: :unprocessable_entity, location: nil)
+      render json: @answer.errors.as_json, status: :unprocessable_entity
     end
   end
 
   def update
     if @answer.update(answer_params)
       flash.now[:success] = "Answer is updated!"
-      render json: @answer, root: false
+      render json: @answer, root: false, status: 200
     else
       flash.now[:danger] = "Answer is not updated! See errors below."
       render json: @answer.errors.as_json, status: :unprocessable_entity
@@ -37,7 +35,7 @@ class AnswersController < ApplicationController
     @answer.destroy
     flash.now[:success] = "Answer is deleted!"
     PrivatePub.publish_to "/questions/#{@answer.question.id}/answers", destroy: @answer.id
-    respond_with :nothing, status: 204
+    render json: :nothing, status: 204
   end
 
   def mark_best
