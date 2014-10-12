@@ -1,4 +1,4 @@
-<form accept-charset="UTF-8" action="/questions/{{question_id}}/answers/{{id}}" class="simple_form edit_answer" data-remote="true" data-type="json" enctype="multipart/form-data" id="answer-form" method="post" novalidate="novalidate">
+<form accept-charset="UTF-8" action="/answers/{{id}}" class="simple_form edit_answer" data-remote="true" data-type="json" enctype="multipart/form-data" id="answer-form" method="post" novalidate="novalidate">
   <div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="patch"></div>
   <div class="form-group text required answer_body"><textarea class="text required form-control" id="answer_body" name="answer[body]" rows="10">{{body}}</textarea></div>
   <div class="form-group file optional answer_attachments_file"><label class="file optional control-label" for="answer_attachments_attributes_0_file">File</label><input class="file optional form-control" id="answer_attachments_attributes_0_file" name="answer[attachments_attributes][0][file]" type="file"></div>

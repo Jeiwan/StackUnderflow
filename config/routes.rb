@@ -6,20 +6,17 @@ Rails.application.routes.draw do
   end
 
   concern :votable do
-    patch "/vote_up" => "votes#vote_up", as: :vote_up
-    patch "/vote_down" => "votes#vote_down", as: :vote_down
+    patch :vote_up, on: :member, controller: :votes
+    patch :vote_down, on: :member, controller: :votes
   end
 
-  resources :questions, concerns: [:commentable, :votable] do
-    resources :answers, only: [:new, :create, :edit, :update, :destroy], concerns: :commentable do
+  resources :questions, concerns: [:commentable, :votable], shallow: true do
+    resources :answers, only: [:new, :create, :edit, :update, :destroy], shallow: true, concerns: [:commentable, :votable] do
       post "mark_best", on: :member
     end
   end
 
-  resources :answers, only: [], concerns: [:commentable, :votable]
   resources :tags, only: [:index]
-
-  patch "/questions/:id/vote/:vote" => "questions#vote", as: :question_vote
 
   root "questions#index"
 end

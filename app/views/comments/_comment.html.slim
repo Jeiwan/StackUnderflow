@@ -10,4 +10,4 @@ li class="comment" id="comment_#{comment.id}"
       - if user_signed_in? && comment.user == current_user
         = link_to "edit", "#", class: "edit-comment"
         |  
-        = link_to "delete", [comment.commentable, comment], class: "delete-comment", method: :delete, data: { confirm: "Are you sure?", id: comment.id }, remote: true
+        = link_to "delete", comment, class: "delete-comment", method: :delete, data: { confirm: "Are you sure?", id: comment.id }, remote: true

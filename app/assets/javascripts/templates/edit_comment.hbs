@@ -1,4 +1,4 @@
-<form accept-charset="UTF-8" action="/{{commentable}}/{{commentable_id}}/comments/{{id}}" class="simple_form edit_comment" data-remote="true" data-type="json" method="post" novalidate="novalidate">
+<form accept-charset="UTF-8" action="/comments/{{id}}" class="simple_form edit_comment" data-remote="true" data-type="json" method="post" novalidate="novalidate">
   <div style="display:none"><input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="patch"></div>
   <div class="form-group text required comment_body"><textarea class="text required form-control" id="comment_body" name="comment[body]" rows="10">{{body}}</textarea></div>
   <input class="btn btn-default btn btn-primary" name="commit" type="submit" value="Update Comment">
