@@ -106,14 +106,10 @@ RSpec.describe Question, :type => :model do
     end
   end
 
-  describe "before_save" do
+  describe "after_save" do
     let(:question) { build(:question, title: "Some good title", body: "Some good body", tag_list: "test,west,east") }
 
     context "when question has no tags" do
-      it "creates tags" do
-        expect{question.save}.to change(Tag, :count).by(3)
-      end
-
       it "increases question's tags number" do
         expect{question.save}.to change(question.tags, :count).by(3)
       end
@@ -129,6 +125,7 @@ RSpec.describe Question, :type => :model do
         question.save
         question.tag_list = "best,west"
       end
+
       it "creates tags" do
         expect{question.save}.to change(Tag, :count).by(1)
       end
@@ -139,7 +136,7 @@ RSpec.describe Question, :type => :model do
 
       it "sets question's tags" do
         question.save
-        expect(question.tags.map(&:name).join(",")).to match "best,west"
+        expect(question.form_tag_list).to match "best,west"
       end
     end
   end
