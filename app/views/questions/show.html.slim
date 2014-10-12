@@ -48,8 +48,8 @@
                 span.glyphicon.glyphicon-remove
           - if user_signed_in?
             li
-              = link_to "Comment", "#", class: "comment-question", id: "show-question-comment-textarea"
-        .comment-question-form
+              = link_to "Comment", "#", class: "show-comment-form"
+        .comment-form
           = render "comments/form", commentable: @question, remote: true
 
     .answers

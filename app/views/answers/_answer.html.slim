@@ -41,6 +41,6 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
             = link_to answer, remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?", id: answer.id } do
               span.glyphicon.glyphicon-remove
         li
-          = link_to "Comment", "#", class: "comment-answer"
-    .comment-answer-form
+          = link_to "Comment", "#", class: "show-comment-form"
+    .comment-form
       = render "comments/form", commentable: answer, remote: true

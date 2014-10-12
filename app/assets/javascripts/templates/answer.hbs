@@ -31,9 +31,9 @@
       <li><a class="mark-best-answer" data-method="post" href="/answers/{{id}}/mark_best" rel="nofollow"><span class="glyphicon glyphicon-ok"></span></a></li>
       <li><a class="edit-answer" href="#"><span class="glyphicon glyphicon-pencil"></span></a></li>
       <li><a class="delete-answer" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/answers/{{id}}" id="delete-answer" rel="nofollow" data-id="{{id}}"><span class="glyphicon glyphicon-remove"></span></a></li>
-      <li><a class="comment-answer" href="#">Comment</a></li>
+      <li><a class="show-comment-form" href="#">Comment</a></li>
     </ul>
-    <div class="comment-answer-form">
+    <div class="comment-form">
       <form accept-charset="UTF-8" action="/answers/{{id}}/comments" class="simple_form new_comment" data-remote="true" method="post" novalidate="novalidate">
         <div style="display:none"><input name="utf8" type="hidden" value="✓"></div>
         <div class="form-group text required comment_body"><textarea class="text required form-control" id="comment_body" name="comment[body]" rows="10"></textarea></div>
