@@ -18,7 +18,7 @@ module Votable
   end
 
   def total_votes
-    votes.inject(0) { |s, v| s + v.vote }
+    votes.sum(:vote)
   end
 
   def voted_by?(user)
