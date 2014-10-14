@@ -1,3 +1,31 @@
-// Place all the styles related to the Votes controller here.
-// They will automatically be included in application.css.
-// You can use Sass here: http://sass-lang.com/
+.voting,
+.voting *
+  display: block
+  text-align: center
+
+.voting .votes
+  margin-top: 13px
+
+.voting .vote-up + .votes,
+.voting .voted-up + .votes
+  margin-top: 0
+
+.voting .vote-up
+  background: url(image_path("vote_arrows.png")) center 0 no-repeat
+  display: block
+  height: 13px
+
+.voting .vote-down
+  background: url(image_path("vote_arrows.png")) center -13px no-repeat
+  display: block
+  height: 13px
+
+.voting .voted-up
+  background: url(image_path("vote_arrows.png")) center -26px no-repeat
+  display: block
+  height: 13px
+
+.voting .voted-down
+  background: url(image_path("vote_arrows.png")) center -39px no-repeat
+  display: block
+  height: 13px

@@ -1,14 +1,16 @@
 <article class="answer panel panel-default {{#if is_best}}best-answer{{/if}}" id="answer_{{id}}">
   <div class="panel-body">
-    <div class="col-md-1">
-      <div class="voting">
-        <a class="vote-up" data-method="patch" data-remote="true" data-type="json" href="/answers/{{id}}/vote_up" rel="nofollow"><span class="glyphicon glyphicon-chevron-up"></span></a>
-        <strong class="votes">{{total_votes}}</strong>
-        <a class="vote-down" data-method="patch" data-remote="true" data-type="json" href="/answers/{{id}}/vote_down" rel="nofollow"><span class="glyphicon glyphicon-chevron-down"></span></a>
+    <div class="row">
+      <div class="col-md-1">
+        <div class="voting">
+          <a class="vote-up" data-method="patch" data-remote="true" data-type="json" href="/answers/{{id}}/vote_up" rel="nofollow"><span class="glyphicon glyphicon-chevron-up"></span></a>
+          <strong class="votes">{{total_votes}}</strong>
+          <a class="vote-down" data-method="patch" data-remote="true" data-type="json" href="/answers/{{id}}/vote_down" rel="nofollow"></a>
+        </div>
       </div>
-    </div>
-    <div class="col-md-11">
-      <div class="answer-body">{{body}}</div>
+      <div class="col-md-11">
+        <div class="answer-body">{{body}}</div>
+      </div>
     </div>
     <div class="answer-author text-right">
       <small>

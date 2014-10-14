@@ -43,12 +43,12 @@ class @Answer
 
     this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
-      $(this).remove()
+      $(this).replaceWith($("<span class='voted-up'></span>"))
       that.$voting.find("a.vote-down").remove()
 
     this.$voting.on "ajax:success", "a.vote-down", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
-      $(this).remove()
+      $(this).replaceWith($("<span class='voted-down'></span>"))
       that.$voting.find("a.vote-up").remove()
 
   renderFormErrors: (form, response) ->

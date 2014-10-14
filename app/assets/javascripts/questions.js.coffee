@@ -80,12 +80,12 @@ class @Question
 
     this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
-      $(this).remove()
+      $(this).replaceWith($("<span class='voted-up'></span>"))
       that.$voting.find("a.vote-down").remove()
 
     this.$voting.on "ajax:success", "a.vote-down", (e, data, status, xhr) ->
       that.$votes.text(xhr.responseJSON.votes)
-      $(this).remove()
+      $(this).replaceWith($("<span class='voted-down'></span>"))
       that.$voting.find("a.vote-up").remove()
 
   subscribeToChannels: () ->
@@ -96,7 +96,7 @@ class @Question
         that.addAnswer($.parseJSON(data.answer_create))
       if (typeof data.answer_destroy != 'undefined')
         that.removeAnswer($.parseJSON(data.answer_destroy))
-      if (typeof parent != 'undefined' && parent == 'Question' && typeof data.vote != 'undefined')
+      if (typeof data.parent != 'undefined' && data.parent == 'Question' && typeof data.vote != 'undefined')
         that.$votes.text(data.vote)
       if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.vote != 'undefined')
         that.answerById(data.parent_id).$votes.text(data.vote)
