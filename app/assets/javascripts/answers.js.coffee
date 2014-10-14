@@ -13,7 +13,6 @@ class @Answer
 
     this.binds()
     this.setAjaxHooks()
-    this.subscribeToChannels()
 
   binds: () ->
     that = this
@@ -51,13 +50,6 @@ class @Answer
       that.$votes.text(xhr.responseJSON.votes)
       $(this).remove()
       that.$voting.find("a.vote-up").remove()
-
-  subscribeToChannels: () ->
-    that = this
-
-    PrivatePub.subscribe "/answers/#{this.id}", (data, channel) ->
-      if (typeof data.votes != 'undefined')
-        that.$votes.text(data.votes)
 
   renderFormErrors: (form, response) ->
     $form = $(form)

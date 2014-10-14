@@ -21,5 +21,5 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 12. ~~Check tag creation tests~~
 13. ~~Fix routes (remove excessive concerns)~~
 14. ~~Fix `mark best` link when a new answer is added~~
-15. Merge `create` and `destroy` channes of answer
+15. ~~Merge `create` and `destroy` channes of answer~~
 16. ~~Test that votes are deleted after deleting question or answer~~

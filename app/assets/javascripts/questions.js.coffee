@@ -90,15 +90,16 @@ class @Question
 
   subscribeToChannels: () ->
     that = this
-    PrivatePub.subscribe "/questions/#{this.id}/answers", (data, channel) ->
-      if (typeof data.create != 'undefined')
-        that.addAnswer($.parseJSON(data.create))
-      if (typeof data.destroy != 'undefined')
-        that.removeAnswer($.parseJSON(data.destroy))
 
     PrivatePub.subscribe "/questions/#{this.id}", (data, channel) ->
-      if (typeof data.votes != 'undefined')
-        that.$votes.text(data.votes)
+      if (typeof data.answer_create != 'undefined')
+        that.addAnswer($.parseJSON(data.answer_create))
+      if (typeof data.answer_destroy != 'undefined')
+        that.removeAnswer($.parseJSON(data.answer_destroy))
+      if (typeof parent != 'undefined' && parent == 'Question' && typeof data.vote != 'undefined')
+        that.$votes.text(data.vote)
+      if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.vote != 'undefined')
+        that.answerById(data.parent_id).$votes.text(data.vote)
 
   edit: (form) ->
     this.$body.html(form)

@@ -21,7 +21,7 @@ class VotesController < ApplicationController
     end
 
     def publish_and_return_votes
-      PrivatePub.publish_to "/#{@parent.class.name.to_s.downcase.pluralize}/#{@parent.id}", votes: @parent.total_votes
+      PrivatePub.publish_to "/questions/#{@parent.class.name == 'Question' ? @parent.id : @parent.question.id}", vote: @parent.total_votes, parent: @parent.class.name, parent_id: @parent.id
       render json: {votes: @parent.total_votes}, status: 200
     end
 end
