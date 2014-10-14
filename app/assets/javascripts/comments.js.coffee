@@ -2,6 +2,8 @@ class @Comment
   constructor: (@commentId, @commentable_type, @commentable_id) ->
     this.$el= $("##{commentId}")
     this.$body = this.$el.find(".comment-body")
+    this.$voting = this.$el.find(".voting")
+    this.$votes = this.$voting.find(".votes")
     this.id = parseInt(commentId.split("_")[1], 10)
 
     this.binds()
@@ -23,6 +25,16 @@ class @Comment
 
     this.$el.on "ajax:error", "form.edit_comment", (e, xhr, status) ->
       that.renderFormErrors(this, xhr.responseJSON)
+
+    this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->
+      that.$votes.text(xhr.responseJSON.votes)
+      $(this).replaceWith($("<span class='voted-up'><span class='glyphicon glyphicon-plus'></span></span>"))
+      that.$voting.find("a.vote-down").remove()
+
+    this.$voting.on "ajax:success", "a.vote-down", (e, data, status, xhr) ->
+      that.$votes.text(xhr.responseJSON.votes)
+      $(this).replaceWith($("<span class='voted-down'><span class='glyphicon glyphicon-minus'></span></span>"))
+      that.$voting.find("a.vote-up").remove()
 
   edit: (comment) ->
     this.$el.html(comment)

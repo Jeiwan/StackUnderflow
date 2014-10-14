@@ -2,7 +2,7 @@ class @Answer
   constructor: (@answer_id) ->
     this.$el = $("##{answer_id}")
     this.$body = this.$el.find(".answer-body")
-    this.$voting = this.$el.find(".voting")
+    this.$voting = this.$el.find(".answer-voting .voting")
     this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".show-comment-form")
     this.$commentForm = this.$el.find(".comment-form")
@@ -79,6 +79,8 @@ class @Answer
       this.comments.push(new Comment("comment_#{comment.id}", "answers", this.id))
       if comment.author != current_user
         this.commentById(comment.id).$el.find(".edit-comment, .delete-comment").remove()
+      else
+        this.commentById(comment.id).$el.find(".vote-up, .vote-down").remove()
       this.$commentForm.slideUp()
       this.clearCommentForm()
 

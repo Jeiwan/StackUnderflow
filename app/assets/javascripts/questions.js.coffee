@@ -12,7 +12,7 @@ class @Question
     this.$tags = this.$el.find(".question-tags")
     this.tagList = this.$tags.data("tags")
     this.$files = this.$el.find(".question-attachments")
-    this.$voting = this.$el.find(".voting")
+    this.$voting = this.$el.find(".question-voting .voting")
     this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".show-comment-form")
     this.$commentForm = this.$el.find(".comment-form")
@@ -100,6 +100,8 @@ class @Question
         that.$votes.text(data.vote)
       if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.vote != 'undefined')
         that.answerById(data.parent_id).$votes.text(data.vote)
+      if (typeof data.parent != 'undefined' && data.parent == 'Comment' && typeof data.vote != 'undefined')
+        $("#comment_#{data.parent_id} .votes").text(data.vote)
       if (typeof data.parent != 'undefined' && data.parent == 'Question' && typeof data.comment_create != 'undefined')
         that.addComment($.parseJSON(data.comment_create))
       if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.comment_create != 'undefined')
@@ -128,6 +130,8 @@ class @Question
       this.comments.push(new Comment("comment_#{comment.id}", "questions", this.id))
       if comment.author != current_user
         this.commentById(comment.id).$el.find(".edit-comment, .delete-comment").remove()
+      else
+        this.commentById(comment.id).$el.find(".vote-up, .vote-down").remove()
       this.$commentForm.slideUp()
       this.clearCommentForm()
 

@@ -1,7 +1,7 @@
 article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answer" if answer.best?}"
   .panel-body
     .row
-      .col-md-1
+      .col-md-1.answer-voting
         .voting
           - if answer.user != current_user && !answer.voted_by?(current_user)
             = link_to "", vote_up_answer_path(answer), class: "vote-up", remote: true, data: { type: :json }, method: :patch

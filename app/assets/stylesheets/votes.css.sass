@@ -1,5 +1,6 @@
-.voting,
-.voting *
+.voting .vote-up,
+.voting .vote-down,
+.voting .votes
   display: block
   text-align: center
 
@@ -29,3 +30,30 @@
   background: url(image_path("vote_arrows.png")) center -39px no-repeat
   display: block
   height: 13px
+
+.comment .voting
+  overflow: hidden
+
+.comment .voting .vote-up,
+.comment .voting .vote-down,
+.comment .voting .voted-up,
+.comment .voting .voted-down,
+.comment .voting .votes
+  display: inline-block
+
+.comment .voting .votes
+  margin: 0
+
+.comment .voting .voted-up,
+.comment .voting .voted-down,
+.comment .voting .vote-up,
+.comment .voting .vote-down,
+  width: 16px
+  height: 16px
+  background: none
+
+.comment .voting .voted-up
+  color: #5cb85c
+
+.comment .voting .voted-down
+  color: #a94442

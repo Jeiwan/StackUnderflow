@@ -1,10 +1,20 @@
 <li class="comment" id="comment_{{id}}">
-  <p>
-    <span class="comment-body">{{body}}</span>
-    <small class="comment-poster"> 
-      — {{author}}, {{created}} ago  
-      {{#if edited}}
-      <span class="text-muted"> edited {{edited}}</span>
-      {{/if}}
-      <a class="edit-comment" href="#">edit</a> <a class="delete-comment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/comments/{{id}}" rel="nofollow" data-id="{{id}}">delete</a></small></p>
+  <div class="row">
+    <div class="col-md-1">
+      <div class="voting">
+        <a class="vote-up" data-method="patch" data-remote="true" data-type="json" href="/comments/{{id}}/vote_up" rel="nofollow"><span class="glyphicon glyphicon-plus"></span></a>
+        <strong class="votes">{{total_votes}}</strong>
+        <a class="vote-down" data-method="patch" data-remote="true" data-type="json" href="/comments/{{id}}/vote_down" rel="nofollow"><span class="glyphicon glyphicon-minus"></span></a>
+      </div>
+    </div>
+    <div class="col-md-11">
+      <span class="comment-body">{{body}}</span>
+      <small class="comment-poster"> 
+        — {{author}}, {{created}} ago  
+        {{#if edited}}
+        <span class="text-muted"> edited {{edited}}</span>
+        {{/if}}
+        <a class="edit-comment" href="#">edit</a> <a class="delete-comment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/comments/{{id}}" rel="nofollow" data-id="{{id}}">delete</a></small></p>
+    </div>
+  </div>
 </li>

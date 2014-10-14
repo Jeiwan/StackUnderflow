@@ -1,6 +1,6 @@
 class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
-  attributes :id, :body, :user, :commentable, :author, :commentable_id, :created, :edited
+  attributes :id, :body, :user, :commentable, :author, :commentable_id, :created, :edited, :total_votes
 
   def commentable
     object.commentable_type.downcase.pluralize
