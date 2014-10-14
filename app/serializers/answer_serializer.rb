@@ -1,7 +1,7 @@
 class AnswerSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
-  attributes :id, :body, :created, :question, :comments, :edited, :attachments, :is_best
+  attributes :id, :body, :created, :question, :comments, :edited, :attachments, :is_best, :total_votes
   has_one :user
 
   def created
@@ -10,7 +10,7 @@ class AnswerSerializer < ActiveModel::Serializer
 
   def question
     question = object.question
-    {id: question.id, title: question.title, body: question.body}
+    {id: question.id, title: question.title, body: question.body, has_best_answer: question.has_best_answer?}
   end
 
   def comments

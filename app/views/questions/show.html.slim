@@ -5,7 +5,7 @@
       h1.question-title = @question.title
 .row
   .col-md-10
-    .panel.panel-default.question data-question-id="#{@question.id}"
+    .panel.panel-default.question data-question-id="#{@question.id}" data-author="#{@question.user.username}"
       .panel-body.row
         .col-md-1
           .voting

@@ -137,12 +137,23 @@ class @Question
     this.$commentForm.find(".has-error").removeClass("has-error").find(".help-block").remove()
 
   addAnswer: (answer) ->
+    console.log answer
+    current_user = $("#current_user").data("current-user")
+    question_author = this.$el.data("author")
     unless this.answerById(answer.id)
       this.$answers.append(HandlebarsTemplates["answer"](answer))
       this.increaseAnswersCounter()
-      this.answers.push(new Answer("answer_#{$(answer).attr("id")}"))
+      this.answers.push(new Answer("answer_#{answer.id}"))
       this.answers[this.answers.length-1].comments = []
       this.clearAnswerForm()
+      if answer.user.username == current_user
+        console.log "removing!"
+        this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
+        this.answerById(answer.id).$el.find(".vote-up, .vote-down").remove()
+      else
+        this.answerById(answer.id).$el.find(".delete-answer, .edit-answer").parent().remove()
+      if answer.user.username == question_author || answer.question.has_best_answer
+        this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
 
   renderFormErrors: (form, response) ->
     this.clearFormErrors(form)
@@ -166,7 +177,6 @@ class @Question
     this.$answerForm.find(".has-error").removeClass("has-error").find(".help-block").remove()
 
   removeAnswer: (answerId) ->
-    console.log answerId
     if this.answerById(answerId)
       this.$answers.find("#answer_#{answerId}").remove()
       for answer in this.answers
