@@ -137,7 +137,6 @@ class @Question
     this.$commentForm.find(".has-error").removeClass("has-error").find(".help-block").remove()
 
   addAnswer: (answer) ->
-    console.log answer
     current_user = $("#current_user").data("current-user")
     question_author = this.$el.data("author")
     unless this.answerById(answer.id)
@@ -147,7 +146,6 @@ class @Question
       this.answers[this.answers.length-1].comments = []
       this.clearAnswerForm()
       if answer.user.username == current_user
-        console.log "removing!"
         this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
         this.answerById(answer.id).$el.find(".vote-up, .vote-down").remove()
       else
@@ -182,6 +180,7 @@ class @Question
       for answer in this.answers
         if answer.id == parseInt(answerId, 10)
           this.answers.splice(this.answers.indexOf(answer), 1)
+          break
       this.decreaseAnswersCounter()
 
   renderAnswerForm: (form) ->
