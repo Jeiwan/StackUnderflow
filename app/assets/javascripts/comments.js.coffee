@@ -11,19 +11,32 @@ class @Comment
 
   binds: () ->
     that = this
-    this.$el.on "click", ".edit-comment", (e) ->
+
+    this.$el.on "click", "a.edit-comment", (e) ->
       e.preventDefault()
-      that.edit(HandlebarsTemplates["edit_comment"]({id: that.id, commentable: that.commentable_type, commentable_id: that.commentable_id, body: that.$body.text()}))
+      $(".comment-form").slideUp()
+      $(".edit-form").prev().show().end().remove()
+      that.$el.hide()
+      that.$el.after(HandlebarsTemplates["edit_comment"]({id: that.id, commentable: that.commentable_type, commentable_id: that.commentable_id, body: that.$body.text()}))
+
+    this.$el.parents(".comments").on "click", "form .cancel-editing", (e) ->
+      e.preventDefault()
+      that.$el.siblings(".edit-form").remove()
+      that.$el.show()
 
   setAjaxHooks: () ->
     that = this
-    this.$el.on "ajax:success", "form.edit_comment", (e, data, status, xhr) ->
-      that.$el.html($(HandlebarsTemplates["comment"](xhr.responseJSON)).contents())
+    this.$el.parents(".comments").on "ajax:success", "#comment_#{this.id} + form.edit_comment", (e, data, status, xhr) ->
+      comment = xhr.responseJSON
+      that.$el.siblings(".edit-form").remove()
+      that.$el.html($(HandlebarsTemplates["comment"](comment)).contents())
+      that.$el.find(".vote-up, .vote-down").remove()
+      that.$el.show()
       that.$el= $("##{that.commentId}")
       that.$body = that.$el.find(".comment-body")
       that.binds()
 
-    this.$el.on "ajax:error", "form.edit_comment", (e, xhr, status) ->
+    this.$el.parent(".comments").on "ajax:error", "form.edit_comment", (e, xhr, status) ->
       that.renderFormErrors(this, xhr.responseJSON)
 
     this.$voting.on "ajax:success", "a.vote-up", (e, data, status, xhr) ->

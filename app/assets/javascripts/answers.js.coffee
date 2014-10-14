@@ -16,18 +16,30 @@ class @Answer
 
   binds: () ->
     that = this
-    this.$commentBtn.click((e) ->
+
+    this.$commentBtn.click (e) ->
       e.preventDefault()
       that.toggleCommentForm()
-    )
+
     this.$el.on "click", ".edit-answer", (e) ->
       e.preventDefault()
-      that.edit(HandlebarsTemplates["edit_answer"]({id: that.id, body: that.$body.text(), question_id: Underflow.question.id}))
+      $(".comment-form").slideUp()
+      $(".edit-form").prev().show().end().remove()
+      that.$backupBody = that.$body.clone()
+      that.$body.hide()
+      that.$body.after(HandlebarsTemplates["edit_answer"]({id: that.id, body: that.$body.text(), question_id: Underflow.question.id}))
+
+    this.$el.on "click", ".cancel-editing", (e) ->
+      e.preventDefault()
+      that.$body.siblings(".edit-form").remove()
+      that.$body.show()
 
   setAjaxHooks: () ->
     that = this
     this.$el.on "ajax:success", "form.edit_answer", (e, data, status, xhr) ->
+      that.$body.siblings(".edit-form").remove()
       that.$body.text(xhr.responseJSON.body)
+      that.$body.show()
 
     this.$el.on "ajax:error", "form.edit_answer", (e, xhr, status) ->
       that.renderFormErrors(this, xhr.responseJSON)
@@ -68,6 +80,7 @@ class @Answer
     formGroup.removeClass("has-error")
 
   toggleCommentForm: () ->
+    $(".comment-form").slideUp()
     this.$commentForm.slideToggle()
 
   addComment: (comment) ->

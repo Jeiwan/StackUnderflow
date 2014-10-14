@@ -32,19 +32,30 @@ class @Question
 
   bind: () ->
     that = this
-    this.$commentBtn.click((e) ->
+
+    this.$commentBtn.click (e) ->
       e.preventDefault()
       that.toggleCommentForm()
-    )
+
     this.$el.on "click", ".edit-question", (e) ->
       e.preventDefault()
-      that.edit(HandlebarsTemplates["edit_question"]({id: that.id, body: that.$body.text(), title: that.$title.text(), tag_list: that.tagList}))
+      $(".comment-form").slideUp()
+      $(".edit-form").prev().show().end().remove()
+      that.$body.hide()
+      that.$body.after(HandlebarsTemplates["edit_question"]({id: that.id, body: that.$body.text(), title: that.$title.text(), tag_list: that.tagList}))
       $("#question_tag_list").tagsinput("refresh")
+
+    this.$el.on "click", ".cancel-editing", (e) ->
+      e.preventDefault()
+      that.$body.siblings(".edit-form").remove()
+      that.$body.show()
 
   setAjaxHooks: () ->
     that = this
     this.$el.on "ajax:success", "form.edit_question", (e, data, status, xhr) ->
+      that.$body.siblings(".edit-form").remove()
       that.$body.text(xhr.responseJSON.body)
+      that.$body.show()
       that.$tags.replaceWith(HandlebarsTemplates["question_tags"](xhr.responseJSON))
       that.$files.replaceWith(HandlebarsTemplates["question_attachments"](xhr.responseJSON))
       that.$tags = that.$el.find(".question-tags")
