@@ -1,6 +1,6 @@
 require_relative "../features_helper.rb"
 
-feature "Vote for question" do
+feature "Vote for answer" do
 
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
@@ -13,7 +13,7 @@ feature "Vote for question" do
     visit question_path(question)
   end
 
-  scenario "User votes for question", js: true do
+  scenario "User votes for answer", js: true do
     within "#answer_#{answer1.id} .voting" do
       expect(page).to have_selector ".votes", text: "0"
       find("a.vote-up").click
@@ -21,7 +21,7 @@ feature "Vote for question" do
     end
   end
 
-  scenario "User votes againt question", js: true do
+  scenario "User votes againt answer", js: true do
     within "#answer_#{answer1.id} .voting" do
       expect(page).to have_selector ".votes", text: "0"
       find("a.vote-down").click
@@ -29,7 +29,7 @@ feature "Vote for question" do
     end
   end
 
-  scenario "User can't vote for his question" do
+  scenario "User can't vote for his answer" do
     within "#answer_#{answer2.id}" do
       expect(page).not_to have_selector "a.vote-up"
       expect(page).not_to have_selector "a.vote-down"
