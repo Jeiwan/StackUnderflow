@@ -11,7 +11,7 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 2. ~~Check tag_list validation and refactor it~~
 3. ~~Make 'edit' link work for newly created answers and comments~~
 4. ~~Test question and answers editing with upload files~~
-5. Hide double forms
+5. ~~Hide double forms~~
 6. ~~Refactor routes (add shallow)~~
 7. ~~Add indices to Comments model~~
 8. ~~Delete edit actions~~
