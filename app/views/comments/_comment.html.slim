@@ -1,13 +1,29 @@
 li class="comment" id="comment_#{comment.id}"
-  p
-    span.comment-body
-      = comment.body
-    small.comment-poster
-      |  &mdash; #{comment.user.username}, #{time_ago_in_words(comment.created_at)} ago  
-      - if comment.updated_at.to_s > comment.created_at.to_s
-        span.text-muted
-          |  edited #{time_ago_in_words(comment.updated_at)} ago  
-      - if user_signed_in? && comment.user == current_user
-        = link_to "edit", "#", class: "edit-comment"
-        |  
-        = link_to "delete", comment, class: "delete-comment", method: :delete, data: { confirm: "Are you sure?", id: comment.id }, remote: true
+  .row
+    .col-md-1
+      .voting
+        - if comment.user != current_user && !comment.voted_by?(current_user)
+          = link_to vote_up_comment_path(comment), class: "vote-up", remote: true, data: { type: :json }, method: :patch do
+            span.glyphicon.glyphicon-plus
+        - elsif comment.user_voted(current_user) == 1
+          span.voted-up
+            span.glyphicon.glyphicon-plus
+        strong.votes = comment.total_votes
+        - if comment.user != current_user && !comment.voted_by?(current_user)
+          = link_to vote_down_comment_path(comment), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
+            span.glyphicon.glyphicon-minus
+        - elsif comment.user_voted(current_user) == -1
+          span.voted-down
+            span.glyphicon.glyphicon-minus
+    .col-md-11
+      span.comment-body
+        = comment.body
+      small.comment-poster
+        |  &mdash; #{comment.user.username}, #{time_ago_in_words(comment.created_at)} ago  
+        - if comment.updated_at.to_s > comment.created_at.to_s
+          span.text-muted
+            |  edited #{time_ago_in_words(comment.updated_at)} ago  
+        - if user_signed_in? && comment.user == current_user
+          = link_to "edit", "#", class: "edit-comment"
+          |  
+          = link_to "delete", comment, class: "delete-comment", method: :delete, data: { confirm: "Are you sure?", id: comment.id }, remote: true

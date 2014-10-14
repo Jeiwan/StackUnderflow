@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   concern :commentable do
-    resources :comments, only: [:create, :edit, :update, :destroy]
+    resources :comments, only: [:create, :edit, :update, :destroy], concerns: :votable
   end
 
   concern :votable do
