@@ -206,6 +206,7 @@ RSpec.describe QuestionsController, :type => :controller do
   describe "DELETE #destroy" do
     let!(:answer) { create(:answer, question: question) }
     let!(:comment) { create(:question_comment, commentable: question) }
+    let!(:vote) { create(:vote, votable: question, user: user2) }
     let(:delete_destroy) do
       delete :destroy, id: question
     end
@@ -224,6 +225,10 @@ RSpec.describe QuestionsController, :type => :controller do
 
         it "removes comments to the question" do
           expect{delete_destroy}.to change(Comment, :count).by(-1)
+        end
+
+        it "removes relating votes" do
+          expect{delete_destroy}.to change(Vote, :count).by(-1)
         end
 
         it "redirects to root path" do
