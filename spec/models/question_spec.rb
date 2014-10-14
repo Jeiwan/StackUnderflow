@@ -56,6 +56,30 @@ RSpec.describe Question, :type => :model do
       end
     end
 
+    describe "#user_voted" do
+      context "user voted up" do
+        before { question.vote_up(user) }
+
+        it "returns user's vote" do
+          expect(question.user_voted(user)).to eq 1
+        end
+      end
+
+      context "user voted down" do
+        before { question.vote_down(user) }
+
+        it "returns user's vote" do
+          expect(question.user_voted(user)).to eq -1
+        end
+      end
+
+      context "user didn't vote" do
+        it "returns nil" do
+          expect(question.user_voted(user)).to be_nil
+        end
+      end
+    end
+
     describe "#vote_up" do
       context "when user never voted before" do
         it "increases question's votes number" do
