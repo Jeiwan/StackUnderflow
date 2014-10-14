@@ -71,20 +71,26 @@ class @Answer
     this.$commentForm.slideToggle()
 
   addComment: (comment) ->
-    if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)
-      this.$comments = $("<ul class='comments'></ul>").appendTo(this.$commentsWrapper)
-    this.$comments.append(HandlebarsTemplates["comment"](comment))
-    this.comments.push(new Comment("comment_#{comment.id}", "answers", this.id))
-    this.toggleCommentForm()
-    this.clearCommentForm()
+    current_user = $("#current_user").data("current-user")
+    unless this.commentById(comment.id)
+      if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)
+        this.$comments = $("<ul class='comments'></ul>").appendTo(this.$commentsWrapper)
+      this.$comments.append(HandlebarsTemplates["comment"](comment))
+      this.comments.push(new Comment("comment_#{comment.id}", "answers", this.id))
+      if comment.author != current_user
+        this.commentById(comment.id).$el.find(".edit-comment, .delete-comment").remove()
+      this.$commentForm.slideUp()
+      this.clearCommentForm()
 
   removeComment: (commentId) ->
-    this.$comments.find("#comment_#{commentId}").remove()
-    if (this.$comments.is(":empty"))
-      this.$comments.remove()
-    for comment in this.comments
-      if comment.id == parseInt(commentId, 10)
-        this.comments.splice(this.comments.indexOf(comment), 1)
+    if this.commentById(commentId)
+      this.$comments.find("#comment_#{commentId}").remove()
+      if (this.$comments.is(":empty"))
+        this.$comments.remove()
+      for comment in this.comments
+        if comment.id == parseInt(commentId, 10)
+          this.comments.splice(this.comments.indexOf(comment), 1)
+          break
 
   renderCommentForm: (form) ->
     this.$commentForm.html(form)

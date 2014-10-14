@@ -100,6 +100,14 @@ class @Question
         that.$votes.text(data.vote)
       if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.vote != 'undefined')
         that.answerById(data.parent_id).$votes.text(data.vote)
+      if (typeof data.parent != 'undefined' && data.parent == 'Question' && typeof data.comment_create != 'undefined')
+        that.addComment($.parseJSON(data.comment_create))
+      if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.comment_create != 'undefined')
+        that.answerById(data.parent_id).addComment($.parseJSON(data.comment_create))
+      if (typeof data.parent != 'undefined' && data.parent == 'Question' && typeof data.comment_destroy != 'undefined')
+        that.removeComment($.parseJSON(data.comment_destroy))
+      if (typeof data.parent != 'undefined' && data.parent == 'Answer' && typeof data.comment_destroy != 'undefined')
+        that.answerById(data.parent_id).removeComment($.parseJSON(data.comment_destroy))
 
   edit: (form) ->
     this.$body.html(form)
@@ -112,20 +120,26 @@ class @Question
 
 
   addComment: (comment) ->
-    if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)
-      this.$comments = $("<ul class='comments'></ul>").appendTo(this.$commentsWrapper)
-    this.$comments.append(HandlebarsTemplates["comment"](comment))
-    this.comments.push(new Comment("comment_#{comment.id}", "questions", this.id))
-    this.toggleCommentForm()
-    this.clearCommentForm()
+    current_user = $("#current_user").data("current-user")
+    unless this.commentById(comment.id)
+      if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)
+        this.$comments = $("<ul class='comments'></ul>").appendTo(this.$commentsWrapper)
+      this.$comments.append(HandlebarsTemplates["comment"](comment))
+      this.comments.push(new Comment("comment_#{comment.id}", "questions", this.id))
+      if comment.author != current_user
+        this.commentById(comment.id).$el.find(".edit-comment, .delete-comment").remove()
+      this.$commentForm.slideUp()
+      this.clearCommentForm()
 
   removeComment: (commentId) ->
-    this.$comments.find("#comment_#{commentId}").remove()
-    if (this.$comments.is(":empty"))
-      this.$comments.remove()
-    for comment in this.comments
-      if comment.id == parseInt(commentId, 10)
-        this.comments.splice(this.comments.indexOf(comment), 1)
+    if this.commentById(commentId)
+      this.$comments.find("#comment_#{commentId}").remove()
+      if (this.$comments.is(":empty"))
+        this.$comments.remove()
+      for comment in this.comments
+        if comment.id == parseInt(commentId, 10)
+          this.comments.splice(this.comments.indexOf(comment), 1)
+          break
 
   editComment: (comment) ->
 
