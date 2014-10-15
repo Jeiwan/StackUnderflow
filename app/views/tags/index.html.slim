@@ -3,6 +3,7 @@
 .row
   .col-md-10.tags
     - @tags.each do |tag|
-      span.label.label-default = tag.name
+      a href=(show_by_tag_questions_path(tag.name))
+        span.label.label-default = tag.name
   .col-md-2
     = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
