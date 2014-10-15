@@ -44,7 +44,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, :tag_list, attachments_attributes: [:file])
+      params.require(:question).permit(:title, :body, :tag_list, attachments_attributes: [:file, :file_cache])
     end
 
     def find_question

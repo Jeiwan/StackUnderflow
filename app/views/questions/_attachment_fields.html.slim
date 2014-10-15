@@ -1,0 +1,8 @@
+.nested-fields
+  - if f.object.file?
+    div
+      strong
+        = f.object.file.filename
+  = f.input :file
+  = f.hidden_field :file_cache
+  = link_to_remove_association "Remove file", f

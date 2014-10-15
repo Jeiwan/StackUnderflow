@@ -20,3 +20,4 @@
 //= require_tree .
 //= require_tree ./templates/
 //= require app
+//= require cocoon

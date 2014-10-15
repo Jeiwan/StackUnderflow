@@ -4,5 +4,7 @@
   = f.input :body, input_html: { rows: 10 }
   = f.input :tag_list, label: "Tags"
   = f.simple_fields_for :attachments do |a|
-    = a.input :file, as: :file, label: "File"
-  = f.button :submit, class: "btn btn-success"
+    = render 'attachment_fields', f: a
+    = link_to_add_association 'Add file', f, :attachments, data: {"association-insertion-node" => "this"}
+  .form-group
+    = f.button :submit, class: "btn btn-success"

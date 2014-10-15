@@ -45,3 +45,4 @@ gem 'active_model_serializers'
 gem 'rubocop', require: false
 gem 'private_pub'
 gem 'thin'
+gem 'cocoon'

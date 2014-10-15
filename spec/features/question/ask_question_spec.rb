@@ -19,7 +19,6 @@ feature "Ask Questions", %q{
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
     fill_in "Tags", with: tags.map(&:name).join(",")
-    attach_file "File", "#{Rails.root}/Gemfile"
     click_on "Create Question"
 
     expect(current_path).to match /\/questions\/\d+\z/
@@ -29,7 +28,6 @@ feature "Ask Questions", %q{
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "Gemfile"
   end
 
   scenario "Authenticated user asks a question without filling required fields" do
