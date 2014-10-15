@@ -22,6 +22,25 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to have_many :votes }
   end
 
+  describe "scopes" do
+    let(:tags) { create_list(:tag, 3) }
+    let!(:question1) { create(:question, tag_list: tags[0].name) }
+    let!(:question2) { create(:question, tag_list: tags[1].name) }
+    let!(:question3) { create(:question, tag_list: tags[0].name) }
+
+    context "where questions have a tag" do
+      it "sifts questions by tag name" do
+        expect(Question.where_tag(tags[0].name)).to match_array [question1, question3]
+      end
+    end
+
+    context "where questions don't have a tag" do
+      it "returns an empty array" do
+        expect(Question.where_tag(tags[2].name)).to eq []
+      end
+    end
+  end
+
   describe "methods" do
     let(:user) { create(:user) }
     let(:tags) { create_list(:tag, 2) }
