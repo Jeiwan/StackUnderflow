@@ -11,10 +11,10 @@ class CommentsController < ApplicationController
     if @comment.save
       current_user.comments << @comment
       flash.now[:success] = "Comment is created!"
-      PrivatePub.publish_to "/questions/#{@parent.class.name == 'Question' ? @parent.id : @parent.question.id}", comment_create: CommentSerializer.new(@comment, root: false).to_json, parent: @parent.class.name, parent_id: @parent.id
+      publish_on_create
       render json: @comment, status: 201, root: false
     else
-      flash.now[:danger] = "Invalid data! Comment length should be more than 10 symbols!"
+      flash.now[:danger] = "Comment is not created"
       render json: @comment.errors, status: :unprocessable_entity
     end
   end
@@ -44,5 +44,9 @@ class CommentsController < ApplicationController
 
     def publish_after_destroy
       PrivatePub.publish_to "/questions/#{@comment.commentable.class.name == 'Question' ? @comment.commentable.id : @comment.commentable.question.id}", comment_destroy: @comment.id, parent: @comment.commentable.class.name, parent_id: @comment.commentable.id
+    end
+
+    def publish_on_create
+      PrivatePub.publish_to "/questions/#{@parent.class.name == 'Question' ? @parent.id : @parent.question.id}", comment_create: CommentSerializer.new(@comment, root: false).to_json, parent: @parent.class.name, parent_id: @parent.id
     end
 end
