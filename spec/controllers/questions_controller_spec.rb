@@ -258,4 +258,23 @@ RSpec.describe QuestionsController, :type => :controller do
       end
     end
   end
+
+  describe "GET #show_by_tag" do
+    let(:tags) { create_list(:tag, 5) }
+    let(:question1) { create(:question, tag_list: tags[0].name) }
+    let(:question2) { create(:question, tag_list: tags[1].name) }
+    let(:question3) { create(:question, tag_list: tags[0].name) }
+
+    before { get :show_by_tag, tag_name: tags[0].name }
+
+    context "when there are questions with the tag" do
+      it "returns a list of questions" do
+        expect(assigns(:questions)).to match_array [question1, question3]
+      end
+    end
+
+    it "renders index template" do
+      expect(response).to render_template :index
+    end
+  end
 end

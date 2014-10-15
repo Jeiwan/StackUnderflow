@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :show_by_tag]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:edit, :update, :destroy]
   
@@ -39,6 +39,11 @@ class QuestionsController < ApplicationController
     @question.destroy
     flash[:success] = "Question is deleted!"
     redirect_to root_path
+  end
+
+  def show_by_tag
+    @questions = Question.where_tag(params[:tag_name])
+    render "index"
   end
 
   private
