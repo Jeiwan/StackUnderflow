@@ -6,7 +6,7 @@ class QuestionSerializer < ActiveModel::Serializer
   end
 
   def files
-    object.attachments.map { |a| {path: a.file.file, filename: a.file.file.filename}  }
+    object.attachments.map { |a| {url: a.file.url, filename: a.file.file.filename, id: a.id}  }
   end
 
   def tags

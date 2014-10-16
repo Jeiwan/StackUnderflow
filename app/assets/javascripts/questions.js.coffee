@@ -10,6 +10,7 @@ class @Question
     this.$body = this.$el.find(".question-body")
     this.$title = $("#question-title h1")
     this.$tags = this.$el.find(".question-tags")
+    this.$author = this.$el.find(".question-author")
     this.tagList = this.$tags.data("tags")
     this.$files = this.$el.find(".question-attachments")
     this.$voting = this.$el.find(".question-voting .voting")
@@ -63,7 +64,10 @@ class @Question
       that.$body.text(xhr.responseJSON.body)
       that.$body.show()
       that.$tags.replaceWith(HandlebarsTemplates["question_tags"](xhr.responseJSON))
-      that.$files.replaceWith(HandlebarsTemplates["question_attachments"](xhr.responseJSON))
+      if that.$files.length == 0
+        that.$files = $("<ul class='question-attachments'></ul>")
+        that.$author.after(that.$files)
+      that.$files.html($(HandlebarsTemplates["question_attachments"](xhr.responseJSON)).contents())
       that.$tags = that.$el.find(".question-tags")
       that.$title.text(xhr.responseJSON.title)
       that.tagList = that.$tags.data("tags")
@@ -105,8 +109,11 @@ class @Question
       $(this).replaceWith($("<span class='voted-down'></span>"))
       that.$voting.find("a.vote-up").remove()
 
-    this.$files.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
-      $(this).parents("li").remove()
+    this.$el.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
+      $(this).parent().remove()
+      if that.$files.find("li").length == 0
+        that.$files.remove()
+        that.$files = []
 
   subscribeToChannels: () ->
     that = this

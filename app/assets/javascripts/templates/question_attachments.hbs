@@ -1,5 +1,5 @@
 <ul class="question-attachments">
   {{#each files}}
-  <li><a href="{{path}}">{{filename}}</a></li>
+  <li><a href="{{path}}">{{filename}}</a>&nbsp;&nbsp;&nbsp;<a class="delete-attachment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/attachments/{{id}}" rel="nofollow"><span class="glyphicon glyphicon-remove" style="color: #a94442"></span></a></li>
   {{/each}}
 </ul>
