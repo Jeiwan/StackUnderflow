@@ -28,7 +28,8 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
             = link_to a.file.file.filename, a.file.url
             - if answer.user == current_user
               |&nbsp;&nbsp;&nbsp;
-              = link_to "Delete", a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment"
+              = link_to a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment" do
+                span.glyphicon.glyphicon-remove style="color: #a94442"
     .comments-wrapper
       - if answer.comments.size > 0
         ul.comments

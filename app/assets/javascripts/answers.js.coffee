@@ -3,6 +3,7 @@ class @Answer
     this.$el = $("##{answer_id}")
     this.$body = this.$el.find(".answer-body")
     this.$files = this.$el.find(".answer-attachments")
+    this.$author = this.$el.find(".answer-author")
     this.$voting = this.$el.find(".answer-voting .voting")
     this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".show-comment-form")
@@ -43,9 +44,14 @@ class @Answer
   setAjaxHooks: () ->
     that = this
     this.$el.on "ajax:success", "form.edit_answer", (e, data, status, xhr) ->
+      console.log xhr.responseJSON
       that.$body.siblings(".edit-form").remove()
       that.$body.text(xhr.responseJSON.body)
       that.$body.show()
+      if that.$files.length == 0
+        that.$files = $("<ul class='answer-attachments'></ul>")
+        that.$author.after(that.$files)
+      that.$files.html($(HandlebarsTemplates["attachments_list"](xhr.responseJSON)).contents())
 
     this.$el.on "ajax:error", "form.edit_answer", (e, xhr, status) ->
       that.renderFormErrors(this, xhr.responseJSON)
@@ -71,6 +77,9 @@ class @Answer
 
     this.$files.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
       $(this).parents("li").remove()
+      if that.$files.find("li").length == 0
+        that.$files.remove()
+        that.$files = []
 
   renderFormErrors: (form, response) ->
     $form = $(form)

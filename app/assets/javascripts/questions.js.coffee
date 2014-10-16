@@ -67,7 +67,7 @@ class @Question
       if that.$files.length == 0
         that.$files = $("<ul class='question-attachments'></ul>")
         that.$author.after(that.$files)
-      that.$files.html($(HandlebarsTemplates["question_attachments"](xhr.responseJSON)).contents())
+      that.$files.html($(HandlebarsTemplates["attachments_list"](xhr.responseJSON)).contents())
       that.$tags = that.$el.find(".question-tags")
       that.$title.text(xhr.responseJSON.title)
       that.tagList = that.$tags.data("tags")

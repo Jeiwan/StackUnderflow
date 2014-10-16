@@ -44,22 +44,21 @@ feature "Attach File to Answer" do
     click_on "Answer"
 
     within(".answer .answer-attachments") do
-      click_link "Delete"
+      find(".delete-attachment").click
     end
     expect(page).not_to have_link "README.md"
   end
 
-  #scenario "User uploads file after a failing validation", js: true do
-    #all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
-    #click_on "Answer"
+  scenario "User attaches a file while editing a question", js: true do
+    answer.save
+    visit question_path(question)
 
-    #expect(page).to have_content "problems"
+    within("#answer_#{answer.id}") do
+      find(".edit-answer").click
+      all("input[type='file']")[0].set("#{Rails.root}/Gemfile")
+      click_button "Update Answer"
 
-    #fill_in :answer_body, with: answer.body
-    #click_on "Answer"
-
-    #expect(page).to have_content answer.body
-    #expect(page).to have_content answer.user.username
-    #expect(page).to have_link "README.md"
-  #end
+      expect(page).to have_content "Gemfile"
+    end
+  end
 end

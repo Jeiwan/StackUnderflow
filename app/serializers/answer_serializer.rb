@@ -1,7 +1,7 @@
 class AnswerSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
 
-  attributes :id, :body, :created, :question, :comments, :edited, :attachments, :is_best, :total_votes
+  attributes :id, :body, :created, :question, :comments, :edited, :files, :is_best, :total_votes
   has_one :user
 
   def created
@@ -25,12 +25,8 @@ class AnswerSerializer < ActiveModel::Serializer
     object.updated_at.to_s > object.created_at.to_s ? time_ago_in_words(object.updated_at) : false
   end
 
-  def attachments
-    if object.attachments.any?
-      object.attachments.map { |attachment| { file: File.basename(attachment.file.url), url: attachment.file.url, id: attachment.id } }
-    else
-      false
-    end
+  def files
+    object.attachments.map { |a| {url: a.file.url, filename: a.file.file.filename, id: a.id, attachable: a.attachable.class.to_s.downcase}  }
   end
 
   def is_best
