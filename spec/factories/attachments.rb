@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :attachment do
     file "MyString"
-    question_id 1
+    association :attachable
   end
 end

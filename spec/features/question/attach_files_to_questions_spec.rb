@@ -68,4 +68,17 @@ feature "Attach File to Question" do
     end
     expect(page).to have_link "Gemfile"
   end
+
+  scenario "User deletes attached files", js: true do
+    fill_in "Title", with: question.title
+    fill_in "Body", with: question.body
+    page.execute_script("$('#question_tag_list').val('#{tags.map(&:name).join(',')}')")
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
+    click_on "Create Question"
+
+    within(".question .question-attachments") do
+      click_link "Delete"
+    end
+    expect(page).not_to have_link "Gemfile"
+  end
 end

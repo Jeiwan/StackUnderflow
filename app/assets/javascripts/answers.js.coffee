@@ -6,6 +6,7 @@ class @Answer
     this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".show-comment-form")
     this.$commentForm = this.$el.find(".comment-form")
+    this.$cancelComment = this.$commentForm.find(".cancel-comment")
     this.$commentsWrapper = this.$el.find(".comments-wrapper")
     this.$comments = this.$commentsWrapper.find(".comments")
     this.comments = []
@@ -20,6 +21,10 @@ class @Answer
     this.$commentBtn.click (e) ->
       e.preventDefault()
       that.toggleCommentForm()
+
+    this.$cancelComment.click (e) ->
+      e.preventDefault()
+      that.$commentForm.slideUp()
 
     this.$el.on "click", ".edit-answer", (e) ->
       e.preventDefault()
@@ -80,6 +85,7 @@ class @Answer
     formGroup.removeClass("has-error")
 
   toggleCommentForm: () ->
+    $(".edit-form").prev().show().end().remove()
     $(".comment-form").slideUp()
     this.$commentForm.slideToggle()
 

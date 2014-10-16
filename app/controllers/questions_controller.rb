@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :show_by_tag]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:edit, :update, :destroy]
+  before_action :add_user_id_to_attachments, only: [:create, :update]
   
   def index
     @questions = Question.all.order("created_at DESC")
@@ -22,7 +23,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-    
+
     if @question.save
       flash[:success] = "Question is created!"
       redirect_to @question
@@ -49,7 +50,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, :tag_list, attachments_attributes: [:file, :file_cache])
+      params.require(:question).permit(:title, :body, :tag_list, attachments_attributes: [:file, :file_cache, :user_id, :_destroy])
     end
 
     def find_question
@@ -59,6 +60,14 @@ class QuestionsController < ApplicationController
     def question_belongs_to_current_user?
       unless @question.user == current_user
         redirect_to root_path
+      end
+    end
+
+    def add_user_id_to_attachments
+      if params[:question][:attachments_attributes]
+        params[:question][:attachments_attributes].each do |k, v|
+          v[:user_id] = current_user.id
+        end
       end
     end
 end

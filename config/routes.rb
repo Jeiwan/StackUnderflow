@@ -19,5 +19,7 @@ Rails.application.routes.draw do
 
   resources :tags, only: [:index]
 
+  resources :attachments, only: [:destroy]
+
   root "questions#index"
 end

@@ -16,6 +16,7 @@ class @Question
     this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".show-comment-form")
     this.$commentForm = this.$el.find(".comment-form")
+    this.$cancelComment = this.$commentForm.find(".cancel-comment")
     this.$commentsWrapper = this.$el.find(".comments-wrapper")
     this.$comments = this.$commentsWrapper.find(".comments")
     this.$answers = $(".answers")
@@ -24,6 +25,7 @@ class @Question
     this.answersCounter = this.$answersCounter.data("counter")
     this.answers = []
     this.comments = []
+
     this.id = this.$el.data("question-id")
 
     this.bind()
@@ -36,6 +38,10 @@ class @Question
     this.$commentBtn.click (e) ->
       e.preventDefault()
       that.toggleCommentForm()
+
+    this.$cancelComment.click (e) ->
+      e.preventDefault()
+      that.$commentForm.slideUp()
 
     this.$el.on "click", ".edit-question", (e) ->
       e.preventDefault()
@@ -99,6 +105,9 @@ class @Question
       $(this).replaceWith($("<span class='voted-down'></span>"))
       that.$voting.find("a.vote-up").remove()
 
+    this.$files.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
+      $(this).parents("li").remove()
+
   subscribeToChannels: () ->
     that = this
 
@@ -129,6 +138,8 @@ class @Question
     this.$title.text(title)
 
   toggleCommentForm: () ->
+    $(".edit-form").prev().show().end().remove()
+    $(".comment-form").slideUp()
     this.$commentForm.slideToggle()
 
 
