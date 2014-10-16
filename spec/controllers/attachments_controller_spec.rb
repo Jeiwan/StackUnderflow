@@ -37,7 +37,7 @@ RSpec.describe AttachmentsController, :type => :controller do
         
         it" redirects to root_path" do
           delete_destroy
-          expect(response).to redirect_to root_path
+          expect(response.status).to eq 401
         end
       end
     end
