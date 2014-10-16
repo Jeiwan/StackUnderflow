@@ -14,7 +14,7 @@ feature "Attach File to Question" do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
     fill_in "Tags", with: tags.map(&:name).join(",")
-    attach_file "File", "#{Rails.root}/Gemfile"
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
     click_on "Create Question"
 
     expect(current_path).to match /\/questions\/\d+\z/
@@ -31,7 +31,6 @@ feature "Attach File to Question" do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
     page.execute_script("$('#question_tag_list').val('#{tags.map(&:name).join(',')}')")
-    #attach_file "File", "#{Rails.root}/Gemfile"
     all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
 
     click_link "Add file"
