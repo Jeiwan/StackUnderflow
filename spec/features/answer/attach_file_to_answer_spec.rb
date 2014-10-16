@@ -38,6 +38,17 @@ feature "Attach File to Answer" do
     expect(page).to have_link "Gemfile"
   end
 
+  scenario "User deletes attached file", js: true do
+    fill_in :answer_body, with: answer.body
+    all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
+    click_on "Answer"
+
+    within(".answer .answer-attachments") do
+      click_link "Delete"
+    end
+    expect(page).not_to have_link "README.md"
+  end
+
   #scenario "User uploads file after a failing validation", js: true do
     #all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
     #click_on "Answer"

@@ -191,6 +191,7 @@ class @Question
         this.answerById(answer.id).$el.find(".vote-up, .vote-down").remove()
       else
         this.answerById(answer.id).$el.find(".delete-answer, .edit-answer").parent().remove()
+        this.$files.find(".delete-attachment").remove()
       if answer.user.username == question_author || answer.question.has_best_answer
         this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
 

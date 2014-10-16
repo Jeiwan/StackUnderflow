@@ -23,7 +23,7 @@
     {{#if attachments}}
     <ul class="answer-attachments">
       {{#each attachments}}
-      <li><a href="{{ url }}">{{ file }}</a></li>
+      <li><a href="{{url}}">{{file}}</a>&nbsp;&nbsp;&nbsp;<a class="delete-attachment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/attachments/{{id}}" rel="nofollow">Delete</a></li>
       {{/each}}
     </ul>
     {{/if}}

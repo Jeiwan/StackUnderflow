@@ -2,6 +2,7 @@ class @Answer
   constructor: (@answer_id) ->
     this.$el = $("##{answer_id}")
     this.$body = this.$el.find(".answer-body")
+    this.$files = this.$el.find(".answer-attachments")
     this.$voting = this.$el.find(".answer-voting .voting")
     this.$votes = this.$voting.find(".votes")
     this.$commentBtn = this.$el.find(".show-comment-form")
@@ -67,6 +68,9 @@ class @Answer
       that.$votes.text(xhr.responseJSON.votes)
       $(this).replaceWith($("<span class='voted-down'></span>"))
       that.$voting.find("a.vote-up").remove()
+
+    this.$files.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
+      $(this).parents("li").remove()
 
   renderFormErrors: (form, response) ->
     $form = $(form)

@@ -24,7 +24,11 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
     - if answer.attachments.any?
       ul.answer-attachments
         - answer.attachments.each do |a|
-          li = link_to a.file.filename, a.file.url
+          li
+            = link_to a.file.file.filename, a.file.url
+            - if answer.user == current_user
+              |&nbsp;&nbsp;&nbsp;
+              = link_to "Delete", a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment"
     .comments-wrapper
       - if answer.comments.size > 0
         ul.comments

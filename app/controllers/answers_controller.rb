@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, except: :create
   before_action :answer_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:mark_best]
+  before_action :add_user_id_to_attachments, only: [:create, :update]
 
   def create
     @answer = @question.answers.new(answer_params)
@@ -47,7 +48,7 @@ class AnswersController < ApplicationController
   private
     
     def answer_params
-      params.require(:answer).permit(:body, attachments_attributes: [:file, :file_cache])
+      params.require(:answer).permit(:body, attachments_attributes: [:file, :file_cache, :user_id])
     end
 
     def find_answer
@@ -67,6 +68,14 @@ class AnswersController < ApplicationController
     def question_belongs_to_current_user?
       unless @answer.question.user == current_user
         redirect_to @answer.question
+      end
+    end
+
+    def add_user_id_to_attachments
+      if params[:answer][:attachments_attributes]
+        params[:answer][:attachments_attributes].each do |k, v|
+          v[:user_id] = current_user.id
+        end
       end
     end
 end
