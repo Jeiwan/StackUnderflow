@@ -7,19 +7,10 @@ The project is developed for learning purposes.
 Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 
 ##Fix and refactor
-1. ~~Fix tag_list property of question factory~~
-2. ~~Check tag_list validation and refactor it~~
-3. ~~Make 'edit' link work for newly created answers and comments~~
-4. ~~Test question and answers editing with upload files~~
-5. ~~Hide double forms~~
-6. ~~Refactor routes (add shallow)~~
-7. ~~Add indices to Comments model~~
-8. ~~Delete edit actions~~
-9. Improve file uploading and showing
-10. Use save! everywhere except controller tests
-11. ~~Add `dependent` to models~~
-12. ~~Check tag creation tests~~
-13. ~~Fix routes (remove excessive concerns)~~
-14. ~~Fix `mark best` link when a new answer is added~~
-15. ~~Merge `create` and `destroy` channes of answer~~
-16. ~~Test that votes are deleted after deleting question or answer~~
+1. Use save! everywhere except controller tests
+2. Improve HTML for file uploading
+3. Add file uploading to answers
+4. Improve question editing (file uploading)
+5. Improve answer editing (file uploading)
+6. Add views counter
+7. Add info about votes, answers, and views next to every question on index and tag pages
