@@ -8,7 +8,7 @@ Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 
 ##Fix and refactor
 1. Use save! everywhere except controller tests
-2. Improve HTML for file uploading
+2. ~~Improve HTML for file uploading~~
 3. Add file uploading to answers
 4. Improve question editing (file uploading)
 5. Improve answer editing (file uploading)
