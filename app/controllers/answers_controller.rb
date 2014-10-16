@@ -47,7 +47,7 @@ class AnswersController < ApplicationController
   private
     
     def answer_params
-      params.require(:answer).permit(:body, attachments_attributes: [:file])
+      params.require(:answer).permit(:body, attachments_attributes: [:file, :file_cache])
     end
 
     def find_answer

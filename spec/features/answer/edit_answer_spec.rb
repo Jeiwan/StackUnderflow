@@ -68,6 +68,6 @@ end
 
 def post_answer answer
   fill_in :answer_body, with: answer.body
-  attach_file "File", "#{Rails.root}/README.md"
+  all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
   click_on "Answer"
 end

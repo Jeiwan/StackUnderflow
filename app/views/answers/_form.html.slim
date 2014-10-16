@@ -2,5 +2,9 @@
   = f.error_notification
   = f.input :body, input_html: { rows: 10 }, label: false
   = f.simple_fields_for :attachments do |a|
-    = a.input :file, as: :file, label: "File"
-  = f.button :submit, class: "btn btn-success"
+    = a.label :files
+    |&nbsp;&nbsp;&nbsp;
+    = link_to_add_association 'Add file', f, :attachments, data: {"association-insertion-node" => ".nested-fields:last", "association-insertion-method" => "after"}
+    = render 'attachment_fields', f: a
+  .form-group
+    = f.button :submit, class: "btn btn-success"
