@@ -10,11 +10,9 @@ class CommentsController < ApplicationController
 
     if @comment.save
       current_user.comments << @comment
-      flash.now[:success] = "Comment is created!"
       publish_on_create
       render json: @comment, status: 201, root: false
     else
-      flash.now[:danger] = "Comment is not created"
       render json: @comment.errors, status: :unprocessable_entity
     end
   end

@@ -12,21 +12,17 @@ class AnswersController < ApplicationController
 
     if @answer.save
       current_user.answers << @answer
-      flash.now[:success] = "Answer is created!"
       PrivatePub.publish_to "/questions/#{@answer.question.id}", answer_create: AnswerSerializer.new(@answer, root: false).to_json
       render json: @answer, root: false, status: 201
     else
-      flash.now[:danger] = "Answer is not created! See errors below."
       render json: @answer.errors.as_json, status: :unprocessable_entity
     end
   end
 
   def update
     if @answer.update(answer_params)
-      flash.now[:success] = "Answer is updated!"
       render json: @answer, root: false, status: 200
     else
-      flash.now[:danger] = "Answer is not updated! See errors below."
       render json: @answer.errors.as_json, status: :unprocessable_entity
     end
   end
@@ -34,7 +30,6 @@ class AnswersController < ApplicationController
   def destroy
     @answer_id = @answer.id
     @answer.destroy
-    flash.now[:success] = "Answer is deleted!"
     PrivatePub.publish_to "/questions/#{@answer.question.id}", answer_destroy: @answer.id
     render json: :nothing, status: 204
   end
