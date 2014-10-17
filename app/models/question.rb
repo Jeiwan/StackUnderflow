@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
+  has_many :impressions, dependent: :destroy
   accepts_nested_attributes_for :attachments, reject_if: proc { |attrs| attrs['file'].blank? && attrs['file_cache'].blank? }
 
   validates :body, presence: true, length: { in: 10..5000 }
