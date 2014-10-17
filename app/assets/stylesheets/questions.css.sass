@@ -1,6 +1,24 @@
 // Place all the styles related to the questions controller here.
 // They will automatically be included in application.css.
 // You can use Sass here: http://sass-lang.com/
+
+// INDEX
+article.question
+  padding-top: 20px
+  margin-bottom: 20px
+  overflow: hidden
+  
+article.question + article.question
+  border-top: 1px solid #ddd
+
+article.question .question-title 
+  margin: 0 0 10px
+
+article.question .stats .col-md-4
+  padding-left: 0
+  padding-right: 0
+
+// SHOW
 .page-header h1
   margin-top: 0
 
@@ -55,3 +73,4 @@ textarea
   display: inline-block
   margin-right: 4px
   font-weight: normal
+  font-size: 90%

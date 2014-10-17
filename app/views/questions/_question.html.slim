@@ -1,7 +1,23 @@
-article
-  h3.question-title
-    =link_to question.title, question
-    small  by #{question.user.username} #{time_ago_in_words(question.created_at)} ago
-  .question-tags
-    - question.tags.each do |tag|
-      span.label.label-default = tag.name
+article.question.row
+  .col-md-3.row.stats
+    .col-md-4
+      .text-primary.text-center
+        strong #{question.total_votes}
+        br
+        span votes
+    .col-md-4
+      .text-success.text-center
+        strong #{question.answers.count}
+        br
+        span answers
+    .col-md-4
+      .text-info.text-center
+        span views
+  .col-md-9
+    h3.question-title
+      =link_to question.title, question
+    .question-tags.pull-left
+      - question.tags.each do |tag|
+        span.label.label-default = tag.name
+    .question-author.pull-right
+      small  by #{question.user.username} #{time_ago_in_words(question.created_at)} ago
