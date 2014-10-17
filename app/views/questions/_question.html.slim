@@ -1,17 +1,19 @@
 article.question.row
   .col-md-3.row.stats
     .col-md-4
-      .text-primary.text-center
+      .text-primary.text-center.question-votes
         strong #{question.total_votes}
         br
         span votes
     .col-md-4
-      .text-success.text-center
+      .text-success.text-center.question-answers
         strong #{question.answers.count}
         br
         span answers
     .col-md-4
-      .text-info.text-center
+      .text-info.text-center.question-views
+        strong #{question.impressions.count}
+        br
         span views
   .col-md-9
     h3.question-title

@@ -19,6 +19,10 @@ class QuestionsController < ApplicationController
     @comment = Comment.new
     @answer = Answer.new
     @attachment = @answer.attachments.build
+
+    if @question.impressions.where(remote_ip: request.remote_ip, user_agent: (request.user_agent || "no user_agent")).empty?
+      @question.impressions.create(remote_ip: request.remote_ip, user_agent: (request.user_agent || "no user_agent"))
+    end
   end
 
   def create
