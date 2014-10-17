@@ -17,7 +17,7 @@ feature "Question Has Impressions" do
     visit root_path
     expect(page).to have_selector ".question-views", text: "1"
 
-    page.driver.add_headers({ "User-Agent" => "Poltergeist" })
+    page.driver.header("User-Agent", "Poltergeist")
     visit question_path(question)
     visit root_path
     expect(page).to have_selector ".question-views", text: "2"
