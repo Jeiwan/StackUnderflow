@@ -277,4 +277,19 @@ RSpec.describe QuestionsController, :type => :controller do
       expect(response).to render_template :index
     end
   end
+
+  describe "GET #sort_by_votes" do
+    before do
+      question.vote_up(user2)
+      get :sort_by_votes
+    end
+
+    it "returns a list of questions sorted by votes number" do
+      expect(assigns(:questions)).to match_array [question, question2]
+    end
+
+    it "renders index template" do
+      expect(response).to render_template :index
+    end
+  end
 end

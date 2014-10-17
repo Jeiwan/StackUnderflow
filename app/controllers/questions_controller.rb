@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :show_by_tag]
+  before_action :authenticate_user!, only: [:create, :new, :update, :destroy]
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :add_user_id_to_attachments, only: [:create, :update]
@@ -48,6 +48,11 @@ class QuestionsController < ApplicationController
 
   def show_by_tag
     @questions = Question.where_tag(params[:tag_name])
+    render "index"
+  end
+
+  def sort_by_votes
+    @questions = Question.by_votes
     render "index"
   end
 

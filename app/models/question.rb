@@ -3,6 +3,7 @@ class Question < ActiveRecord::Base
   attr_accessor :tag_list
 
   scope :where_tag, ->(tag) { joins(:tags).where("tags.name = ?", tag) }
+  scope :by_votes, -> { joins("LEFT JOIN votes ON votes.votable_id = questions.id AND votes.votable_type = 'Question'").group("questions.id").order("sum(votes.vote), created_at desc") }
 
   after_save :add_tags_from_list
 
