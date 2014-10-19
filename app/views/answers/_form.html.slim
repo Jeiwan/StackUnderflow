@@ -1,7 +1,7 @@
 = simple_form_for [(@question || @answer.question), @answer], remote: true, data: { type: :json }, html: { id: "answer-form" } do |f|
   = f.error_notification
   = f.input :body, input_html: { rows: 10 }, label: false
-  = f.simple_fields_for :attachments do |a|
+  = f.simple_fields_for :attachments, @answer.attachments.build do |a|
     = a.label :files
     |&nbsp;&nbsp;&nbsp;
     = link_to_add_association 'Add file', f, :attachments, data: {"association-insertion-node" => ".nested-fields:last", "association-insertion-method" => "after"}

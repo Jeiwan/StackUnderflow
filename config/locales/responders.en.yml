@@ -1,0 +1,12 @@
+en:
+  flash:
+    actions:
+      create:
+        success: '%{resource_name} was successfully created.'
+        danger: '%{resource_name} could not be created.'
+      update:
+        success: '%{resource_name} was successfully updated.'
+        danger: '%{resource_name} could not be updated.'
+      destroy:
+        success: '%{resource_name} was successfully deleted.'
+        danger: '%{resource_name} could not be deleted.'

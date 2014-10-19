@@ -46,3 +46,4 @@ gem 'rubocop', require: false
 gem 'private_pub'
 gem 'thin'
 gem 'cocoon'
+gem 'responders'

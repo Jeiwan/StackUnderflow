@@ -3,9 +3,12 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: [:show, :edit, :update, :destroy]
   before_action :question_belongs_to_current_user?, only: [:edit, :update, :destroy]
   before_action :add_user_id_to_attachments, only: [:create, :update]
+
+  respond_to :html, except: [:update]
+  respond_to :json, only: [:update]
   
   def index
-    @questions = Question.all.order("created_at DESC")
+    respond_with @questions = Question.all
   end
 
   def new
@@ -14,36 +17,29 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answers = @question.answers.order('best DESC, created_at')
+    @answers = @question.answers.order('best, created_at DESC')
     @comments = @question.comments.order('created_at')
     @comment = Comment.new
     @answer = Answer.new
-    @attachment = @answer.attachments.build
-
-    if @question.impressions.where(remote_ip: request.remote_ip, user_agent: (request.user_agent || "no user_agent")).empty?
-      @question.impressions.create(remote_ip: request.remote_ip, user_agent: (request.user_agent || "no user_agent"))
-    end
+    @question.impressions.find_or_create_by(remote_ip: request.remote_ip, user_agent: (request.user_agent || "no user_agent"))
   end
 
   def create
-    @question = current_user.questions.new(question_params)
-
-    if @question.save
-      flash[:success] = "Question is created!"
-      redirect_to @question
-    else
-      render "new"
-    end
+    respond_with @question = current_user.questions.create(question_params)
   end
 
   def update
-    update_resource @question
+    respond_with @question.update(question_params) do |format|
+      if @question.valid?
+        format.json { render json: @question, status: 200 }
+      else
+        format.json { render json: @question.errors, status: 422 }
+      end
+    end
   end
 
   def destroy
-    @question.destroy
-    flash[:success] = "Question is deleted!"
-    redirect_to root_path
+    respond_with @question.destroy
   end
 
   def show_by_tag

@@ -110,6 +110,7 @@ class @Question
       that.$voting.find("a.vote-up").remove()
 
     this.$el.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
+      console.log "WTF????????"
       $(this).parent().remove()
       if that.$files.find("li").length == 0
         that.$files.remove()

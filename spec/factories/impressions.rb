@@ -2,9 +2,8 @@
 
 FactoryGirl.define do
   factory :impression do
-    user_id 1
-    question_id 1
-    remote_ip "MyString"
-    user_agent "MyString"
+    sequence(:remote_ip) { |n| "127.0.0.#{n}" }
+    sequence(:user_agent) { |n| "IE#{n}" }
+    question
   end
 end

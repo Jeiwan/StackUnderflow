@@ -39,7 +39,7 @@
                 = link_to a.file.file.filename, a.file.url
                 - if @question.user == current_user
                   |&nbsp;&nbsp;&nbsp;
-                  = link_to a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment" do
+                  = link_to a, method: :delete, data: {confirm: "Are you sure?"}, remote: true, class: "delete-attachment" do
                     span.glyphicon.glyphicon-remove style="color: #a94442"
         .comments-wrapper
           - if @comments.size > 0

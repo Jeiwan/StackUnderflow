@@ -35,10 +35,6 @@ RSpec.describe QuestionsController, :type => :controller do
         expect(assigns(:question)).to be_a_new(Question)
       end
 
-      it "returns a new empty attachment for the question" do
-        expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-      end
-
       it "renders new view" do
         expect(response).to render_template :new
       end
@@ -46,17 +42,39 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "GET #show" do
-    before { get :show, id: question.id }
+    let(:impression) { build(:impression, question: question) }
+    let(:get_show) do
+      get :show, id: question.id
+    end
+
+    before do
+      request.env["REMOTE_ADDR"] = impression.remote_ip
+      request.env["HTTP_USER_AGENT"] = impression.user_agent
+    end
+
+    context "when visited for the first time" do
+      it "creates a new impression" do
+        expect{get_show}.to change(Impression, :count).by(1)
+      end
+    end
+
+    context "when visited for the second time" do
+      before do
+        impression.save
+      end
+
+      it "doesn't create an impression" do
+        expect{get_show}.not_to change(Impression, :count)
+      end
+    end
 
     it "returns a question" do
+      get_show
       expect(assigns(:question)).to eq question
     end
 
-    it "returns a new empty attachment for the answer" do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
-
     it "renders show view" do
+      get_show
       expect(response).to render_template :show
     end
   end
@@ -146,7 +164,7 @@ RSpec.describe QuestionsController, :type => :controller do
       edited
     end
     let(:put_update) do
-      put :update, id: question.id, question: { title: edited_question.title, body: question.body, tag_list: question.tag_list }, format: :js
+      put :update, id: question.id, question: { title: edited_question.title, body: question.body, tag_list: question.tag_list }, format: :json
     end
 
     context "when signed in", sign_in: true do
@@ -158,7 +176,14 @@ RSpec.describe QuestionsController, :type => :controller do
             expect(question.reload.title).to eq edited_question.title
           end
 
-          it "return 200 status" do
+          it "returns question's json" do
+            json = JSON.parse(response.body)
+            expect(json["title"]).to eq edited_question.title
+            expect(json["body"]).to eq edited_question.body
+            expect(json["list_of_tags"]).to eq edited_question.tag_list
+          end
+
+          it "returns 200 status code" do
             expect(response.status).to eq 200
           end
         end
@@ -231,9 +256,9 @@ RSpec.describe QuestionsController, :type => :controller do
           expect{delete_destroy}.to change(Vote, :count).by(-1)
         end
 
-        it "redirects to root path" do
+        it "redirects to questions path" do
           delete_destroy
-          expect(response).to redirect_to root_path
+          expect(response).to redirect_to questions_path
         end
       end
       
@@ -252,7 +277,7 @@ RSpec.describe QuestionsController, :type => :controller do
         expect{delete_destroy}.not_to change(Question, :count)
       end
 
-      it "redirects to root path" do
+      it "redirects to sign in path" do
         delete_destroy
         expect(response).to redirect_to new_user_session_path
       end

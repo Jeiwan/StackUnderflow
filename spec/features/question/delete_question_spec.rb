@@ -18,7 +18,7 @@ feature "Delete Question" do
       click_on "delete-question"
     end
 
-    expect(current_path).to match /\A\/\z/
+    expect(current_path).to match /\A\/questions\z/
 
     expect(page).to have_selector ".alert-success", text: "deleted"
     expect(page).not_to have_content question1.body
