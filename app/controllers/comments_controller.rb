@@ -37,9 +37,9 @@ class CommentsController < ApplicationController
     def publish
       case params[:action]
       when "create"
-        PrivatePub.publish_to "/questions/#{@parent.class.name == 'Question' ? @parent.id : @parent.question.id}", comment_create: CommentSerializer.new(@comment, root: false).to_json, parent: @parent.class.name, parent_id: @parent.id if @comment.valid?
+        PrivatePub.publish_to "/questions/#{@parent.id || @parent.question.id}", comment_create: CommentSerializer.new(@comment, root: false).to_json, parent: @parent.class.name, parent_id: @parent.id if @comment.valid?
       when "destroy"
-        PrivatePub.publish_to "/questions/#{@comment.commentable.class.name == 'Question' ? @comment.commentable.id : @comment.commentable.question.id}", comment_destroy: @comment.id, parent: @comment.commentable.class.name, parent_id: @comment.commentable.id
+        PrivatePub.publish_to "/questions/#{@parent.id || @parent.question.id}", comment_destroy: @comment.id, parent: @comment.commentable.class.name, parent_id: @comment.commentable.id
       end
     end
 end
