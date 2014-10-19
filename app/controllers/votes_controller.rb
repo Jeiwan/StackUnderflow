@@ -21,11 +21,11 @@ class VotesController < ApplicationController
     end
 
     def publish_and_return_votes
-    question_id = case @parent.class.name
-                  when 'Question' then @parent.id
-                  when 'Answer' then @parent.question.id
-                  when 'Comment' then @parent.commentable.class.name == 'Question' ? @parent.commentable.id : @parent.commentable.question.id
-                  end
+      question_id = case @parent.class.name
+                    when 'Question' then @parent.id
+                    when 'Answer' then @parent.question.id
+                    when 'Comment' then @parent.commentable.class.name == 'Question' ? @parent.commentable.id : @parent.commentable.question.id
+                    end
 
       PrivatePub.publish_to "/questions/#{question_id}", vote: @parent.total_votes, parent: @parent.class.name, parent_id: @parent.id
       render json: {votes: @parent.total_votes}, status: 200

@@ -3,9 +3,10 @@ class AttachmentsController < ApplicationController
   before_action :find_attachment
   before_action :attachment_belongs_to_current_user?
 
+  respond_to :json
+
   def destroy
-    @attachment.destroy
-    render json: :nothing, status: 204
+    respond_with @attachment.destroy
   end
 
   private
