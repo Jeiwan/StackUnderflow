@@ -29,13 +29,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    respond_with @question.update(question_params) do |format|
-      if @question.valid?
-        format.json { render json: @question, status: 200 }
-      else
-        format.json { render json: @question.errors, status: 422 }
-      end
-    end
+    update_resource @question
   end
 
   def destroy
@@ -65,14 +59,6 @@ class QuestionsController < ApplicationController
     def question_belongs_to_current_user?
       unless @question.user == current_user
         redirect_to root_path
-      end
-    end
-
-    def add_user_id_to_attachments
-      if params[:question][:attachments_attributes]
-        params[:question][:attachments_attributes].each do |k, v|
-          v[:user_id] = current_user.id
-        end
       end
     end
 end

@@ -1,5 +1,8 @@
+require_relative 'helpers/files'
+
 class AnswerSerializer < ActiveModel::Serializer
   include ActionView::Helpers::DateHelper
+  include FilesSerializerHelper
 
   attributes :id, :body, :created, :question, :comments, :edited, :files, :is_best, :total_votes
   has_one :user
@@ -23,10 +26,6 @@ class AnswerSerializer < ActiveModel::Serializer
 
   def edited
     object.updated_at.to_s > object.created_at.to_s ? time_ago_in_words(object.updated_at) : false
-  end
-
-  def files
-    object.attachments.map { |a| {url: a.file.url, filename: a.file.file.filename, id: a.id, attachable: a.attachable.class.to_s.downcase}  }
   end
 
   def is_best

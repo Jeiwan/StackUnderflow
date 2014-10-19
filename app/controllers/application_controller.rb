@@ -2,7 +2,6 @@ require "application_responder"
 
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
-  #respond_to :html
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -24,15 +23,21 @@ class ApplicationController < ActionController::Base
     end
 
     def update_resource(resource)
-      if resource.update(send(:"#{resource.class.to_s.downcase}_params"))
-        render json: resource, root: false, status: 200
-      else
-        render json: resource.errors.as_json, status: :unprocessable_entity
+      respond_with resource.update(send(:"#{resource.class.to_s.downcase}_params")) do |format|
+        if resource.valid?
+          format.json { render json: resource, status: 200 }
+        else
+          format.json { render json: resource.errors, status: 422 }
+        end
       end
     end
 
-    def destroy_resource(resource)
-      resource.destroy
-      render json: :nothing, status: 204
+    def add_user_id_to_attachments
+      model = params[:controller].singularize.to_sym
+      if params[model][:attachments_attributes]
+        params[model][:attachments_attributes].each do |k, v|
+          v[:user_id] = current_user.id
+        end
+      end
     end
 end

@@ -1,12 +1,12 @@
+require_relative 'helpers/files'
+
 class QuestionSerializer < ActiveModel::Serializer
+  include FilesSerializerHelper
+
   attributes :id, :title, :body, :answers, :files, :tags, :list_of_tags, :has_best_answer
 
   def answers
     object.answers.each { |answer| { id: answer.id, body: answer.body, author: answer.user.username } }
-  end
-
-  def files
-    object.attachments.map { |a| {url: a.file.url, filename: a.file.file.filename, id: a.id, attachable: a.attachable.class.to_s.downcase}  }
   end
 
   def tags
