@@ -64,6 +64,12 @@ RSpec.describe Question, :type => :model do
         expect(Question.unanswered).to match_array [question1, question3]
       end
     end
+
+    describe "activity" do
+      it "returns questions sorted by recent activity" do
+        expect(Question.activity).to match_array [question3, question2, question1]
+      end
+    end
   end
 
   describe "methods" do
@@ -206,6 +212,14 @@ RSpec.describe Question, :type => :model do
         question.save
         expect(question.form_tag_list).to match "best,west"
       end
+    end
+  end
+
+  describe "before_save" do
+    let(:question) { create(:question, title: "Some good title", body: "Some good body", tag_list: "test,west,east") }
+
+    it "adds current time and date to recent_activity column" do
+      expect(question.recent_activity.to_s).to eq Time.zone.now.to_s
     end
   end
 end

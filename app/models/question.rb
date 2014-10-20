@@ -6,8 +6,10 @@ class Question < ActiveRecord::Base
   scope :where_tag, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
   scope :by_votes, -> { unscoped.joins("LEFT JOIN votes ON votes.votable_id = questions.id AND votes.votable_type = 'Question'").group("questions.id").order("sum(votes.vote), created_at desc") }
   scope :unanswered, -> { joins("LEFT JOIN answers ON answers.question_id = questions.id WHERE answers.question_id is NULL") }
+  scope :activity, -> { order("recent_activity DESC") }
 
   after_save :add_tags_from_list
+  before_save :set_recent_activity
 
   belongs_to :user
   has_and_belongs_to_many :tags
@@ -52,5 +54,9 @@ class Question < ActiveRecord::Base
     def split_tags(list, &block)
       list ||= ""
       list.split(",").each &block
+    end
+
+    def set_recent_activity
+      self.recent_activity = Time.zone.now
     end
 end
