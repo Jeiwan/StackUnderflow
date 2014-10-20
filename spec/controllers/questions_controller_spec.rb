@@ -317,4 +317,18 @@ RSpec.describe QuestionsController, :type => :controller do
       expect(response).to render_template :index
     end
   end
+
+  describe "GET #unanswered" do
+    let!(:answer) { create(:answer, question: question) }
+
+    before { get :unanswered }
+
+    it "returns a list of unanswered questions" do
+      expect(assigns(:questions)).to match_array [question2]
+    end
+
+    it "renders index template" do
+      expect(response).to render_template :index
+    end
+  end
 end

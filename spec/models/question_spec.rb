@@ -56,6 +56,14 @@ RSpec.describe Question, :type => :model do
         expect(Question.by_votes).to match_array [question2, question3, question1]
       end
     end
+
+    describe "unanswered" do
+      let!(:answer) { create(:answer, question: question2) }
+
+      it "returns unanswered questions" do
+        expect(Question.unanswered).to match_array [question1, question3]
+      end
+    end
   end
 
   describe "methods" do

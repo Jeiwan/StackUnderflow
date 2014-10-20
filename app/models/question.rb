@@ -5,6 +5,7 @@ class Question < ActiveRecord::Base
   default_scope { order("created_at DESC") }
   scope :where_tag, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
   scope :by_votes, -> { unscoped.joins("LEFT JOIN votes ON votes.votable_id = questions.id AND votes.votable_type = 'Question'").group("questions.id").order("sum(votes.vote), created_at desc") }
+  scope :unanswered, -> { joins("LEFT JOIN answers ON answers.question_id = questions.id WHERE answers.question_id is NULL") }
 
   after_save :add_tags_from_list
 

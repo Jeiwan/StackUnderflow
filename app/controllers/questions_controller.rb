@@ -46,6 +46,11 @@ class QuestionsController < ApplicationController
     render "index"
   end
 
+  def unanswered
+    @questions = Question.unanswered
+    render "index"
+  end
+
   private
 
     def question_params
