@@ -118,4 +118,13 @@ RSpec.describe Answer, :type => :model do
       end
     end
   end
+
+  describe "after_save" do
+    let(:question) { create(:question) }
+    let(:answer) { build(:answer, question: question) }
+
+    it "updates question's activity" do
+      expect{answer.save}.to change(question, :recent_activity)
+    end
+  end
 end

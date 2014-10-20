@@ -24,6 +24,10 @@ RSpec.describe AnswersController, :type => :controller do
           expect{post_create}.to change(user.answers, :count).by(1)
         end
 
+        it "updates question's recent_activity field" do
+          expect{post_create}.to change{question.reload.recent_activity}
+        end
+
         it "returns 201 status code" do
           post_create
           expect(response.status).to eq 201
@@ -69,13 +73,17 @@ RSpec.describe AnswersController, :type => :controller do
     context "when signed in", sign_in: true do
       context "when answer belong to current user" do
         context "with valid information" do
-          before { put_update }
-
           it "changes answer's field" do
+            put_update
             expect(Answer.find(answer.id).body).to eq edited_answer.body
           end
 
+          it "updates question's recent_activity field" do
+            expect{put_update}.to change(question.reload, :recent_activity)
+          end
+
           it "returns 200 status" do
+            put_update
             expect(response.status).to eq 200
           end
         end

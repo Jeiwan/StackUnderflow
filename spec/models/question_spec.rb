@@ -65,9 +65,9 @@ RSpec.describe Question, :type => :model do
       end
     end
 
-    describe "activity" do
+    describe "active" do
       it "returns questions sorted by recent activity" do
-        expect(Question.activity).to match_array [question3, question2, question1]
+        expect(Question.active).to match_array [question3, question2, question1]
       end
     end
   end

@@ -20,6 +20,9 @@ RSpec.describe CommentsController, :type => :controller do
         it "adds a new comment to database" do
           expect{post_create}.to change(Comment, :count).by(1)
         end
+        it "updates question's activity" do
+          expect{post_create}.to change{question.reload.recent_activity}
+        end
         it "returns 201 status" do
           post_create
           expect(response.status).to eq 201

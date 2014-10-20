@@ -6,11 +6,5 @@ The project is developed for learning purposes.
 
 Thinknetica Ruby on Rails Course: http://www.thinknetica.com/
 
-##Fix and refactor
-1. Use save! everywhere except controller tests
-2. ~~Improve HTML for file uploading~~
-3. ~~Add file uploading to answers~~
-4. ~~Improve question editing (file uploading)~~
-5. ~~Improve answer editing (file uploading)~~
-6. Add views counter
-7. Add info about votes, answers, and views next to every question on index and tag pages
+##Bugs
+1. Question's tags are deleted after question.save

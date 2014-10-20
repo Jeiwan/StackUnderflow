@@ -100,4 +100,23 @@ RSpec.describe Comment, :type => :model do
     end
   end
 
+  describe "after_save" do
+    let(:tags) { create_list(:tag, 2) }
+    let(:question) { create(:question, tag_list: tags.map(&:name).join(",")) }
+    let!(:answer) { create(:answer, question: question) }
+    let(:question_comment) { create(:question_comment, commentable: question) }
+    let(:answer_comment) { create(:answer_comment, commentable: answer) }
+
+    context "when commented is question" do
+      it "updates question's activity" do
+        expect{question_comment.save}.to change(question, :recent_activity)
+      end
+    end
+
+    context "when commented is answer" do
+      it "updates answered question's activity" do
+        expect{answer_comment.save}.to change(question, :recent_activity)
+      end
+    end
+  end
 end
