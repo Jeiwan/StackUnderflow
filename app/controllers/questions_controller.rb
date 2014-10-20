@@ -51,6 +51,11 @@ class QuestionsController < ApplicationController
     render "index"
   end
 
+  def activity
+    @questions = Question.activity
+    render "index"
+  end
+
   private
 
     def question_params

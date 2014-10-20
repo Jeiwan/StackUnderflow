@@ -331,4 +331,16 @@ RSpec.describe QuestionsController, :type => :controller do
       expect(response).to render_template :index
     end
   end
+
+  describe "GET #activity" do
+    before { get :activity }
+
+    it "returns a list of questions sorted by recent activity" do
+      expect(assigns(:questions)).to match_array [question, question2]
+    end
+
+    it "renders index template" do
+      expect(response).to render_template :index
+    end
+  end
 end

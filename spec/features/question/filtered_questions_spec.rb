@@ -35,4 +35,12 @@ feature "Filtered Questions" do
     expect(page).to have_selector "#question_#{questions[2].id} + #question_#{questions[0].id}"
   end
 
+  scenario "User can view a list of questions sorted by recent activity" do
+    visit root_path
+    within(".questions-sorting") do
+      click_link "activity"
+    end
+    expect(page).to have_selector "#question_#{questions[2].id} + #question_#{questions[1].id} + #question_#{questions[0].id}"
+  end
+
 end
