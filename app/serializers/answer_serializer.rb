@@ -1,8 +1,5 @@
-require_relative 'helpers/files'
-
-class AnswerSerializer < ActiveModel::Serializer
+class AnswerSerializer < ApplicationSerializer
   include ActionView::Helpers::DateHelper
-  include FilesSerializerHelper
 
   attributes :id, :body, :created, :question, :comments, :edited, :files, :is_best, :total_votes
   has_one :user

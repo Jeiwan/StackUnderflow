@@ -1,8 +1,4 @@
-require_relative 'helpers/files'
-
-class QuestionSerializer < ActiveModel::Serializer
-  include FilesSerializerHelper
-
+class QuestionSerializer < ApplicationSerializer
   attributes :id, :title, :body, :answers, :files, :tags, :list_of_tags, :has_best_answer
 
   def answers
