@@ -10,6 +10,7 @@ feature "Registered User Has Profile" do
     visit user_path(user.username)
 
     expect(page).to have_content user.username
+    expect(page).to have_selector "img.user-avatar[src='#{user.avatar.url}']"
   end
 
 end
