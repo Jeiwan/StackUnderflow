@@ -1,14 +1,15 @@
 .row
   .col-md-10
-    ul.nav.nav-tabs.questions-sorting.pull-right
-      li class=(is_active?("index"))
-        = link_to "newest", root_path
-      li class=(is_active?("sort_by_votes"))
-        = link_to "votes", sort_by_votes_questions_path
-      li class=(is_active?("activity"))
-        = link_to "activity", activity_questions_path
-      li class=(is_active?("unanswered"))
-        = link_to "unanswered", unanswered_questions_path
+    - unless params[:action] == "show_by_tag"
+      ul.nav.nav-tabs.questions-sorting.pull-right
+        li class=(is_active?("index"))
+          = link_to "newest", root_path
+        li class=(is_active?("sort_by_votes"))
+          = link_to "votes", sort_by_votes_questions_path
+        li class=(is_active?("activity"))
+          = link_to "activity", activity_questions_path
+        li class=(is_active?("unanswered"))
+          = link_to "unanswered", unanswered_questions_path
 .row
   .col-md-10
     = render @questions

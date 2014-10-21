@@ -1,6 +1,15 @@
 = title "Tags"
 
 .row
+  .col-md-10
+    ul.nav.nav-tabs.questions-sorting.pull-right
+      li class=(is_active?("index"))
+        = link_to "popular", tags_path
+      li class=(is_active?("alphabetical"))
+        = link_to "alphabetical", tags_path
+      li class=(is_active?("newest"))
+        = link_to "newest", tags_path
+.row
   .col-md-10.tags
     - @tags.each do |tag|
       a href=(show_by_tag_questions_path(tag.name))
