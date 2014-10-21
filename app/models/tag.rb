@@ -1,6 +1,7 @@
 class Tag < ActiveRecord::Base
 
   scope :popular, -> { joins(:questions).group("tags.id").order("count(questions_tags.question_id) DESC, created_at DESC") }
+  scope :alphabetical, -> { order("name ASC") }
 
   has_and_belongs_to_many :questions
 

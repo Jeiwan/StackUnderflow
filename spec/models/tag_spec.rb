@@ -26,6 +26,12 @@ RSpec.describe Tag, :type => :model do
         expect(Tag.popular).to match_array [tags[1], tags[2], tags[0]]
       end
     end
+
+    describe "alphabetical" do
+      it "returns a list of tags in alphabetical order" do
+        expect(Tag.popular).to match_array [tags[0], tags[1], tags[2]]
+      end
+    end
   end
 
 end

@@ -22,7 +22,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :tags, only: [:index]
+  resources :tags, only: [:index] do
+    collection do
+      get "/alphabetical", to: "tags#alphabetical", as: :alphabetical
+    end
+  end
 
   resources :attachments, only: [:destroy]
 
