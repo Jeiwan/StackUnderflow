@@ -7,4 +7,9 @@ class TagsController < ApplicationController
     @tags = Tag.alphabetical
     render "index"
   end
+
+  def newest
+    @tags = Tag.newest
+    render "index"
+  end
 end

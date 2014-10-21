@@ -8,7 +8,7 @@
       li class=(is_active?("alphabetical"))
         = link_to "alphabetical", alphabetical_tags_path
       li class=(is_active?("newest"))
-        = link_to "newest", tags_path
+        = link_to "newest", newest_tags_path
 .row
   .col-md-10.tags
     - @tags.each do |tag|

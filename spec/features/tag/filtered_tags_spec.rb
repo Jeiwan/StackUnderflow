@@ -23,4 +23,11 @@ feature "Fitlered Tags" do
     expect(page).to have_selector "a[href$=#{tags[0].name}] + a[href$=#{tags[1].name}] + a[href$=#{tags[2].name}]"
   end
 
+  scenario "User can view tags sorted by the date of creation" do
+    visit tags_path
+    expect(page).to have_link "newest"
+    click_link "newest"
+
+    expect(page).to have_selector "a[href$=#{tags[2].name}] + a[href$=#{tags[1].name}] + a[href$=#{tags[0].name}]"
+  end
 end

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :tags, only: [:index] do
     collection do
       get "/alphabetical", to: "tags#alphabetical", as: :alphabetical
+      get "/newest", to: "tags#newest", as: :newest
     end
   end
 
