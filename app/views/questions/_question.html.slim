@@ -20,6 +20,6 @@ article.question.row id="question_#{question.id}"
       =link_to question.title, question
     .question-tags.pull-left
       - question.tags.each do |tag|
-        span.label.label-default = tag.name
+        = link_to tag.name, show_by_tag_questions_path(tag.name), class: "label label-default"
     .question-author.pull-right
       small  by #{question.user.username} #{time_ago_in_words(question.created_at)} ago
