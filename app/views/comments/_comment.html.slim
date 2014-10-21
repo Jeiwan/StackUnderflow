@@ -19,7 +19,9 @@ li class="comment" id="comment_#{comment.id}"
       span.comment-body
         = comment.body
       small.comment-poster
-        |  &mdash; #{comment.user.username}, #{time_ago_in_words(comment.created_at)} ago  
+        | &mdash;  
+        = link_to comment.user.username, user_path(comment.user.username)
+        |  #{time_ago_in_words(comment.created_at)} ago
         - if comment.updated_at.to_s > comment.created_at.to_s
           span.text-muted
             |  edited #{time_ago_in_words(comment.updated_at)} ago  

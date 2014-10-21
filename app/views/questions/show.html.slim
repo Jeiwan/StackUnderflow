@@ -27,9 +27,12 @@
             = link_to tag.name, show_by_tag_questions_path(tag.name), class: "label label-default"
         .question-author.text-right
           small
-            | by #{@question.user.username} #{time_ago_in_words(@question.created_at)}  
+            | by 
+            = link_to @question.user.username, user_path(@question.user.username)
+            |  #{time_ago_in_words(@question.created_at)} ago  
             - if @question.updated_at.to_s > @question.created_at.to_s
               span.text-muted
+                | edited  
                 = time_ago_in_words(@question.updated_at)
                 |  ago
         - if @question.attachments.any?

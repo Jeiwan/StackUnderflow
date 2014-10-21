@@ -10,7 +10,7 @@
     <div class="col-md-11">
       <span class="comment-body">{{body}}</span>
       <small class="comment-poster"> 
-        — {{author}}, {{created}} ago  
+        — <a href="/users/{{author}}">{{author}}</a>, {{created}} ago  
         {{#if edited}}
         <span class="text-muted"> edited {{edited}}</span>
         {{/if}}
