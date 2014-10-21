@@ -284,13 +284,13 @@ RSpec.describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "GET #show_by_tag" do
+  describe "GET #tagged_with" do
     let(:tags) { create_list(:tag, 5) }
     let(:question1) { create(:question, tag_list: tags[0].name) }
     let(:question2) { create(:question, tag_list: tags[1].name) }
     let(:question3) { create(:question, tag_list: tags[0].name) }
 
-    before { get :show_by_tag, tag_name: tags[0].name }
+    before { get :tagged_with, tag_name: tags[0].name }
 
     context "when there are questions with the tag" do
       it "returns a list of questions" do
@@ -303,10 +303,10 @@ RSpec.describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "GET #sort_by_votes" do
+  describe "GET #popular" do
     before do
       question.vote_up(user2)
-      get :sort_by_votes
+      get :popular
     end
 
     it "returns a list of questions sorted by votes number" do
@@ -332,8 +332,8 @@ RSpec.describe QuestionsController, :type => :controller do
     end
   end
 
-  describe "GET #activity" do
-    before { get :activity }
+  describe "GET #active" do
+    before { get :active }
 
     it "returns a list of questions sorted by recent activity" do
       expect(assigns(:questions)).to match_array [question, question2]

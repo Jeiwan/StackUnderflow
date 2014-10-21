@@ -15,10 +15,10 @@ Rails.application.routes.draw do
       post "mark_best", on: :member
     end
     collection do
-      get "/tag/:tag_name", to: "questions#show_by_tag", as: :show_by_tag
-      get "/sort/votes", to: "questions#sort_by_votes", as: :sort_by_votes
-      get "/sort/unanswered", to: "questions#unanswered", as: :unanswered
-      get "/sort/activity", to: "questions#activity", as: :activity
+      get "/tag/:tag_name", to: "questions#tagged_with", as: :tagged
+      get "/popular", to: "questions#popular", as: :popular
+      get "/unanswered", to: "questions#unanswered", as: :unanswered
+      get "/active", to: "questions#active", as: :active
     end
   end
 

@@ -29,21 +29,21 @@ RSpec.describe Question, :type => :model do
     let!(:question2) { create(:question, tag_list: tags[1].name) }
     let!(:question3) { create(:question, tag_list: tags[0].name) }
 
-    describe "where_tag" do
+    describe "tagged_with" do
       context "where questions have a tag" do
         it "sifts questions by tag name" do
-          expect(Question.where_tag(tags[0].name)).to match_array [question1, question3]
+          expect(Question.tagged_with(tags[0].name)).to match_array [question1, question3]
         end
       end
 
       context "where questions don't have a tag" do
         it "returns an empty array" do
-          expect(Question.where_tag(tags[2].name)).to eq []
+          expect(Question.tagged_with(tags[2].name)).to eq []
         end
       end
     end
 
-    describe "by_votes" do
+    describe "popular" do
       let(:users) { create_list(:user, 2) }
 
       before do
@@ -53,7 +53,7 @@ RSpec.describe Question, :type => :model do
       end
 
       it "returns questions sorted by votes" do
-        expect(Question.by_votes).to match_array [question2, question3, question1]
+        expect(Question.popular).to match_array [question2, question3, question1]
       end
     end
 

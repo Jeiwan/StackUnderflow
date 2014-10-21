@@ -36,13 +36,13 @@ class QuestionsController < ApplicationController
     respond_with @question.destroy
   end
 
-  def show_by_tag
-    @questions = Question.where_tag(params[:tag_name])
+  def tagged_with
+    @questions = Question.tagged_with(params[:tag_name])
     render "index"
   end
 
-  def sort_by_votes
-    @questions = Question.by_votes
+  def popular
+    @questions = Question.popular
     render "index"
   end
 
@@ -51,7 +51,7 @@ class QuestionsController < ApplicationController
     render "index"
   end
 
-  def activity
+  def active
     @questions = Question.active
     render "index"
   end
