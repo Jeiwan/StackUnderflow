@@ -13,7 +13,6 @@ class Question < ActiveRecord::Base
 
   belongs_to :user
   has_and_belongs_to_many :tags
-
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
@@ -45,7 +44,7 @@ class Question < ActiveRecord::Base
     end
 
     def add_tags_from_list
-      tags.clear
+      tags.clear unless tag_list.nil?
       split_tags(tag_list) do |tag|
         tags.push Tag.find_or_create_by(name: tag)
       end

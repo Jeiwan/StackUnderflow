@@ -4,8 +4,8 @@ feature "Edit Question" do
   given(:user1) { create(:user) }
   given(:user2) { create(:user) }
   given(:tags) { create_list(:tag, 5) }
-  given(:question1) { create(:question, user: user1) }
-  given(:question2) { create(:question, user: user2) }
+  given(:question1) { create(:question, user: user1, tag_list: tags.map(&:name).join(",")) }
+  given(:question2) { create(:question, user: user2, tag_list: tags.map(&:name).join(",")) }
 
   background do
     sign_in user1
@@ -37,5 +37,4 @@ feature "Edit Question" do
 
     expect(page).not_to have_selector "#edit-question"
   end
-
 end
