@@ -30,7 +30,10 @@
             | by 
             = link_to @question.user.username, user_path(@question.user.username)
             |  #{time_ago_in_words(@question.created_at)} ago  
-            - if @question.updated_at.to_s > @question.created_at.to_s
+          div
+            img src=(@question.user.avatar.tiny.url)
+          - if @question.updated_at.to_s > @question.created_at.to_s
+            small
               span.text-muted
                 | edited  
                 = time_ago_in_words(@question.updated_at)
