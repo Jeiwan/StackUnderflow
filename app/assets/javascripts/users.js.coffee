@@ -12,3 +12,13 @@ $ ->
     $this.siblings().removeClass("active")
     $this.addClass("active")
     $(".pane").hide().eq($this.index()).show()
+
+  $(".user-info form.edit_user").on "ajax:success", (e, data, status, xhr)->
+    $(".user-avatar").attr("src", xhr.responseJSON.avatar_url)
+
+  $("#change-avatar").click (e) ->
+    e.preventDefault()
+    $("#user_avatar").val("").click()
+
+  $("form.edit_user").on "change", "#user_avatar", () ->
+    $(this).parents("form.edit_user").submit()

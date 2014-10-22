@@ -14,4 +14,8 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..16 }, format: { with: /\A[\w\d_]+\z/, message: "allows only latin letters, numbers, and underscore." }
 
   mount_uploader :avatar, AvatarUploader
+
+  def to_param
+    username
+  end
 end

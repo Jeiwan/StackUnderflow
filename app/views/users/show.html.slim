@@ -1,7 +1,12 @@
 .row
   .col-md-6.row.user-info
     .col-md-4
-      img.user-avatar src=(@user.avatar.url)
+      img.user-avatar src=(@user.avatar.small.url)
+      - if @user == current_user
+        .text-center
+          a#change-avatar href="#" change avatar
+        = simple_form_for @user, remote: true, data: { type: :json } do |f|
+          = f.input :avatar
     .col-md-8
       table.table
         tr
