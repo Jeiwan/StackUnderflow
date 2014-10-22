@@ -14,7 +14,7 @@
                 = link_to "", vote_up_question_path(@question), class: "vote-up", remote: true, data: { type: :json }, method: :patch
               - elsif @question.user_voted(current_user) == 1
                 span.voted-up
-              strong.votes = @question.total_votes
+              strong.votes = @question.votes_sum
               - if @question.user != current_user && !@question.voted_by?(current_user)
                 = link_to "", vote_down_question_path(@question), class: "vote-down", remote: true, data: { type: :json }, method: :patch
               - elsif @question.user_voted(current_user) == -1

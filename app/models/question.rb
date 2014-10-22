@@ -4,7 +4,7 @@ class Question < ActiveRecord::Base
 
   default_scope { order("created_at DESC") }
   scope :tagged_with, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
-  scope :popular, -> { unscoped.joins("LEFT JOIN votes ON votes.votable_id = questions.id AND votes.votable_type = 'Question'").group("questions.id").order("sum(votes.vote), created_at DESC") }
+  scope :popular, -> { unscoped.order("votes_sum DESC, created_at DESC") }
   scope :unanswered, -> { where("answers_count = 0") }
   scope :active, -> { unscoped.order("recent_activity DESC, created_at DESC") }
 

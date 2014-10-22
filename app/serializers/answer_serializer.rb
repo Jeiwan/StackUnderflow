@@ -1,7 +1,7 @@
 class AnswerSerializer < ApplicationSerializer
   include ActionView::Helpers::DateHelper
 
-  attributes :id, :body, :created, :question, :comments, :edited, :files, :is_best, :total_votes
+  attributes :id, :body, :created, :question, :comments, :edited, :files, :is_best, :votes_sum
   has_one :user
 
   def created

@@ -19,12 +19,12 @@ RSpec.describe VotesController, :type => :controller do
     context "when signed in", sign_in: true do
       context "when comment doesn't belong to current user" do
         it "increases comment's votes" do
-          expect{patch_vote_up}.to change(comment2, :total_votes).by(1)
+          expect{patch_vote_up}.to change(comment2, :votes_sum).by(1)
         end
 
         it "sets comment's votes" do
           patch_vote_up
-          expect(comment2.total_votes).to eq 1
+          expect(comment2.votes_sum).to eq 1
         end
 
         it "assigns @comment" do
@@ -49,7 +49,7 @@ RSpec.describe VotesController, :type => :controller do
         end
 
         it "doesn't increase comment's votes" do
-          expect{patch_vote_up}.not_to change(comment, :total_votes)
+          expect{patch_vote_up}.not_to change(comment, :votes_sum)
         end
 
         it "assigns @comment" do
@@ -66,7 +66,7 @@ RSpec.describe VotesController, :type => :controller do
 
     context "when not signed in" do
       it "doesn't increase comment's votes" do
-        expect{patch_vote_up}.not_to change(comment2, :total_votes)
+        expect{patch_vote_up}.not_to change(comment2, :votes_sum)
       end
 
       it "returns 401 status code" do
@@ -85,12 +85,12 @@ RSpec.describe VotesController, :type => :controller do
     context "when signed in", sign_in: true do
       context "when comment doesn't belong to current user" do
         it "decreases comment's votes" do
-          expect{patch_vote_down}.to change(comment2, :total_votes).by(-1)
+          expect{patch_vote_down}.to change(comment2, :votes_sum).by(-1)
         end
 
         it "sets comment's votes" do
           patch_vote_down
-          expect(comment2.reload.total_votes).to eq -1
+          expect(comment2.reload.votes_sum).to eq -1
         end
 
         it "assigns @comment" do
@@ -115,7 +115,7 @@ RSpec.describe VotesController, :type => :controller do
         end
 
         it "doesn't increase comment's votes" do
-          expect{patch_vote_down}.not_to change(comment, :total_votes)
+          expect{patch_vote_down}.not_to change(comment, :votes_sum)
         end
 
         it "assigns @comment" do
@@ -131,7 +131,7 @@ RSpec.describe VotesController, :type => :controller do
     end
     context "when not signed in" do
       it "doesn't increase comment's votes" do
-        expect{patch_vote_down}.not_to change(comment2, :total_votes)
+        expect{patch_vote_down}.not_to change(comment2, :votes_sum)
       end
 
       it "returns 401 status code" do

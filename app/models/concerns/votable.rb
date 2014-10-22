@@ -17,10 +17,6 @@ module Votable
     end
   end
 
-  def total_votes
-    votes.sum(:vote)
-  end
-
   def voted_by?(user)
     votes.find_by_user_id(user) ? true : false
   end

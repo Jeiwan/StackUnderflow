@@ -18,7 +18,6 @@ feature "Registered User Has Profile" do
 
     within(".user-info") do
       expect(page).to have_content user.username
-      save_and_open_page
       expect(page).to have_selector "img.user-avatar[src='#{user.avatar.small.url}']"
       expect(page).to have_selector ".user-registered", text: user.created_at.strftime("%d/%m/%Y %H:%M")
       expect(page).to have_selector ".user-email", text: user.email

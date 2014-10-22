@@ -7,7 +7,7 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
             = link_to "", vote_up_answer_path(answer), class: "vote-up", remote: true, data: { type: :json }, method: :patch
           - elsif answer.user_voted(current_user) == 1
             span.voted-up
-          strong.votes = answer.total_votes
+          strong.votes = answer.votes_sum
           - if answer.user != current_user && !answer.voted_by?(current_user)
             = link_to "", vote_down_answer_path(answer), class: "vote-down", remote: true, data: { type: :json }, method: :patch
           - elsif answer.user_voted(current_user) == -1

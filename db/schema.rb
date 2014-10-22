@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021105313) do
+ActiveRecord::Schema.define(version: 20141022122518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,10 +23,12 @@ ActiveRecord::Schema.define(version: 20141021105313) do
     t.integer  "question_id"
     t.integer  "user_id"
     t.boolean  "best",        default: false
+    t.integer  "votes_sum",   default: 0
   end
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
+  add_index "answers", ["votes_sum"], name: "index_answers_on_votes_sum", using: :btree
 
   create_table "attachments", force: true do |t|
     t.string   "file"
@@ -47,10 +49,12 @@ ActiveRecord::Schema.define(version: 20141021105313) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "votes_sum",        default: 0
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+  add_index "comments", ["votes_sum"], name: "index_comments_on_votes_sum", using: :btree
 
   create_table "impressions", force: true do |t|
     t.integer  "question_id"
@@ -70,9 +74,11 @@ ActiveRecord::Schema.define(version: 20141021105313) do
     t.integer  "user_id"
     t.datetime "recent_activity"
     t.integer  "answers_count",   default: 0, null: false
+    t.integer  "votes_sum",       default: 0
   end
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
+  add_index "questions", ["votes_sum"], name: "index_questions_on_votes_sum", using: :btree
 
   create_table "questions_tags", force: true do |t|
     t.integer "question_id"

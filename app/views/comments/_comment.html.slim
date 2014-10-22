@@ -8,7 +8,7 @@ li class="comment" id="comment_#{comment.id}"
         - elsif comment.user_voted(current_user) == 1
           span.voted-up
             span.glyphicon.glyphicon-plus
-        strong.votes = comment.total_votes
+        strong.votes = comment.votes_sum
         - if comment.user != current_user && !comment.voted_by?(current_user)
           = link_to vote_down_comment_path(comment), class: "vote-down", remote: true, data: { type: :json }, method: :patch do
             span.glyphicon.glyphicon-minus
