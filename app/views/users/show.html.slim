@@ -1,5 +1,91 @@
 .row
-  .col-md-10
-    h1 = @user.username
-    img.user-avatar src=(@user.avatar.url)
-  .col-md-1
+  .col-md-6.row.user-info
+    .col-md-4
+      img.user-avatar src=(@user.avatar.url)
+    .col-md-8
+      table.table
+        tr
+          td
+            strong Username
+          td
+            span = @user.username
+        tr
+          td
+            strong Registered
+          td
+            span.user-registered
+              = @user.created_at.strftime("%d/%m/%Y %H:%M")
+        tr
+          td
+            strong Email
+          td
+            span.user-email
+              = @user.email
+  .col-md-6
+.row
+  .col-md-12
+    ul.nav.nav-tabs.user-profile-tabs
+      li
+        a href="#" summary
+      li
+        a href="#" questions
+      li
+        a href="#" answers
+      li
+        a href="#" comments
+
+.row.user-summary.pane
+  .col-md-6
+    h3.user-questions
+      - if @user.questions.count > 5
+        |  Last 5 questions
+        span.text-muted
+          |  (total #{@user.questions.count})
+      - else
+        | #{pluralize(@user.questions.count, 'Question')}
+    ul.created-questions
+      - @user.questions.limit(5).each do |question|
+        li = question.title
+    h3.user-answers
+      - if @user.answers.count > 5
+        |  Last 5 answers
+        span.text-muted
+          |  (total #{@user.answers.count})
+      - else
+        | #{pluralize(@user.answers.count, 'Answer')}
+    ul.created-answers
+      - @user.answers.limit(5).each do |answer|
+        li = answer.body
+  .col-md-6
+    h3.user-comments
+      - if @user.comments.count > 5
+        |  Last 5 comments
+        span.text-muted
+          |  (total #{@user.comments.count})
+      - else
+        | #{pluralize(@user.comments.count, 'Comment')}
+    ul.created-comments
+      - @user.comments.limit(5).each do |comment|
+        li = comment.body
+
+.row.user-all-questions.pane
+  .col-md-12
+    h3.user-questions
+      | #{pluralize(@user.questions.count, 'Question')}
+    ul.created-questions
+      - @user.questions.each do |question|
+        li = question.title
+.row.user-all-answers.pane
+  .col-md-12
+    h3.user-answers
+      | #{pluralize(@user.answers.count, 'Answer')}
+    ul.created-answers
+      - @user.answers.each do |answer|
+        li = answer.body
+.row.user-all-comments.pane
+  .col-md-12
+    h3.user-comments
+      | #{pluralize(@user.comments.count, 'Comment')}
+    ul.created-comments
+      - @user.comments.each do |comment|
+        li = comment.body
