@@ -24,10 +24,10 @@ class ApplicationController < ActionController::Base
 
     def update_resource(resource)
       respond_with resource.update(send(:"#{resource.class.to_s.downcase}_params")) do |format|
-        if resource.valid?
-          format.json { render json: resource, status: 200 }
-        else
+        if resource.errors.any?
           format.json { render json: resource.errors, status: 422 }
+        else
+          format.json { render json: resource, status: 200 }
         end
       end
     end
