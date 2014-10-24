@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook]
+      :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..32 }, format: { with: /\A[\w\d_]+\z/, message: "allows only latin letters, numbers, and underscore." }
 
@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
     unless user
       password = Devise.friendly_token
       username = "#{auth.provider}_#{auth.uid}"
-      user = User.create(email: auth.info[:email], username: username, password: password)
+      user = User.create(email: auth.info[:email] || "noemail@localhost.localhost", username: username, password: password)
     end
     user.identities.create(provider: auth.provider, uid: auth.uid)
     user
