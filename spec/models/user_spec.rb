@@ -68,7 +68,7 @@ RSpec.describe User, :type => :model do
             let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456', info: {}) }
 
             it "sets user's email to a generated one" do
-              expect(User.find_for_oauth(auth).email).to eq "#{auth.provider}_#{auth.uid}@localhost.localhost"
+              expect(User.find_for_oauth(auth).email).to eq "#{auth.provider}_#{auth.uid}@stackunderflow.dev"
             end
           end
 
