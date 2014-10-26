@@ -203,6 +203,7 @@ class @Question
         this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
 
   renderFormErrors: (form, response) ->
+    response = response.errors
     this.clearFormErrors(form)
     $form = $(form)
     $form.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")

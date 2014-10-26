@@ -39,35 +39,39 @@ feature "Filtered Questions" do
   end
 
   scenario "User can view a list of questions sorted by recent activity" do
-    visit root_path
-    within(".questions-sorting") do
-      click_link "active"
-    end
+    visit_active
     expect(page).to have_selector "#question_#{questions[2].id} + #question_#{questions[1].id} + #question_#{questions[0].id}"
 
     answer.save
-    visit active_questions_path
+    visit_active
     expect(page).to have_selector "#question_#{questions[1].id} + #question_#{questions[2].id} + #question_#{questions[0].id}"
 
     question_comment.save
-    visit active_questions_path
+    visit_active
     expect(page).to have_selector "#question_#{questions[0].id} + #question_#{questions[1].id} + #question_#{questions[2].id}"
 
     answer_comment.save
-    visit active_questions_path
+    visit_active
     expect(page).to have_selector "#question_#{questions[1].id} + #question_#{questions[0].id} + #question_#{questions[2].id}"
 
     question_comment.update(body: "When I thought that fought this war alone")
-    visit active_questions_path
+    visit_active
     expect(page).to have_selector "#question_#{questions[0].id} + #question_#{questions[1].id} + #question_#{questions[2].id}"
 
     questions[2].update(body: "You were there by my side on the frontline")
-    visit active_questions_path
+    visit_active
     expect(page).to have_selector "#question_#{questions[2].id} + #question_#{questions[0].id} + #question_#{questions[1].id}"
 
     answer_comment.update(body: "And we fought to believe the impossible")
-    visit active_questions_path
+    visit_active
     expect(page).to have_selector "#question_#{questions[1].id} + #question_#{questions[2].id} + #question_#{questions[0].id}"
 
+  end
+end
+
+def visit_active
+  visit root_path
+  within(".questions-sorting") do
+    click_link "active"
   end
 end

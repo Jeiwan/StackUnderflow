@@ -130,6 +130,7 @@ GEM
       multi_json
       sprockets (>= 2.0.3)
       tilt
+    has_scope (0.5.1)
     hashie (3.3.1)
     hike (1.2.3)
     http_parser.rb (0.6.0)
@@ -321,6 +322,7 @@ DEPENDENCIES
   devise
   factory_girl_rails
   handlebars_assets
+  has_scope
   jbuilder
   jquery-rails
   launchy

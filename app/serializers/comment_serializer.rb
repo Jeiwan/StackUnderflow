@@ -11,7 +11,7 @@ class CommentSerializer < ActiveModel::Serializer
   end
 
   def created
-    time_ago_in_words(object.created_at)
+    time_ago_in_words(object.created_at) unless object.errors.any?
   end
 
   def edited

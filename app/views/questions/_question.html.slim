@@ -20,7 +20,7 @@ article.question.row id="question_#{question.id}"
       =link_to question.title, question
     .question-tags.pull-left
       - question.tags.each do |tag|
-        = link_to tag.name, tagged_questions_path(tag.name), class: "label label-default"
+        = link_to tag.name, "/questions/?tag=#{tag.name}", class: "label label-default"
     .question-author.pull-right
       small
         | by 

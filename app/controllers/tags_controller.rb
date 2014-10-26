@@ -1,15 +1,9 @@
 class TagsController < ApplicationController
+  has_scope :popular, type: :boolean, allow_blank: true
+  has_scope :alphabetical, type: :boolean, allow_blank: true
+  has_scope :newest, type: :boolean, allow_blank: true
+
   def index
-    @tags = Tag.popular
-  end
-
-  def alphabetical
-    @tags = Tag.alphabetical
-    render "index"
-  end
-
-  def newest
-    @tags = Tag.newest
-    render "index"
+    @tags = apply_scopes(Tag).all
   end
 end

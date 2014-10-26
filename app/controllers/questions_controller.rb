@@ -6,9 +6,14 @@ class QuestionsController < ApplicationController
 
   respond_to :html, except: [:update]
   respond_to :json, only: [:update]
+
+  has_scope :popular, type: :boolean, allow_blank: true
+  has_scope :unanswered, type: :boolean, allow_blank: true
+  has_scope :active, type: :boolean, allow_blank: true
+  has_scope :tagged_with, as: :tag
   
   def index
-    respond_with @questions = Question.all
+    respond_with @questions = apply_scopes(Question).all
   end
 
   def new
@@ -19,8 +24,6 @@ class QuestionsController < ApplicationController
   def show
     @answers = @question.answers
     @comments = @question.comments
-    @comment = Comment.new
-    @answer = Answer.new
     @question.impressions.find_or_create_by(remote_ip: request.remote_ip, user_agent: (request.user_agent || "no user_agent"))
   end
 
@@ -34,26 +37,6 @@ class QuestionsController < ApplicationController
 
   def destroy
     respond_with @question.destroy
-  end
-
-  def tagged_with
-    @questions = Question.tagged_with(params[:tag_name])
-    render "index"
-  end
-
-  def popular
-    @questions = Question.popular
-    render "index"
-  end
-
-  def unanswered
-    @questions = Question.unanswered
-    render "index"
-  end
-
-  def active
-    @questions = Question.active
-    render "index"
   end
 
   private

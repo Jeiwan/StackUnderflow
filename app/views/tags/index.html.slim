@@ -3,16 +3,16 @@
 .row
   .col-md-10
     ul.nav.nav-tabs.questions-sorting.pull-right
-      li class=(is_active?("index"))
-        = link_to "popular", tags_path
-      li class=(is_active?("alphabetical"))
-        = link_to "alphabetical", alphabetical_tags_path
-      li class=(is_active?("newest"))
-        = link_to "newest", newest_tags_path
+      li class=("active" if current_scopes.empty?)
+        = link_to "alphabetical", tags_path
+      li class=(is_active?(:popular))
+        = link_to "popular", "/tags/?popular"
+      li class=(is_active?(:newest))
+        = link_to "newest", "/tags/?newest"
 .row
   .col-md-10.tags
     - @tags.each do |tag|
-      a href=(tagged_questions_path(tag.name))
+      a href="/questions/?tag=#{tag.name}"
         span.label.label-default = tag.name
   .col-md-2
     = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"

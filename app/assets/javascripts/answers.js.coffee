@@ -82,6 +82,7 @@ class @Answer
         that.$files = []
 
   renderFormErrors: (form, response) ->
+    response = response.errors
     $form = $(form)
     this.clearFormErrors(form)
     $form.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")
@@ -103,6 +104,7 @@ class @Answer
     this.$commentForm.slideToggle()
 
   addComment: (comment) ->
+    console.log comment
     current_user = $("#current_user").data("current-user")
     unless this.commentById(comment.id)
       if (this.$comments.length == 0 || this.$comments.find(".comment").length == 0)

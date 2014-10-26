@@ -27,7 +27,7 @@ RSpec.describe UsersController, :type => :controller do
       context "when user is current_user" do
         before { put_update }
 
-        it "updates user" do
+        it "updates user's avatar" do
           expect(user.reload.avatar.path).to match /new_avatar\.jpg/
         end
 

@@ -53,6 +53,7 @@ class @Comment
     this.$el.html(comment)
 
   renderFormErrors: (form, response) ->
+    response = response.errors
     this.clearFormErrors(form)
     $form = $(form)
     $form.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")

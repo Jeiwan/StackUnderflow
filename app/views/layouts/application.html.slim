@@ -13,7 +13,7 @@ html lang="en"
         .navbar-header
           = link_to "StackUnderflow", root_path, class: "navbar-brand"
         ul.nav.navbar-nav
-          li
+          li class=("active" if params[:controller] == 'tags')
             = link_to "Tags", tags_path
         ul.nav.navbar-nav.navbar-right
           - unless user_signed_in?

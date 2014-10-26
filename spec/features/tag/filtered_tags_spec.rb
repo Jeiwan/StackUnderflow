@@ -10,17 +10,17 @@ feature "Fitlered Tags" do
 
   scenario "User can view tags by popularity" do
     visit tags_path
-    expect(page).to have_content "popular"
+    expect(page).to have_content "alphabetical"
 
-    expect(page).to have_selector "a[href$=#{tags[1].name}] + a[href$=#{tags[2].name}] + a[href$=#{tags[0].name}]"
+    expect(page).to have_selector "a[href$=#{tags[0].name}] + a[href$=#{tags[1].name}] + a[href$=#{tags[2].name}]"
   end
 
   scenario "User can view tags in alphabetical order" do
     visit tags_path
-    expect(page).to have_link "alphabetical"
-    click_link "alphabetical"
+    expect(page).to have_link "popular"
+    click_link "popular"
 
-    expect(page).to have_selector "a[href$=#{tags[0].name}] + a[href$=#{tags[1].name}] + a[href$=#{tags[2].name}]"
+    expect(page).to have_selector "a[href$=#{tags[1].name}] + a[href$=#{tags[2].name}] + a[href$=#{tags[0].name}]"
   end
 
   scenario "User can view tags sorted by the date of creation" do

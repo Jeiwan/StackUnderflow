@@ -53,4 +53,4 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
         li
           = link_to "Comment", "#", class: "show-comment-form"
     .comment-form
-      = render "comments/form", commentable: answer, remote: true
+      = render "comments/form", comment: Comment.new, commentable: answer

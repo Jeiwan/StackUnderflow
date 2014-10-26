@@ -17,6 +17,7 @@ feature "Select Best Answer" do
     select_best_answer question2, answer1.id
 
     expect(page).to have_selector ".best-answer", text: answer1.body
+    expect(page).to have_content "marked as best"
   end
 
   scenario "User can't select a best answer for another user's question" do
