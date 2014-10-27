@@ -17,10 +17,51 @@ RSpec.describe UsersController, :type => :controller do
     end
   end
 
+  describe "GET #edit" do
+
+    context "when signed in", sign_in: true do
+      context "when user edits his profile" do
+        before do
+          get :edit, username: user.username
+        end
+
+        it "assigns @user variable" do
+          expect(assigns(:user)).to eq user
+        end
+        it "renders edit template" do
+          expect(response).to render_template :edit
+        end
+      end
+
+      context "when user edits not his profile" do
+        before do
+          get :edit, username: user2.username
+        end
+
+        it "assigns @user variable" do
+          expect(assigns(:user)).to eq user2
+        end
+        it "redirects to user profile" do
+          expect(response).to redirect_to user_path(user2)
+        end
+      end
+    end
+
+    context "when not signed in" do
+      before do
+        get :edit, username: user.username
+      end
+
+      it "redirects to user profile" do
+        expect(response).to redirect_to user_path(user)
+      end
+    end
+  end
+
   describe "PUT #update" do
     let(:new_avatar) { Rack::Test::UploadedFile.new("#{Rails.root}/spec/features/user/new_avatar.jpg", "image/jpg") }
     let(:put_update) do
-      put :update, username: user.username, user: { avatar: new_avatar }, format: :json
+      put :update, username: user.username, user: { username: user.username.reverse, avatar: new_avatar }, format: :json
     end
 
     context "when signed in", sign_in: true do
@@ -29,6 +70,10 @@ RSpec.describe UsersController, :type => :controller do
 
         it "updates user's avatar" do
           expect(user.reload.avatar.path).to match /new_avatar\.jpg/
+        end
+
+        it "updates user's username" do
+          expect(user.reload.username).to eq user.username
         end
 
         it "returns json object" do
@@ -49,6 +94,7 @@ RSpec.describe UsersController, :type => :controller do
 
         it "doesn't update user" do
           expect(user2.reload.avatar.path).not_to match /new_avatar\.jpg/
+          expect(user2.reload.username).not_to eq user.username.reverse
         end
 
         it "returns status code 403" do
@@ -62,6 +108,7 @@ RSpec.describe UsersController, :type => :controller do
 
       it "doesn't update user" do
         expect(user.reload.avatar.path).not_to match /new_avatar\.jpg/
+        expect(user2.reload.username).not_to eq user.username.reverse
       end
 
       it "returns status code 401" do
