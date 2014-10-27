@@ -52,4 +52,21 @@ feature "User Edits His Profile" do
     expect(page).to have_content "has already been taken"
   end
 
+  scenario "User adds additional info" do
+    new_info = {website: "jeiwan.ru", location: "St. Petersburg", age: 26, full_name: "Ivan Kuznetsov"}
+    visit edit_user_path(user)
+
+    fill_in "Website", with: new_info[:website]
+    fill_in "Location", with: new_info[:location]
+    fill_in "Age", with: new_info[:age]
+    fill_in "Full name", with: new_info[:full_name]
+
+    click_button "Update User"
+
+    expect(page).to have_content new_info[:website]
+    expect(page).to have_content new_info[:location]
+    expect(page).to have_content new_info[:age]
+    expect(page).to have_content new_info[:full_name]
+  end
+
 end

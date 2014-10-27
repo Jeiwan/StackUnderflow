@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
       :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter, :vkontakte, :github]
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..32 }, format: { with: /\A[\w\d_]+\z/, message: "allows only latin letters, numbers, and underscore." }
+  validates :age, numericality: { only_integer: true }, allow_blank: true
 
   mount_uploader :avatar, AvatarUploader
 

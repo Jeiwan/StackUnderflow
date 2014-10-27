@@ -29,6 +29,34 @@
           td
             span.user-email
               = @user.email
+        - unless @user.website.blank?
+          tr
+            td
+              strong Website
+            td
+              span.user-website
+                = @user.website
+        - unless @user.location.blank?
+          tr
+            td
+              strong Location
+            td
+              span.user-location
+                = @user.location
+        - unless @user.age.blank?
+          tr
+            td
+              strong Age
+            td
+              span.user-age
+                = @user.age
+        - unless @user.full_name.blank?
+          tr
+            td
+              strong Full name
+            td
+              span.user-full-name
+                = @user.full_name
   .col-md-6
 .row
   .col-md-12

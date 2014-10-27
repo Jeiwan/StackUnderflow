@@ -8,6 +8,7 @@ RSpec.describe User, :type => :model do
     it { is_expected.to ensure_length_of(:username).is_at_least(3).is_at_most(32) }
     it { is_expected.to allow_value("pedro", "Pedro123", "Pedro_Juan").for(:username) }
     it { is_expected.not_to allow_value("12", "$#!Pedro123", "Pedro Juan").for(:username) }
+    it { is_expected.to validate_numericality_of :age }
   end
 
   describe "associations" do
