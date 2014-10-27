@@ -15,6 +15,9 @@ class UsersController < ApplicationController
     update_resource @user
   end
 
+  def logins
+  end
+
   private
     def user_params
       params.require(:user).permit(:avatar, :username, :email, :website, :age, :location, :full_name)

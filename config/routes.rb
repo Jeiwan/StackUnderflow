@@ -31,7 +31,9 @@ Rails.application.routes.draw do
 
   resources :attachments, only: [:destroy]
 
-  resources :users, only: [:show, :edit, :update], param: :username
+  resources :users, only: [:show, :edit, :update], param: :username do
+    get "/logins" => "users#logins", as: :logins, on: :member
+  end
 
   root "questions#index"
 end

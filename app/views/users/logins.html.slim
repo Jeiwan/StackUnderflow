@@ -1,0 +1,10 @@
+= render "navigation"
+.row
+  .col-md-12
+    ul
+      - User.omniauth_providers.each do |provider|
+        li
+          - if @user.identities.find_by(provider: provider.to_s)
+            |#{provider.to_s.titleize} account already added
+          - else
+            = link_to "Add #{provider.to_s.titleize} account", omniauth_authorize_path(@user, provider)

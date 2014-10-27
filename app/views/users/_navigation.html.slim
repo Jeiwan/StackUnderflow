@@ -1,0 +1,13 @@
+.row
+  .col-md-6
+    - if params[:action] == "show"
+      h3 #{@user.username}
+    - else
+      h3 #{@user.username} > #{params[:action].capitalize}
+  - if @user == current_user
+    .col-md-6
+        ul.nav.nav-tabs
+          li class=("active" if params[:action] == "edit")
+            = link_to "edit", edit_user_path(current_user), id: "edit-profile"
+          li class=("active" if params[:action] == "logins")
+            = link_to "my logins", logins_user_path(current_user)

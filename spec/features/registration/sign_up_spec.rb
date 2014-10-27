@@ -24,6 +24,19 @@ feature "Sign up", %q{
     expect(page).to have_content "Email has already been taken"
     expect(page).to have_content "Username has already been taken"
   end
+
+  scenario "Guest user signs up via OAuth" do
+    auth = {provider: "facebook", uid: "1234567890"}
+    OmniAuth.config.test_mode = true
+    OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
+      provider: auth[:provider],
+      uid: auth[:uid]
+    })
+
+    visit new_user_registration_path
+    click_link "Sign in with Facebook"
+    expect(page).to have_content "#{auth[:provider]}_#{auth[:uid]}"
+  end
 end
 
 def sign_up_with username, email, password

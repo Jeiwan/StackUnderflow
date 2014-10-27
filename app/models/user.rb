@@ -26,14 +26,9 @@ class User < ActiveRecord::Base
     return identity.user if identity
 
     username = "#{auth.provider}_#{auth.uid}"
-    email = (auth.respond_to?(:info) && !auth.info[:email].nil? && !auth.info[:email].empty?) ? auth.info[:email] : "#{username}@stackunderflow.dev"
-
-    user = User.find_by(email: email)
-    
-    unless user
-      password = Devise.friendly_token
-      user = User.create(email: email, username: username, password: password)
-    end
+    email = "#{username}@stackunderflow.dev"
+    password = Devise.friendly_token
+    user = User.create(email: email, username: username, password: password)
     user.identities.create(provider: auth.provider, uid: auth.uid)
     user
   end
