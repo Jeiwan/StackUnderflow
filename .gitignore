@@ -6,6 +6,7 @@
 .DS_Store
 
 /public/uploads
+/coverage
 
 # Ignore bundler config.
 /.bundle
