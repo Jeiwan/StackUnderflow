@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: :update
+  before_action :authenticate_user!, except: [:show, :logins]
   before_action :find_user
-  before_action :user_is_current_user?, only: [:edit, :update]
+  before_action :user_is_current_user?, except: [:show, :logins]
 
   respond_to :json
 
@@ -13,6 +13,14 @@ class UsersController < ApplicationController
 
   def update
     update_resource @user
+  end
+
+  def update_email
+    if @user.update(user_params)
+      redirect_to root_path
+    else
+      render "provide_email"
+    end
   end
 
   def logins

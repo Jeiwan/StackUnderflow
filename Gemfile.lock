@@ -125,6 +125,8 @@ GEM
     faye-websocket (0.7.5)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.3.5)
+    haml (4.0.5)
+      tilt
     handlebars_assets (0.18)
       execjs (>= 1.2.9)
       multi_json
@@ -154,6 +156,16 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mailcatcher (0.2.4)
+      eventmachine
+      haml
+      i18n
+      json
+      mail
+      sinatra
+      skinny (>= 0.1.2)
+      sqlite3-ruby
+      thin
     mime-types (1.25.1)
     mini_magick (3.8.1)
       subexec (~> 0.2.1)
@@ -206,6 +218,8 @@ GEM
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
+    rack-protection (1.5.3)
+      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.1.5)
@@ -265,6 +279,13 @@ GEM
       sprockets-rails (~> 2.0)
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
+    sinatra (1.4.5)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    skinny (0.2.2)
+      eventmachine (~> 1.0)
+      thin
     slim (2.0.3)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
@@ -283,6 +304,9 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    sqlite3 (1.3.9)
+    sqlite3-ruby (1.3.3)
+      sqlite3 (>= 1.3.3)
     subexec (0.2.3)
     temple (0.6.8)
     therubyracer (0.12.1)
@@ -330,6 +354,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   less-rails
+  mailcatcher
   mini_magick
   omniauth
   omniauth-facebook

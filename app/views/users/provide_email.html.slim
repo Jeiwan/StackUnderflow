@@ -1,0 +1,4 @@
+= simple_form_for (@user || current_user), url: update_email_user_path(@user || current_user) do |f|
+  = f.error_notification
+  = f.input :email, input_html: { value: nil }
+  = f.submit "Save", class: "btn btn-success"
