@@ -4,7 +4,7 @@
       h3 #{@user.username}
     - else
       h3 #{@user.username} > #{params[:action].capitalize}
-  - if @user == current_user
+  - if can?(:edit, @user)
     .col-md-6
         ul.nav.nav-tabs
           li class=("active" if params[:action] == "edit")

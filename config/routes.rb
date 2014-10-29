@@ -27,7 +27,6 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :edit, :update], param: :username do
     get "/logins" => "users#logins", as: :logins, on: :member
-    patch "/email" => "users#update_email", as: :update_email, on: :member
   end
 
   root "questions#index"

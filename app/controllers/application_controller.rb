@@ -13,6 +13,17 @@ class ApplicationController < ActionController::Base
     { root: false }
   end
 
+  #check_authorization
+  #skip_authorization_check unless: :devise_controller?
+  
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { render json: :nothing, status: 401 }
+      format.js { render json: :nothing, status: 401 }
+    end
+  end
+
   private
     def configure_permitted_parameters
       devise_parameter_sanitizer.for(:sign_up) << :username
@@ -45,13 +56,11 @@ class ApplicationController < ActionController::Base
     end
 
     def check_if_confirmed
-      if user_signed_in? && (current_user.confirmation_sent_at.nil? || !current_user.unconfirmed_email.nil?) && !(params[:controller] == 'users' && (params[:action] == 'update' || params[:action] == 'update_email')) && !(params[:controller] == 'devise/confirmations' && params[:action] == 'show') && !(params[:controller] == 'devise/sessions' && params[:action] == 'destroy')
-        if current_user.confirmation_sent_at && current_user.confirmation_sent_at > current_user.confirmed_at
-          flash.now[:success] = "We sent a confirmation email on #{current_user.unconfirmed_email}. Please, click 'Confirm my account' link in the email or provide other address below."
-        else
-          flash.now[:info] = "Please, provide your email address below. We will send you a confirmation email on it."
-        end
-        render "users/provide_email"
+      if user_signed_in? && current_user.status == "without_email"
+        flash.now[:danger] = "Your account is restricted. Please, provide your email address on 'Edit profile' page."
+      end
+      if user_signed_in? && current_user.status == "pending"
+        flash.now[:info] = "We sent a confirmation email on #{current_user.unconfirmed_email}. Please, click 'Confirm my account' link in the email or provide other address below."
       end
     end
 end

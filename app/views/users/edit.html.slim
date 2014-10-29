@@ -3,11 +3,10 @@
   .col-md-6.row.user-info
     .col-md-4
       img.user-avatar src=(@user.avatar.small.url)
-      - if @user == current_user
-        .text-center
-          a#change-avatar href="#" change avatar
-        = simple_form_for @user, remote: true, data: { type: :json }, html: {class: "change-avatar-form"} do |f|
-          = f.input :avatar
+      .text-center
+        a#change-avatar href="#" change avatar
+      = simple_form_for @user, remote: true, data: { type: :json }, html: {class: "change-avatar-form"} do |f|
+        = f.input :avatar
     .col-md-8
       = simple_form_for @user do |f|
         = f.error_notification

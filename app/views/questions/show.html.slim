@@ -10,12 +10,12 @@
         .row
           .col-md-1.question-voting
             .voting
-              - if @question.user != current_user && !@question.voted_by?(current_user)
+              - if can?(:vote_up, @question)
                 = link_to "", vote_up_question_path(@question), class: "vote-up", remote: true, data: { type: :json }, method: :patch
               - elsif @question.user_voted(current_user) == 1
                 span.voted-up
               strong.votes = @question.votes_sum
-              - if @question.user != current_user && !@question.voted_by?(current_user)
+              - if can?(:vote_down, @question)
                 = link_to "", vote_down_question_path(@question), class: "vote-down", remote: true, data: { type: :json }, method: :patch
               - elsif @question.user_voted(current_user) == -1
                 span.voted-down
@@ -43,7 +43,7 @@
             - @question.attachments.each do |a|
               li
                 = link_to a.file.file.filename, a.file.url
-                - if @question.user == current_user
+                - if can?(:destroy, a)
                   |&nbsp;&nbsp;&nbsp;
                   = link_to a, method: :delete, data: {confirm: "Are you sure?"}, remote: true, class: "delete-attachment" do
                     span.glyphicon.glyphicon-remove style="color: #a94442"
@@ -53,14 +53,14 @@
               = render @comments
       .panel-footer
         ul.question-management
-          - if user_signed_in? && current_user == @question.user
+          - if can?(:edit, @question)
             li
               = link_to "#", class: "edit-question", id: "edit-question" do
                 span.glyphicon.glyphicon-pencil
             li
               = link_to @question, class: "delete-question", id: "delete-question", method: :delete, data: { confirm: "Are you sure?" } do
                 span.glyphicon.glyphicon-remove
-          - if user_signed_in?
+          - if can?(:create, Comment)
             li
               = link_to "Comment", "#", class: "show-comment-form"
         .comment-form
@@ -69,7 +69,7 @@
     .answers
       h3#answers-counter data-counter=(@answers.count) = pluralize(@answers.count, "Answer")
       = render @answers, has_best_answer: @question.has_best_answer?
-    - if user_signed_in?
+    - if can?(:create, Answer)
       div
         h3 Post answer
         .row

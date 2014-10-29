@@ -2,10 +2,11 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_parent
   before_action :find_comment, only: [:edit, :update, :destroy]
-  before_action :comment_belongs_to_current_user?, only: [:edit, :update, :destroy]
   after_action :publish, only: [:create, :destroy]
 
   respond_to :json
+
+  authorize_resource
 
   def create
     respond_with @comment = @parent.comments.create(comment_params.merge(user_id: current_user.id))
@@ -26,12 +27,6 @@ class CommentsController < ApplicationController
 
     def find_comment
       @comment = Comment.find(params[:id])
-    end
-
-    def comment_belongs_to_current_user?
-      unless @comment.user == current_user
-        redirect_to root_path, status: 403
-      end
     end
 
     def publish

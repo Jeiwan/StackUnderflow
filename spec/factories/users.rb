@@ -8,5 +8,6 @@ FactoryGirl.define do
 		password_confirmation "asdzxcasd"
     confirmed_at Time.now
     confirmation_sent_at 10.days.ago
+    status 3
   end
 end

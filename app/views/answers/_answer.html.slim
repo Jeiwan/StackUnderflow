@@ -3,12 +3,12 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
     .row
       .col-md-1.answer-voting
         .voting
-          - if answer.user != current_user && !answer.voted_by?(current_user)
+          - if can?(:vote_up, answer)
             = link_to "", vote_up_answer_path(answer), class: "vote-up", remote: true, data: { type: :json }, method: :patch
           - elsif answer.user_voted(current_user) == 1
             span.voted-up
           strong.votes = answer.votes_sum
-          - if answer.user != current_user && !answer.voted_by?(current_user)
+          - if can?(:vote_down, answer)
             = link_to "", vote_down_answer_path(answer), class: "vote-down", remote: true, data: { type: :json }, method: :patch
           - elsif answer.user_voted(current_user) == -1
             span.voted-down
@@ -28,7 +28,7 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
         - answer.attachments.each do |a|
           li
             = link_to a.file.file.filename, a.file.url
-            - if answer.user == current_user
+            - if can?(:destroy, a)
               |&nbsp;&nbsp;&nbsp;
               = link_to a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment" do
                 span.glyphicon.glyphicon-remove style="color: #a94442"
@@ -38,18 +38,18 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
           = render answer.comments
   .panel-footer
     ul.answer-management
-      - if user_signed_in?
-        - if current_user == answer.question.user && !answer.best? && !has_best_answer
-          li
-            = link_to [:mark_best, answer], class: "mark-best-answer", method: :post do
-              span.glyphicon.glyphicon-ok
-        - if current_user == answer.user
-          li
-            = link_to "#", class: "edit-answer" do
-              span.glyphicon.glyphicon-pencil
-          li
-            = link_to answer, remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?", id: answer.id } do
-              span.glyphicon.glyphicon-remove
+      - if can?(:mark_best, answer)
+        li
+          = link_to [:mark_best, answer], class: "mark-best-answer", method: :post do
+            span.glyphicon.glyphicon-ok
+      - if can?(:edit, answer)
+        li
+          = link_to "#", class: "edit-answer" do
+            span.glyphicon.glyphicon-pencil
+        li
+          = link_to answer, remote: true, class: "delete-answer", id: "delete-answer", method: :delete, data: { confirm: "Are you sure?", id: answer.id } do
+            span.glyphicon.glyphicon-remove
+      - if can?(:create, Comment)
         li
           = link_to "Comment", "#", class: "show-comment-form"
     .comment-form

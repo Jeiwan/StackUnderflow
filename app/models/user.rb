@@ -9,6 +9,11 @@ class User < ActiveRecord::Base
   has_many :attachments
   has_many :identities, dependent: :destroy
 
+  after_update :set_pending_status
+  def after_confirmation
+    regular!
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -32,8 +37,18 @@ class User < ActiveRecord::Base
     password = Devise.friendly_token
     user = User.new(email: email, username: username, password: password)
     user.skip_confirmation!
+    user.status = "without_email"
     user.save!
     user.identities.create(provider: auth.provider, uid: auth.uid)
     user
   end
+
+  private
+
+    def set_pending_status
+      if unconfirmed_email_changed? && !unconfirmed_email.nil?
+        reset_changes
+        pending!
+      end
+    end
 end

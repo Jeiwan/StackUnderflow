@@ -4,11 +4,13 @@ class VotesController < ApplicationController
   before_action :votable_doesnt_belong_to_current_user?
 
   def vote_up
+    authorize! :vote_up, @parent
     @parent.vote_up current_user
     publish_and_return_votes
   end
 
   def vote_down
+    authorize! :vote_down, @parent
     @parent.vote_down current_user
     publish_and_return_votes
   end

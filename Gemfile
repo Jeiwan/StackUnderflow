@@ -56,3 +56,4 @@ gem 'omniauth-github'
 gem 'has_scope'
 gem 'mailcatcher'
 gem "codeclimate-test-reporter", group: :test, require: nil
+gem 'cancancan'

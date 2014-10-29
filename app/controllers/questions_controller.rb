@@ -11,6 +11,8 @@ class QuestionsController < ApplicationController
   has_scope :unanswered, type: :boolean, allow_blank: true
   has_scope :active, type: :boolean, allow_blank: true
   has_scope :tagged_with, as: :tag
+
+  authorize_resource
   
   def index
     respond_with @questions = apply_scopes(Question).all

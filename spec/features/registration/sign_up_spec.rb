@@ -7,6 +7,7 @@ feature "Sign up", %q{
 } do
 
   given(:user) { build(:user) }
+  given(:user2) { create(:user) }
 
   background do
     ActionMailer::Base.deliveries.clear
@@ -15,6 +16,7 @@ feature "Sign up", %q{
   scenario "Non-registered user signs up" do
     sign_up_with user.username, user.email, user.password
 
+    expect(page).to have_content "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
     expect(ActionMailer::Base.deliveries.count).to eq 1
     last_email = ActionMailer::Base.deliveries.last
     confirmation_link = /<a href="(.+)">Confirm my account<\/a>/.match(last_email.body.to_s)[1]
@@ -43,10 +45,14 @@ feature "Sign up", %q{
     visit new_user_registration_path
     click_link "Sign in with Facebook"
     expect(page).to have_content "Signed in as"
-    expect(page).to have_content "Please, provide your email address below. We will send you a confirmation email on it."
+    expect(page).to have_content "Your account is restricted. Please, provide your email address on 'Edit profile' page."
 
+    user = User.last
+    visit edit_user_path(user)
     fill_in "Email", with: "real@email.truly"
-    click_button "Save"
+    click_button "Update User"
+
+    expect(page).to have_content "We sent a confirmation email on #{user.reload.unconfirmed_email}. Please, click 'Confirm my account' link in the email or provide other address below."
 
     expect(ActionMailer::Base.deliveries.count).to eq 1
     last_email = ActionMailer::Base.deliveries.last
@@ -57,13 +63,16 @@ feature "Sign up", %q{
     expect(page).to have_content "Signed in as"
   end
 
-  scenario "Guest user signs up via OAuth and provides already taken email" do
+  scenario "Guest user signs up via OAuth and provides an already taken email" do
     set_facebook_account
     user.save
     visit new_user_registration_path
     click_link "Sign in with Facebook"
-    fill_in "Email", with: user.email
-    click_button "Save"
+
+    user = User.last
+    visit edit_user_path(user)
+    fill_in "Email", with: user2.email
+    click_button "Update User"
 
     expect(page).to have_content "problems"
     expect(page).to have_content "taken"

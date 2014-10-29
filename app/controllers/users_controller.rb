@@ -5,6 +5,8 @@ class UsersController < ApplicationController
 
   respond_to :json
 
+  authorize_resource
+
   def show
   end
 
@@ -15,15 +17,8 @@ class UsersController < ApplicationController
     update_resource @user
   end
 
-  def update_email
-    if @user.update(user_params)
-      redirect_to root_path
-    else
-      render "provide_email"
-    end
-  end
-
   def logins
+    authorize! :logins, current_user
   end
 
   private
