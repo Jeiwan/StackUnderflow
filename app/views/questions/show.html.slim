@@ -22,7 +22,7 @@
           .col-md-11
             .question-body
               = @question.body
-        .question-tags data-tags="#{@question.form_tag_list}"
+        .question-tags data-tags="#{@question.tag_list}"
           - @question.tags.each do |tag|
             = link_to tag.name, "/questions/?tag=#{tag.name}", class: "label label-default"
         .question-author.text-right
