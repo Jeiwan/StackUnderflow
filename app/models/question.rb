@@ -1,6 +1,5 @@
 class Question < ActiveRecord::Base
   include Votable
-  attr_accessor :tag_list
 
   default_scope { order("created_at DESC") }
   scope :tagged_with, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
@@ -8,7 +7,6 @@ class Question < ActiveRecord::Base
   scope :unanswered, -> { where("answers_count = 0") }
   scope :active, -> { unscoped.order("recent_activity DESC, created_at DESC") }
 
-  after_save :add_tags_from_list
   before_save :set_recent_activity
 
   belongs_to :user
@@ -21,11 +19,20 @@ class Question < ActiveRecord::Base
 
   validates :body, presence: true, length: { in: 10..5000 }
   validates :title, presence: true, length: { in: 5..512 }
-  validates :tag_list, presence: true, on: :create
-  validate :validate_tag_list
+  validates :tag_list, presence: true
 
   def has_best_answer?
     answers.find_by(best: true) ? true : false
+  end
+
+  def tag_list
+    tags.map(&:name).join(",")
+  end
+
+  def tag_list=(list)
+    list ||= ""
+    names = list.split(",").map { |n| n.strip.downcase.tr(" ", "-") }.uniq
+    self.tags = names.map { |name| new_tag = Tag.find_or_create_by(name: name) }
   end
 
   def form_tag_list
@@ -33,27 +40,6 @@ class Question < ActiveRecord::Base
   end
 
   private
-    def validate_tag_list
-      split_tags(tag_list) do |tag|
-        tag = Tag.unscoped.find_or_initialize_by(name: tag)
-        if tag.new_record? && !tag.valid?
-          errors[:tag_list] << "Tags #{tag.errors[:name][0]}"
-          break
-        end
-      end
-    end
-
-    def add_tags_from_list
-      tags.clear unless tag_list.nil?
-      split_tags(tag_list) do |tag|
-        tags.push Tag.unscoped.find_or_create_by(name: tag)
-      end
-    end
-
-    def split_tags(list, &block)
-      list ||= ""
-      list.split(",").each &block
-    end
 
     def set_recent_activity
       self.recent_activity = Time.zone.now

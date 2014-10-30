@@ -7,9 +7,6 @@ RSpec.describe Question, :type => :model do
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to ensure_length_of(:title).is_at_least(5).is_at_most(512) }
     it { is_expected.to ensure_length_of(:body).is_at_least(10).is_at_most(5000) }
-    it { is_expected.to validate_presence_of :tag_list }
-    it { is_expected.to allow_value("tag1,tag2,tag3,c++,c#,andoird-4.0,c--,some_tag", "sole_tag").for(:tag_list) }
-    it { is_expected.not_to allow_value("tag1,###", "tag1,123a", "tag1,+++", "123tag,tag2", "##woot##", "tag@tag").for(:tag_list) }
   end
 
   describe "associations" do
@@ -94,9 +91,22 @@ RSpec.describe Question, :type => :model do
       end
     end
 
-    describe "#form_tag_list" do
+    describe "#tag_list" do
       it "returns question's tags separated by comma" do
-        expect(question.form_tag_list).to eq tags.map(&:name).join(",")
+        expect(question.tag_list).to eq "#{tags[0].name},#{tags[1].name}"
+      end
+    end
+
+    describe "#tag_list=" do
+      let(:tag_list) { question.tag_list = "some,new,tags,here" }
+
+      it "creates new tags from a list" do
+        expect{tag_list}.to change(Tag, :count).by(4)
+      end
+
+      it "sets question's tags from a list" do
+        tag_list
+        expect(question.tags.map(&:name).join(",")).to eq "some,new,tags,here"
       end
     end
 
@@ -170,41 +180,6 @@ RSpec.describe Question, :type => :model do
         it "checks whether the user voted for the question or not" do
           expect(question.voted_by?(user)).to eq true
         end
-      end
-    end
-  end
-
-  describe "after_save" do
-    let(:question) { build(:question, title: "Some good title", body: "Some good body", tag_list: "test,west,east") }
-
-    context "when question has no tags" do
-      it "increases question's tags number" do
-        expect{question.save}.to change(question.tags, :count).by(3)
-      end
-
-      it "sets question's tags" do
-        question.save
-        expect(question.tags.map(&:name).join(",")).to match "test,west,east"
-      end
-    end
-
-    context "when question already has tags" do
-      before do
-        question.save
-        question.tag_list = "best,west"
-      end
-
-      it "creates tags" do
-        expect{question.save}.to change(Tag, :count).by(1)
-      end
-
-      it "changes question's tags number" do
-        expect{question.save}.to change(question.tags, :count).by(-1)
-      end
-
-      it "sets question's tags" do
-        question.save
-        expect(question.form_tag_list).to match "best,west"
       end
     end
   end

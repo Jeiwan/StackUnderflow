@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :question do
     sequence(:title) { |n| "Very important question #{n}" }
     body "Answer my question ASAP!"
-    tag_list "windows,c++,c#,macosx,android-5.0"
+    tag_list "android-5.0,c#,c++,macosx,windows"
 		user
   end
   factory :invalid_question, class: "Question" do
