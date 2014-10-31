@@ -41,8 +41,8 @@ RSpec.describe UsersController, :type => :controller do
         it "assigns @user variable" do
           expect(assigns(:user)).to eq user2
         end
-        it "redirects to user profile" do
-          expect(response).to redirect_to user_path(user2)
+        it "redirects to root path" do
+          expect(response).to redirect_to root_path
         end
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe UsersController, :type => :controller do
         end
 
         it "updates user's username" do
-          expect(user.reload.username).to eq user.username
+          expect(user.username.reverse).to eq user.reload.username
         end
 
         it "returns json object" do
@@ -88,17 +88,17 @@ RSpec.describe UsersController, :type => :controller do
 
       context "when user is not current_user" do
         let(:put_update) do
-          put :update, username: user2.username, user: { avatar: new_avatar }, format: :json
+          put :update, username: user2.username, user: { avatar: new_avatar, username: user2.username.reverse }, format: :json
         end
         before { put_update }
 
         it "doesn't update user" do
           expect(user2.reload.avatar.path).not_to match /new_avatar\.jpg/
-          expect(user2.reload.username).not_to eq user.username.reverse
+          expect(user2.username.reverse).not_to eq user2.reload.username
         end
 
-        it "returns status code 403" do
-          expect(response.status).to eq 403
+        it "returns status code 401" do
+          expect(response.status).to eq 401
         end
       end
     end

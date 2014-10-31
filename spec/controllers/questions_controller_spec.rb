@@ -202,8 +202,8 @@ RSpec.describe QuestionsController, :type => :controller do
         let(:question) { question2 }
         before { put_update }
 
-        it "renders root page" do
-          expect(response).to redirect_to root_path
+        it "returns 401 status code" do
+          expect(response.status).to eq 401
         end
       end
     end

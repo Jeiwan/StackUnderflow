@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :logins]
+  before_action :authenticate_user!, except: [:show]
   before_action :find_user
-  before_action :user_is_current_user?, except: [:show, :logins]
 
   respond_to :json
 
-  authorize_resource
+  authorize_resource id_param: :username
 
   def show
   end
@@ -18,7 +17,7 @@ class UsersController < ApplicationController
   end
 
   def logins
-    authorize! :logins, current_user
+    authorize! :logins, @user
   end
 
   private
@@ -28,14 +27,5 @@ class UsersController < ApplicationController
 
     def find_user
       @user = User.find_by(username: params[:username])
-    end
-
-    def user_is_current_user?
-      unless @user == current_user
-        respond_with do |format|
-          format.json { render json: nil, status: 403 }
-          format.html { redirect_to @user }
-        end
-      end
     end
 end

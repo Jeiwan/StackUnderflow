@@ -57,9 +57,9 @@ RSpec.describe VotesController, :type => :controller do
           expect(assigns(:parent)).to eq comment
         end
 
-        it "returns status 403" do
+        it "returns status 401" do
           patch_vote_up
-          expect(response.status).to eq 403
+          expect(response.status).to eq 401
         end
       end
     end
@@ -123,9 +123,9 @@ RSpec.describe VotesController, :type => :controller do
           expect(assigns(:parent)).to eq comment
         end
 
-        it "returns status 403" do
+        it "returns status 401" do
           patch_vote_down
-          expect(response.status).to eq 403
+          expect(response.status).to eq 401
         end
       end
     end
