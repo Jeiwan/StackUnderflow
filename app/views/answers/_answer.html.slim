@@ -19,10 +19,18 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
       small
         | by 
         = link_to answer.user.username, user_path(answer.user.username)
-        |  #{time_ago_in_words(answer.created_at)} ago
-        - if answer.updated_at.to_s > answer.created_at.to_s
+        |  #{time_ago_in_words(answer.created_at)} ago  
+      div
+        img src=(answer.user.avatar.tiny.url)
+        br
+        small
+          = answer.user.reputation
+      - if answer.updated_at.to_s > answer.created_at.to_s
+        small
           span.text-muted
-            |  edited #{time_ago_in_words(answer.updated_at)} ago
+            | edited  
+            = time_ago_in_words(answer.updated_at)
+            |  ago
     - if answer.attachments.any?
       ul.answer-attachments
         - answer.attachments.each do |a|

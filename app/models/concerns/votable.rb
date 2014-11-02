@@ -5,25 +5,31 @@ module Votable
     has_many :votes, as: :votable, dependent: :destroy
   end
 
-  def vote_up(user)
-    unless voted_by? user
-      votes.create(user_id: user.id, vote: 1)
+  def vote_up(voter)
+    unless voted_by? voter
+      votes.create(user_id: voter.id, vote: 1)
+
+      if self.class.name == 'Question'
+        user.increment(:reputation, 5).save!
+      elsif self.class.name == 'Answer'
+        user.increment(:reputation, 10).save!
+      end
     end
   end
 
-  def vote_down(user)
-    unless voted_by? user
-      votes.create(user_id: user.id, vote: -1)
+  def vote_down(voter)
+    unless voted_by? voter
+      votes.create(user_id: voter.id, vote: -1)
     end
   end
 
-  def voted_by?(user)
-    votes.find_by_user_id(user) ? true : false
+  def voted_by?(voter)
+    votes.find_by_user_id(voter) ? true : false
   end
 
-  def user_voted(user)
-    if voted_by?(user)
-      votes.find_by_user_id(user).vote
+  def user_voted(voter)
+    if voted_by?(voter)
+      votes.find_by_user_id(voter).vote
     end
   end
 end

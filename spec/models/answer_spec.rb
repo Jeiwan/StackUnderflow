@@ -18,14 +18,19 @@ RSpec.describe Answer, :type => :model do
 
   describe "instance methods" do
     let(:user) { create(:user) }
+    let(:user2) { create(:user) }
     let(:question) { create(:question, user: user) }
-    let!(:answer) { create(:answer, question: question) }
+    let!(:answer) { create(:answer, question: question, user: user2) }
 
     describe "#mark_best!" do
       context "when question has no best answer" do
         it "marks answer as best" do
           answer.mark_best!
           expect(answer).to be_best
+        end
+
+        it "increases user's reputation" do
+          expect{answer.mark_best!}.to change{answer.user.reputation}.by(15)
         end
       end
 
@@ -68,6 +73,10 @@ RSpec.describe Answer, :type => :model do
         it "increases answer's votes number" do
           expect{answer.vote_up(user)}.to change{answer.reload.votes_sum}.by(1)
         end
+
+        it "increases answered user's reputation" do
+          expect{answer.vote_up(user)}.to change{answer.user.reputation}.by(10)
+        end
       end
       
       context "when user already voted" do
@@ -75,6 +84,10 @@ RSpec.describe Answer, :type => :model do
         
         it "doesn't increase answer's votes number" do
           expect{answer.vote_up(user)}.not_to change{answer.reload.votes_sum}
+        end
+
+        it "doesn't increase answered user's reputation" do
+          expect{answer.vote_up(user)}.not_to change{answer.user.reputation}
         end
       end
     end

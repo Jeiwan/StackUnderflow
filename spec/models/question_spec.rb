@@ -71,8 +71,9 @@ RSpec.describe Question, :type => :model do
 
   describe "methods" do
     let(:user) { create(:user) }
+    let(:user2) { create(:user) }
     let(:tags) { create_list(:tag, 2) }
-    let(:question) { create(:question, tag_list: tags.map(&:name).join(",")) }
+    let(:question) { create(:question, tag_list: tags.map(&:name).join(","), user: user2) }
     let!(:answer2) { create(:answer, question: question) }
 
     describe "#has_best_answer?" do
@@ -139,6 +140,10 @@ RSpec.describe Question, :type => :model do
         it "increases question's votes number" do
           expect{question.vote_up(user)}.to change{question.reload.votes_sum}.by(1)
         end
+
+        it "increases question's user reputation" do
+          expect{question.vote_up(user)}.to change{question.user.reputation}.by(5)
+        end
       end
       
       context "when user already voted" do
@@ -146,6 +151,10 @@ RSpec.describe Question, :type => :model do
         
         it "doesn't increase question's votes number" do
           expect{question.vote_up(user)}.not_to change{question.reload.votes_sum}
+        end
+
+        it "doesn't increase question's user reputation" do
+          expect{question.vote_up(user)}.not_to change{question.user.reload.reputation}
         end
       end
     end

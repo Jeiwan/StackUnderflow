@@ -32,6 +32,9 @@
             |  #{time_ago_in_words(@question.created_at)} ago  
           div
             img src=(@question.user.avatar.tiny.url)
+            br
+            small
+              = @question.user.reputation
           - if @question.updated_at.to_s > @question.created_at.to_s
             small
               span.text-muted

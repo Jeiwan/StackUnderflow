@@ -14,7 +14,10 @@ class Answer < ActiveRecord::Base
   validates :body, presence: true, length: { in: 10..5000 }
 
   def mark_best!
-    update(best: true) unless question.has_best_answer?
+    unless question.has_best_answer?
+      update(best: true)
+      user.increment(:reputation, 15).save!
+    end
   end
 
   private

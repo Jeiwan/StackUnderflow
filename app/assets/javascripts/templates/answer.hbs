@@ -15,6 +15,13 @@
     <div class="answer-author text-right">
       <small>
         by <a href="/users/{{user.username}}">{{user.username}}</a> {{created}} ago
+      </small>
+        <div>
+          <img src="{{user.tiny_avatar_url}}" alt="{{user.username}}">
+          <br/>
+          <small>{{user.reputation}}</small>
+        </div>
+      <small>
         {{#if edited}}
         <span class="text-muted">{{edited}} ago</span>
         {{/if}}
