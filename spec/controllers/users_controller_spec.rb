@@ -6,6 +6,19 @@ RSpec.describe UsersController, :type => :controller do
 
   user_sign_in
 
+  describe "GET #index" do
+    let!(:users) { create_list(:user, 3) }
+    before { get :index }
+
+    it "returns users" do
+      expect(assigns[:users]).to eq users
+    end
+
+    it "renders index template" do
+      expect(response).to render_template :index
+    end
+  end
+
   describe "GET #show" do
     before { get :show, username: user.username }
     it "returns a user" do

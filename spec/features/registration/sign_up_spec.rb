@@ -47,7 +47,7 @@ feature "Sign up", %q{
     expect(page).to have_content "Signed in as"
     expect(page).to have_content "Your account is restricted. Please, provide your email address on 'Edit profile' page."
 
-    user = User.last
+    user = User.unscoped.last
     visit edit_user_path(user)
     fill_in "Email", with: "real@email.truly"
     click_button "Update User"
@@ -69,7 +69,7 @@ feature "Sign up", %q{
     visit new_user_registration_path
     click_link "Sign in with Facebook"
 
-    user = User.last
+    user = User.unscoped.last
     visit edit_user_path(user)
     fill_in "Email", with: user2.email
     click_button "Update User"

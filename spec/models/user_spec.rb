@@ -20,6 +20,34 @@ RSpec.describe User, :type => :model do
     it { is_expected.to have_many :identities }
   end
 
+  describe "scopes" do
+    let!(:users) { create_list(:user, 3) }
+
+    before do
+      users[0].update(username: "bbb", reputation: 5)
+      users[2].update(username: "aaa", reputation: 10)
+      users[1].update(username: "ccc", reputation: 15)
+    end
+
+    describe "by_reputation" do
+      it "returns users sorted by reputation in descending order" do
+        expect(User.by_reputation).to match_array [users[1], users[2], users[0]]
+      end
+    end
+
+    describe "by_registration" do
+      it "returns users sorted by registration in descending order" do
+        expect(User.by_registration).to match_array [users[2], users[1], users[0]]
+      end
+    end
+
+    describe "alphabetically" do
+      it "returns users sorted alphabetically in descending order" do
+        expect(User.alphabetically).to match_array [users[2], users[0], users[1]]
+      end
+    end
+  end
+
   describe "methods" do
 
     describe ".find_for_oauth" do

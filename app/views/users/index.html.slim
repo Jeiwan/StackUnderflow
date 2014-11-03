@@ -1,0 +1,16 @@
+= title "Users"
+
+.row
+  .col-md-10
+    ul.nav.nav-tabs.questions-sorting.pull-right
+      li class=("active" if current_scopes.empty?)
+        = link_to "by reputation", users_path
+      li class=(is_active?(:alphabetically))
+        = link_to "alphabetically", "/users/?alphabetically"
+      li class=(is_active?(:by_registration))
+        = link_to "by registration", "/users/?by_registration"
+.row
+  .col-md-12
+    - @users.each do |user|
+      article.user id="user_#{user.id}"
+        = link_to user.username, user_path(user)

@@ -15,6 +15,8 @@ html lang="en"
         ul.nav.navbar-nav
           li class=("active" if params[:controller] == 'tags')
             = link_to "Tags", tags_path
+          li class=("active" if params[:controller] == 'users')
+            = link_to "Users", users_path
         ul.nav.navbar-nav.navbar-right
           - unless user_signed_in?
             li
