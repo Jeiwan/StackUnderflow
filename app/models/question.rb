@@ -10,7 +10,8 @@ class Question < ActiveRecord::Base
   before_save :set_recent_activity
 
   belongs_to :user
-  has_and_belongs_to_many :tags
+  has_many :taggings
+  has_many :tags, through: :taggings
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy

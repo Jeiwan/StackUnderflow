@@ -50,7 +50,7 @@ class @Question
       $(".edit-form").prev().show().end().remove()
       that.$body.hide()
       that.$body.after(HandlebarsTemplates["edit_question"]({id: that.id, body: that.$body.text(), title: that.$title.text(), tag_list: that.tagList}))
-      $("#question_tag_list").tagsinput("refresh")
+      $("#question_tag_list").tagsinput({ confirmKeys: [32, 13, 188], tagClass: "label label-default" })
 
     this.$el.on "click", ".cancel-editing", (e) ->
       e.preventDefault()

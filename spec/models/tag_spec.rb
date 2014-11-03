@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Tag, :type => :model do
 
   describe "associations" do
-    it { is_expected.to have_and_belong_to_many :questions }
+    it { is_expected.to have_many :taggings }
+    it { is_expected.to have_many :questions }
   end
 
   describe "validations" do
