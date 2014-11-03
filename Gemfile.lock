@@ -100,6 +100,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    doorkeeper (1.4.0)
+      railties (>= 3.1)
     em-http-request (1.1.2)
       addressable (>= 2.3.4)
       cookiejar
@@ -148,6 +150,9 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
+    json_spec (1.1.4)
+      multi_json (~> 1.0)
+      rspec (>= 2.0, < 4.0)
     jwt (1.0.0)
     launchy (2.4.2)
       addressable (~> 2.3)
@@ -252,6 +257,10 @@ GEM
     remotipart (1.2.1)
     responders (1.1.1)
       railties (>= 3.2, < 4.2)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
     rspec-core (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.4)
@@ -358,11 +367,13 @@ DEPENDENCIES
   coffee-rails
   database_cleaner
   devise
+  doorkeeper
   factory_girl_rails
   handlebars_assets
   has_scope
   jbuilder
   jquery-rails
+  json_spec
   launchy
   less-rails
   mailcatcher

@@ -1,11 +1,11 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :avatar_url, :reputation, :tiny_avatar_url
-
-  def avatar_url
-    object.avatar.small.url
-  end
+  attributes :id, :username, :reputation, :small_avatar_url, :tiny_avatar_url
 
   def tiny_avatar_url
     object.avatar.tiny.url
+  end
+  
+  def small_avatar_url
+    object.avatar.small.url
   end
 end

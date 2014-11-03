@@ -78,7 +78,8 @@ RSpec.describe UsersController, :type => :controller do
 
         it "returns json object" do
           json = JSON.parse(response.body)
-          expect(json["avatar_url"]).to match /new_avatar\.jpg/
+          expect(json["tiny_avatar_url"]).to match /new_avatar\.jpg/
+          expect(json["small_avatar_url"]).to match /new_avatar\.jpg/
         end
 
         it "returns status code 200" do

@@ -11,6 +11,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'json_spec'
 end
 
 group :development do
@@ -57,3 +58,4 @@ gem 'has_scope'
 gem 'mailcatcher'
 gem "codeclimate-test-reporter", group: :test, require: nil
 gem 'cancancan'
+gem 'doorkeeper'

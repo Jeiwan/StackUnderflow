@@ -14,7 +14,7 @@ $ ->
     $(".pane").hide().eq($this.index()).show()
 
   $(".user-info form.change-avatar-form").on "ajax:success", (e, data, status, xhr)->
-    $(".user-avatar").attr("src", xhr.responseJSON.avatar_url)
+    $(".user-avatar").attr("src", xhr.responseJSON.small_avatar_url)
 
   $("#change-avatar").click (e) ->
     e.preventDefault()

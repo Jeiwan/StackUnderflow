@@ -1,8 +1,9 @@
 class AnswerSerializer < ApplicationSerializer
   include ActionView::Helpers::DateHelper
 
-  attributes :id, :body, :created, :question, :comments, :edited, :files, :is_best, :votes_sum
+  attributes :id, :body, :created, :question, :edited, :files, :is_best, :votes_sum
   has_one :user
+  has_many :comments
 
   def created
     time_ago_in_words(object.created_at)
@@ -11,14 +12,6 @@ class AnswerSerializer < ApplicationSerializer
   def question
     question = object.question
     {id: question.id, title: question.title, body: question.body, has_best_answer: question.has_best_answer?}
-  end
-
-  def comments
-    if object.comments.any?
-      object.comments.map { |comment| { id: comment.id, body: comment.body } }
-    else
-      false
-    end
   end
 
   def edited
