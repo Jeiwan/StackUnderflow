@@ -73,54 +73,81 @@
   .col-md-6
     h3.user-questions
       - if @user.questions.count > 5
-        |  Last 5 questions
+        |  Last 5 Questions
         span.text-muted
           |  (total #{@user.questions.count})
       - else
         | #{pluralize(@user.questions.count, 'Question')}
     ul.created-questions
       - @user.questions.limit(5).each do |question|
-        li = question.title
+        li
+          span.votes
+            = question.votes_sum
+          = link_to question.title, question_path(question)
     h3.user-answers
       - if @user.answers.count > 5
-        |  Last 5 answers
+        |  Last 5 Answers
         span.text-muted
           |  (total #{@user.answers.count})
       - else
         | #{pluralize(@user.answers.count, 'Answer')}
     ul.created-answers
       - @user.answers.limit(5).each do |answer|
-        li = answer.body
+        li
+          span.votes
+            = answer.votes_sum
+          = link_to answer.body, url_for(answer.question) + "#answer_#{answer.id}"
   .col-md-6
     h3.user-comments
       - if @user.comments.count > 5
-        |  Last 5 comments
+        |  Last 5 Comments
         span.text-muted
           |  (total #{@user.comments.count})
       - else
         | #{pluralize(@user.comments.count, 'Comment')}
     ul.created-comments
       - @user.comments.limit(5).each do |comment|
-        li = comment.body
+        li
+          span.votes
+            = comment.votes_sum
+          = link_to comment.body, url_for(comment.commentable.respond_to?(:question) ? comment.commentable.question : comment.commentable) + "#comment_#{comment.id}"
 
 .row.user-all-questions.pane
   .col-md-12
     h3.user-questions
       | #{pluralize(@user.questions.count, 'Question')}
-    ul.created-questions
+    table.created-questions.table
       - @user.questions.each do |question|
-        li = question.title
+        tr
+          td.votes
+            = question.votes_sum
+          td
+            = link_to question.title, question_path(question)
+          td.text-right
+            = question.created_at.strftime("%d/%m/%Y %H:%M")
 .row.user-all-answers.pane
   .col-md-12
     h3.user-answers
       | #{pluralize(@user.answers.count, 'Answer')}
-    ul.created-answers
+    table.created-answers.table
       - @user.answers.each do |answer|
-        li = answer.body
+        tr
+          td.votes
+            = answer.votes_sum
+          td
+            = link_to answer.body, url_for(answer.question) + "#answer_#{answer.id}"
+          td.text-right
+            = answer.created_at.strftime("%d/%m/%Y %H:%M")
 .row.user-all-comments.pane
   .col-md-12
     h3.user-comments
       | #{pluralize(@user.comments.count, 'Comment')}
-    ul.created-comments
+    table.created-comments.table
       - @user.comments.each do |comment|
-        li = comment.body
+        tr
+          td.votes
+            = comment.votes_sum
+          td
+            = link_to comment.body, url_for(comment.commentable.respond_to?(:question) ? comment.commentable.question : comment.commentable) + "#comment_#{comment.id}"
+          td.text-right
+            = comment.created_at.strftime("%d/%m/%Y %H:%M")

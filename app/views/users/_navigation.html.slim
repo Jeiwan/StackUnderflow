@@ -1,9 +1,11 @@
 .row
   .col-md-6
     - if params[:action] == "show"
-      h3 #{@user.username}
+      h4 #{@user.username}
     - else
-      h3 #{@user.username} > #{params[:action].capitalize}
+      h4
+        = link_to @user.username, @user
+        |  > #{params[:action].capitalize}
   - if can?(:edit, @user)
     .col-md-6
         ul.nav.nav-tabs
