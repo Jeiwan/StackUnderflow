@@ -10,7 +10,19 @@
       li class=(is_active?(:by_registration))
         = link_to "by registration", "/users/?by_registration"
 .row
-  .col-md-12
+  .col-md-10.all-users
     - @users.each do |user|
       article.user id="user_#{user.id}"
-        = link_to user.username, user_path(user)
+        .user-avatar
+          = link_to user_path(user) do
+            = image_tag user.avatar.medium.url
+        .user-info
+          = link_to user.username, user_path(user)
+          div
+            small
+              = user.location
+          div
+            strong
+              = user.reputation
+  .col-md-2
+    = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
