@@ -37,9 +37,11 @@ class ApplicationController < ActionController::Base
     def update_resource(resource)
       respond_with resource.update(send(:"#{resource.class.to_s.downcase}_params")) do |format|
         if resource.errors.any?
+          flash[:danger] = "Unable to update #{resource.class.name}. See errors below."
           format.json { render json: resource.errors, status: 422 }
           format.html { render "edit" }
         else
+          flash[:success] = "#{resource.class.name} was successfully updated."
           format.json { render json: resource, status: 200 }
           format.html { redirect_to resource }
         end

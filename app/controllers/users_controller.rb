@@ -2,11 +2,12 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_user
 
-  respond_to :json
+  respond_to :json, :html
 
   authorize_resource id_param: :username
 
   def show
+    respond_with @user
   end
 
   def edit

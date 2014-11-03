@@ -48,7 +48,7 @@ feature "User Edits His Profile" do
     click_button "Update User"
 
     expect(page.current_path).to match /\/users\/#{user.username}\z/
-    expect(page).to have_content "problems"
+    expect(page).to have_content "Unable"
     expect(page).to have_content "has already been taken"
   end
 

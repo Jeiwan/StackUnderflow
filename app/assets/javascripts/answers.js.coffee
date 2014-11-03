@@ -44,7 +44,6 @@ class @Answer
   setAjaxHooks: () ->
     that = this
     this.$el.on "ajax:success", "form.edit_answer", (e, data, status, xhr) ->
-      console.log xhr.responseJSON
       that.$body.siblings(".edit-form").remove()
       that.$body.text(xhr.responseJSON.body)
       that.$body.show()

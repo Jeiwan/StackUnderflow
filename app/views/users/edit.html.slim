@@ -6,10 +6,10 @@
       .text-center
         a#change-avatar href="#" change avatar
       = simple_form_for @user, remote: true, data: { type: :json }, html: {class: "change-avatar-form"} do |f|
+        = hidden_field_tag :authenticity_token, form_authenticity_token
         = f.input :avatar
     .col-md-8
       = simple_form_for @user do |f|
-        = f.error_notification
         = f.input :username
         = f.input :email
         = f.input :website
