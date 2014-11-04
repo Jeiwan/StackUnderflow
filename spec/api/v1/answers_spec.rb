@@ -125,4 +125,57 @@ describe 'Answers API' do
       end
     end
   end
+
+  describe "POST #create" do
+    let!(:question) { create(:question) }
+    let(:answer) { build(:answer) }
+    let(:attributes) { attributes_for(:answer) }
+
+    context "when user is not authorized" do
+      context "when access token is absent" do
+        let(:post_create) do
+          post "/api/v1/questions/#{question.id}/answers", answer: attributes, format: :json
+        end
+
+        it "returns 401 status code" do
+          post_create
+          expect(response.status).to eq 401
+        end
+
+        it "doesn't create a new answer" do
+          expect{post_create}.not_to change(Answer, :count)
+        end
+      end
+      context "when access token is invalid" do
+        let(:post_create) do
+          post "/api/v1/questions/#{question.id}/answers", answer: attributes, format: :json, access_token: '12345'
+        end
+
+        it "returns 401 status code" do
+          post_create
+          expect(response.status).to eq 401
+        end
+
+        it "doesn't create a new answer" do
+          expect{post_create}.not_to change(Answer, :count)
+        end
+      end
+    end
+
+    context "when user is authorized" do
+      let(:access_token) { create(:access_token) }
+      let(:post_create) do
+        post "/api/v1/questions/#{question.id}/answers", answer: attributes, format: :json, access_token: access_token.token
+      end
+
+      it "creates a new answer" do
+        expect{post_create}.to change(Answer, :count).by(1)
+      end
+
+      it "returns 201 status code" do
+        post_create
+        expect(response.status).to eq 201
+      end
+    end
+  end
 end

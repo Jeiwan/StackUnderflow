@@ -182,4 +182,56 @@ describe 'Questions API' do
       end
     end
   end
+
+  describe "POST #create" do
+    let(:question) { build(:question) }
+    let(:attributes) { attributes_for(:question) }
+
+    context "when user is not authorized" do
+      context "when access token is absent" do
+        let(:post_create) do
+          post '/api/v1/questions', question: attributes, format: :json
+        end
+
+        it "returns 401 status code" do
+          post_create
+          expect(response.status).to eq 401
+        end
+
+        it "doesn't create a new question" do
+          expect{post_create}.not_to change(Question, :count)
+        end
+      end
+      context "when access token is invalid" do
+        let(:post_create) do
+          post '/api/v1/questions', question: attributes, format: :json, access_token: '12345'
+        end
+
+        it "returns 401 status code" do
+          post_create
+          expect(response.status).to eq 401
+        end
+
+        it "doesn't create a new question" do
+          expect{post_create}.not_to change(Question, :count)
+        end
+      end
+    end
+
+    context "when user is authorized" do
+      let(:access_token) { create(:access_token) }
+      let(:post_create) do
+        post '/api/v1/questions', question: attributes, format: :json, access_token: access_token.token
+      end
+
+      it "creates a new question" do
+        expect{post_create}.to change(Question, :count).by(1)
+      end
+
+      it "returns 201 status code" do
+        post_create
+        expect(response.status).to eq 201
+      end
+    end
+  end
 end
