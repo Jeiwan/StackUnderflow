@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         get :me, on: :collection
       end
       resources :questions
+      resources :users, param: :username
     end
   end
 
