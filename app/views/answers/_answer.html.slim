@@ -24,7 +24,7 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
         img src=(answer.user.avatar.tiny.url)
         br
         small
-          = answer.user.reputation
+          = answer.user.reputation_sum
       - if answer.updated_at.to_s > answer.created_at.to_s
         small
           span.text-muted

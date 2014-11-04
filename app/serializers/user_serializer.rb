@@ -8,4 +8,8 @@ class UserSerializer < ActiveModel::Serializer
   def small_avatar_url
     object.avatar.small.url
   end
+
+  def reputation
+    object.reputation_sum
+  end
 end

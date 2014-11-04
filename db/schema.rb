@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141103191551) do
+ActiveRecord::Schema.define(version: 20141104103527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,15 @@ ActiveRecord::Schema.define(version: 20141103191551) do
   add_index "questions_tags", ["question_id"], name: "index_questions_tags_on_question_id", using: :btree
   add_index "questions_tags", ["tag_id"], name: "index_questions_tags_on_tag_id", using: :btree
 
+  create_table "reputations", force: true do |t|
+    t.integer  "value"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reputations", ["user_id"], name: "index_reputations_on_user_id", using: :btree
+
   create_table "taggings", force: true do |t|
     t.integer "question_id"
     t.integer "tag_id"
@@ -173,7 +182,7 @@ ActiveRecord::Schema.define(version: 20141103191551) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "status",                 default: 0
-    t.integer  "reputation",             default: 0
+    t.integer  "reputation_sum",         default: 0
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

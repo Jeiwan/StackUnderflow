@@ -4,9 +4,9 @@ feature "Users Page" do
   let!(:users) { create_list(:user, 3) }
 
   before do
-    users[0].update(username: "bbb", reputation: 5)
-    users[2].update(username: "aaa", reputation: 10)
-    users[1].update(username: "ccc", reputation: 15)
+    users[0].update(username: "bbb", reputation_sum: 5)
+    users[2].update(username: "aaa", reputation_sum: 10)
+    users[1].update(username: "ccc", reputation_sum: 15)
   end
 
   scenario "User can see a list of all users sorted by rating" do

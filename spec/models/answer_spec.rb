@@ -30,7 +30,7 @@ RSpec.describe Answer, :type => :model do
         end
 
         it "increases user's reputation" do
-          expect{answer.mark_best!}.to change{answer.user.reputation}.by(15)
+          expect{answer.mark_best!}.to change{answer.user.reputation_sum}.by(15)
         end
       end
 
@@ -75,7 +75,7 @@ RSpec.describe Answer, :type => :model do
         end
 
         it "increases answered user's reputation" do
-          expect{answer.vote_up(user)}.to change{answer.user.reputation}.by(10)
+          expect{answer.vote_up(user)}.to change{answer.user.reputation_sum}.by(10)
         end
       end
       
@@ -87,7 +87,7 @@ RSpec.describe Answer, :type => :model do
         end
 
         it "doesn't increase answered user's reputation" do
-          expect{answer.vote_up(user)}.not_to change{answer.user.reputation}
+          expect{answer.vote_up(user)}.not_to change{answer.user.reputation_sum}
         end
       end
     end

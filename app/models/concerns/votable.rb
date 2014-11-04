@@ -10,9 +10,11 @@ module Votable
       votes.create(user_id: voter.id, vote: 1)
 
       if self.class.name == 'Question'
-        user.increment(:reputation, 5).save!
+        Reputation.add_to(user, :question_vote_up)
+        #user.increment(:reputation, 5).save!
       elsif self.class.name == 'Answer'
-        user.increment(:reputation, 10).save!
+        #user.increment(:reputation, 10).save!
+        Reputation.add_to(user, :answer_vote_up)
       end
     end
   end

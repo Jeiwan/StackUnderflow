@@ -143,7 +143,7 @@ RSpec.describe Question, :type => :model do
         end
 
         it "increases question's user reputation" do
-          expect{question.vote_up(user)}.to change{question.user.reputation}.by(5)
+          expect{question.vote_up(user)}.to change{question.user.reputation_sum}.by(5)
         end
       end
       
@@ -155,7 +155,7 @@ RSpec.describe Question, :type => :model do
         end
 
         it "doesn't increase question's user reputation" do
-          expect{question.vote_up(user)}.not_to change{question.user.reload.reputation}
+          expect{question.vote_up(user)}.not_to change{question.user.reload.reputation_sum}
         end
       end
     end

@@ -18,15 +18,16 @@ RSpec.describe User, :type => :model do
     it { is_expected.to have_many :votes }
     it { is_expected.to have_many :attachments }
     it { is_expected.to have_many :identities }
+    it { is_expected.to have_many :reputations }
   end
 
   describe "scopes" do
     let!(:users) { create_list(:user, 3) }
 
     before do
-      users[0].update(username: "bbb", reputation: 5)
-      users[2].update(username: "aaa", reputation: 10)
-      users[1].update(username: "ccc", reputation: 15)
+      users[0].update(username: "bbb", reputation_sum: 5)
+      users[2].update(username: "aaa", reputation_sum: 10)
+      users[1].update(username: "ccc", reputation_sum: 15)
     end
 
     describe "by_reputation" do
@@ -87,6 +88,32 @@ RSpec.describe User, :type => :model do
           expect(identity.provider).to eq auth.provider
           expect(identity.uid).to eq auth.uid
         end
+      end
+    end
+
+    describe "#reputations_chart_date" do
+      let!(:user) { create(:user) }
+      before do
+        user.reputations.create(value: 10)
+        user.reputations.create(value: 5, created_at: 2.days.ago)
+        user.reputations.create(value: 10, created_at: 15.days.ago)
+        user.reputations.create(value: 15, created_at: 29.days.ago)
+        user.reputations.create(value: 30, created_at: 30.days.ago)
+      end
+
+      it "returns formated data for reputations chart" do
+        result = user.reputations_chart_data
+        expect(result[29][:date]).to eq Date.today
+        expect(result[29][:reputation]).to eq 10
+
+        expect(result[27][:date]).to eq 2.days.ago.to_date
+        expect(result[27][:reputation]).to eq 5
+
+        expect(result[14][:date]).to eq 15.days.ago.to_date
+        expect(result[14][:reputation]).to eq 10
+
+        expect(result[0][:date]).to eq 29.days.ago.to_date
+        expect(result[0][:reputation]).to eq 15
       end
     end
   end

@@ -34,7 +34,7 @@
             img src=(@question.user.avatar.tiny.url)
             br
             small
-              = @question.user.reputation
+              = @question.user.reputation_sum
           - if @question.updated_at.to_s > @question.created_at.to_s
             small
               span.text-muted

@@ -16,7 +16,8 @@ class Answer < ActiveRecord::Base
   def mark_best!
     unless question.has_best_answer?
       update(best: true)
-      user.increment(:reputation, 15).save!
+      #user.increment(:reputation, 15).save!
+      Reputation.add_to(user, :answer_mark_best)
     end
   end
 
