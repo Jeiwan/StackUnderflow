@@ -28,6 +28,7 @@ class Ability
     guest_abilities
 
     can :update, User, id: @user.id
+    can :profile, User, id: @user.id
   end
 
   def pending_abilities

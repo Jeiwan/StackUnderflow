@@ -32,13 +32,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :profiles do
-        get :me, on: :collection
-      end
       resources :questions, only: [:index, :show, :create], shallow: true do
         resources :answers, only: [:index, :show, :create], shallow: true
       end
       resources :users, only: [:index, :show], param: :username
+      get "/profile", to: "users#profile", as: :profile
     end
   end
 

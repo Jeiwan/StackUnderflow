@@ -12,6 +12,7 @@ end
 RSpec.shared_examples "without email abilities" do
   it { is_expected.to be_able_to :update, user }
   it { is_expected.to be_able_to :read, user }
+  it { is_expected.to be_able_to :profile, user }
 
   it { is_expected.not_to be_able_to :update, user2 }
 end
