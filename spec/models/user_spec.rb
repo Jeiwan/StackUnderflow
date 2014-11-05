@@ -105,15 +105,19 @@ RSpec.describe User, :type => :model do
         result = user.reputations_chart_data
         expect(result[29][:date]).to eq Date.today
         expect(result[29][:reputation]).to eq 10
+        expect(result[29][:percentage]).to eq 66.67
 
         expect(result[27][:date]).to eq 2.days.ago.to_date
         expect(result[27][:reputation]).to eq 5
+        expect(result[27][:percentage]).to eq 33.33
 
         expect(result[14][:date]).to eq 15.days.ago.to_date
         expect(result[14][:reputation]).to eq 10
+        expect(result[14][:percentage]).to eq 66.67
 
         expect(result[0][:date]).to eq 29.days.ago.to_date
         expect(result[0][:reputation]).to eq 15
+        expect(result[0][:percentage]).to eq 100
       end
     end
   end

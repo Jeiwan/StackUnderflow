@@ -51,11 +51,9 @@ class User < ActiveRecord::Base
 
   def reputations_chart_data
     unless @reputations
-      @reputations = reputations.where('created_at >= ?', 30.days.ago).group_by { |c| c.created_at.to_date }
-      @reputations = @reputations.map { |r| {date: r[0], reputation: r[1].inject(0) { |sum, v| sum += v.value } } }
-      max = 0
-      @reputations.each { |r| max = r[:reputation] if r[:reputation] > max }
-      @reputations.map { |r| r[:percentage] = (r[:reputation] / max.to_f * 100).round(2) }
+      @reputations = reputations.select("cast(created_at as date)", "sum(value) as value").where("created_at >= ?", 30.days.ago).group("cast(created_at as date)").order("sum(value) DESC")
+      max = @reputations[0].value
+      @reputations = @reputations.map { |r| {percentage: ((r.value / max.to_f * 100).round(2)), reputation: r.value, date: r.created_at} }
       @reputations = (29.days.ago.to_date..Date.today).map do |date|
         reputation = @reputations.select { |r| r[:date] == date }
         reputation[0] ? reputation[0] : {date: date, reputation: 0, percentage: 0}
