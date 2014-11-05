@@ -1,4 +1,4 @@
-class QuestionShowSerializer < ApplicationSerializer
+class QuestionsSerializer < ApplicationSerializer
   attributes :id, :title, :body, :files, :tags_array, :list_of_tags, :has_best_answer, :votes_sum
 
   has_many :comments

@@ -27,21 +27,10 @@ describe "Profiles API" do
         expect(response).to be_success
       end
 
-      %w(id reputation tiny_avatar_url username).each do |attr|
-        it "returns user #{attr}" do
-          if user.respond_to?(attr.to_sym)
-            expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path(attr)
-          else
-            expect(response.body).to have_json_path(attr)
-          end
-        end
-      end
+      has = %w(id reputation tiny_avatar_url username)
+      hasnt = %w(encrypted_password email password)
 
-      %w(encrypted_password email password).each do |attr|
-        it "doesn't return user #{attr}" do
-          expect(response.body).not_to have_json_path(attr)
-        end
-      end
+      it_behaves_like "an API", has, hasnt, "", :user
     end
   end
 end

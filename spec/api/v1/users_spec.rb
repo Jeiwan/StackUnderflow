@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe 'Users API' do
   describe "GET #index" do
+    let(:access_token) { create(:access_token) }
+    let!(:users) { create_list(:user, 2) }
+    let!(:user) { users[0] }
+    
     context "when access token is absent" do
       it "returns 401 status code" do
         get '/api/v1/users', format: :json
@@ -17,10 +21,6 @@ describe 'Users API' do
     end
 
     context "when user is authorized" do
-      let(:access_token) { create(:access_token) }
-      let!(:users) { create_list(:user, 2) }
-      let!(:user) { users[0] }
-
       before do
         get '/api/v1/users', format: :json, access_token: access_token.token
       end
@@ -33,20 +33,18 @@ describe 'Users API' do
         expect(response.body).to have_json_size(2)
       end
 
-      %w(id location medium_avatar_url reputation username).each do |attr|
-        it "returns user #{attr}" do
-          if user.respond_to?(attr.to_sym)
-            expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path("0/#{attr}")
-          else
-            expect(response.body).to have_json_path("0/#{attr}")
-          end
-        end
-      end
+      has = %w(id location medium_avatar_url reputation username)
+      hasnt = %w(tiny_avatar_url small_avatar_url website age full_name)
+      path = "0/"
+
+      it_behaves_like "an API", has, hasnt, path, :user
     end
   end
 
   describe "GET #show" do
-    let(:user) { create(:user) }
+    let(:access_token) { create(:access_token) }
+    let!(:users) { create_list(:user, 2) }
+    let!(:user) { users[0] }
 
     context "when access token is absent" do
       it "returns 401 status code" do
@@ -63,10 +61,6 @@ describe 'Users API' do
     end
 
     context "when user is authorized" do
-      let(:access_token) { create(:access_token) }
-      let!(:users) { create_list(:user, 2) }
-      let!(:user) { users[0] }
-
       before do
         get "/api/v1/users/#{user.username}", format: :json, access_token: access_token.token
       end
@@ -75,15 +69,9 @@ describe 'Users API' do
         expect(response).to be_success
       end
 
-      %w(age full_name id location medium_avatar_url reputation small_avatar_url tiny_avatar_url username website).each do |attr|
-        it "returns user #{attr}" do
-          if user.respond_to?(attr.to_sym)
-            expect(response.body).to be_json_eql(user.send(attr.to_sym).to_json).at_path(attr)
-          else
-            expect(response.body).to have_json_path(attr)
-          end
-        end
-      end
+      has = %w(age full_name id location medium_avatar_url reputation small_avatar_url tiny_avatar_url username website)
+
+      it_behaves_like "an API", has, nil, "", :user
     end
   end
 end

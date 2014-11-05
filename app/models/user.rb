@@ -38,10 +38,7 @@ class User < ActiveRecord::Base
     identity = Identity.find_by(provider: auth.provider, uid: auth.uid)
     return identity.user if identity
 
-    username = "#{auth.provider}_#{auth.uid}"
-    email = "#{username}@stackunderflow.dev"
-    password = Devise.friendly_token
-    user = User.new(email: email, username: username, password: password)
+    user = User.new(email: "#{username}@stackunderflow.dev", username: "#{auth.provider}_#{auth.uid}", password: Devise.friendly_token)
     user.skip_confirmation!
     user.status = "without_email"
     user.save!
