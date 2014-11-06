@@ -24,7 +24,7 @@ class VotesController < ApplicationController
                     when 'Comment' then @parent.commentable.class.name == 'Question' ? @parent.commentable.id : @parent.commentable.question.id
                     end
 
-      PrivatePub.publish_to "/questions/#{question_id}", vote: @parent.votes_sum, parent: @parent.class.name, parent_id: @parent.id
+      PrivatePub.publish_to "/questions/#{question_id}", vote: @parent.votes_sum, parent: @parent.class.name, parent_id: @parent.id if Rails.env.development?
       render json: {votes: @parent.votes_sum}, status: 200
     end
 end

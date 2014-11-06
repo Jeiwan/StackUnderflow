@@ -74,7 +74,6 @@ feature "Sign up", %q{
     fill_in "Email", with: user2.email
     click_button "Update User"
 
-    expect(page).to have_content "Unable"
     expect(page).to have_content "taken"
   end
 end

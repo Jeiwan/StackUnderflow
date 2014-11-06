@@ -94,7 +94,7 @@ class @Question
       that.renderFormErrors(this, xhr.responseJSON)
 
     this.$el.on "ajax:success", "a.delete-comment", (e, data, status, xhr) ->
-      that.removeComment($(this).parents(".comment").attr("id").split("_")[1])
+      that.removeComment($(this).data("id"))
 
     this.$answers.on "ajax:success", "a.delete-answer", (e, xhr, status) ->
       that.removeAnswer($(this).data("id"))

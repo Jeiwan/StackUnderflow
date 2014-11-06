@@ -6,7 +6,7 @@ en:
         danger: '%{resource_name} could not be created.'
       update:
         success: '%{resource_name} was successfully updated.'
-        danger: '%{resource_name} could not be updated.'
+        danger: 'Failed to update %{resource_name}. See errors below.'
       destroy:
         success: '%{resource_name} was successfully deleted.'
         danger: '%{resource_name} could not be deleted.'
