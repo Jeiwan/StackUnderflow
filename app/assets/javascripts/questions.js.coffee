@@ -194,12 +194,12 @@ class @Question
       this.answers[this.answers.length-1].comments = []
       this.clearAnswerForm()
       if answer.user.username == current_user
-        this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
+        this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove() if answer.user.username != question_author
         this.answerById(answer.id).$el.find(".vote-up, .vote-down").remove()
       else
         this.answerById(answer.id).$el.find(".delete-answer, .edit-answer").parent().remove()
         this.$files.find(".delete-attachment").remove()
-      if answer.user.username == question_author || answer.question.has_best_answer
+      if answer.question.has_best_answer
         this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
 
   renderFormErrors: (form, response) ->

@@ -1,7 +1,7 @@
 class Answer < ActiveRecord::Base
   include Votable
 
-  default_scope { order("best DESC, created_at DESC") }
+  default_scope { order("best DESC, votes_sum DESC, created_at ASC") }
 
   belongs_to :question, counter_cache: true
   belongs_to :user
@@ -16,7 +16,6 @@ class Answer < ActiveRecord::Base
   def mark_best!
     unless question.has_best_answer?
       update(best: true)
-      #user.increment(:reputation, 15).save!
       Reputation.add_to(user, :answer_mark_best)
     end
   end

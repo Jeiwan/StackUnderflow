@@ -113,30 +113,30 @@ describe 'Questions API' do
 
         has = %w(body created edited files id is_best votes_sum)
 
-        it_behaves_like "an API", has, nil, "answers/1/", :answer
+        it_behaves_like "an API", has, nil, "answers/0/", :answer
 
         describe "question answer comments" do
           it "returns answers comments list" do
-            expect(response.body).to have_json_size(2).at_path("answers/1/comments")
+            expect(response.body).to have_json_size(2).at_path("answers/0/comments")
           end
 
           has = %w(id body user author commentable_id created edited votes_sum)
 
-          it_behaves_like "an API", has, nil, "answers/1/comments/0/", :a_comment
+          it_behaves_like "an API", has, nil, "answers/0/comments/0/", :a_comment
 
           it "returns question comment commentable" do
-            expect(response.body).to have_json_path("answers/1/comments/0/commentable")
+            expect(response.body).to have_json_path("answers/0/comments/0/commentable")
           end
         end
 
         describe "question answer question" do
           it "returns answer question" do
-            expect(response.body).to have_json_path("answers/1/question")
+            expect(response.body).to have_json_path("answers/0/question")
           end
 
           has = %w(id title body has_best_answer)
 
-          it_behaves_like "an API", has, nil, "answers/1/question/", :question
+          it_behaves_like "an API", has, nil, "answers/0/question/", :question
         end
       end
     end
