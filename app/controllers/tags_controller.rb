@@ -1,11 +1,17 @@
 class TagsController < ApplicationController
-  has_scope :popular, type: :boolean, allow_blank: true
-  has_scope :alphabetical, type: :boolean, allow_blank: true
-  has_scope :newest, type: :boolean, allow_blank: true
-
   authorize_resource
 
   def index
-    @tags = apply_scopes(Tag).all
+    @tags = Tag.page(params[:page])
+  end
+
+  def popular
+    @tags = Tag.popular.page(params[:page])
+    render :index
+  end
+
+  def newest
+    @tags = Tag.newest.page(params[:page])
+    render :index
   end
 end

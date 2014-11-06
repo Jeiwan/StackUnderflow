@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   scope :by_reputation, -> { order("reputation_sum DESC") }
   scope :by_registration, -> { unscoped.order("created_at DESC") }
   scope :alphabetically, -> { unscoped.order("username ASC") }
+  paginates_per 30
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy

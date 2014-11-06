@@ -5,6 +5,14 @@ RSpec.shared_examples "guest abilities" do
   it { is_expected.to be_able_to :read, Comment }
   it { is_expected.to be_able_to :read, User }
   it { is_expected.to be_able_to :read, Tag }
+  it { is_expected.to be_able_to :popular, Question }
+  it { is_expected.to be_able_to :unanswered, Question }
+  it { is_expected.to be_able_to :active, Question }
+  it { is_expected.to be_able_to :tagged, Question }
+  it { is_expected.to be_able_to :by_registration, User }
+  it { is_expected.to be_able_to :alphabetically, User }
+  it { is_expected.to be_able_to :popular, Tag }
+  it { is_expected.to be_able_to :newest, Tag }
 
   it { is_expected.not_to be_able_to :manage, :all }
 end

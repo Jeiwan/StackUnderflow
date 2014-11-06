@@ -22,6 +22,9 @@ class Ability
 
   def guest_abilities
     can :read, [Question, Answer, Comment, User, Tag]
+    can [:popular, :unanswered, :active, :tagged], Question
+    can [:by_registration, :alphabetically], User
+    can [:popular, :newest], Tag
   end
 
   def without_email_abilities

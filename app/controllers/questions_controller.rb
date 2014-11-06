@@ -6,15 +6,30 @@ class QuestionsController < ApplicationController
   respond_to :html, except: [:update]
   respond_to :json, only: [:update]
 
-  has_scope :popular, type: :boolean, allow_blank: true
-  has_scope :unanswered, type: :boolean, allow_blank: true
-  has_scope :active, type: :boolean, allow_blank: true
-  has_scope :tagged_with, as: :tag
-
   authorize_resource
   
   def index
-    respond_with @questions = apply_scopes(Question).all
+    respond_with @questions = Question.page(params[:page])
+  end
+
+  def popular
+    @questions = Question.popular.page(params[:page])
+    render :index
+  end
+
+  def unanswered
+    @questions = Question.unanswered.page(params[:page])
+    render :index
+  end
+
+  def active
+    @questions = Question.active.page(params[:page])
+    render :index
+  end
+
+  def tagged
+    @questions = Question.tagged(params[:tag]).page(params[:page])
+    render :index
   end
 
   def new

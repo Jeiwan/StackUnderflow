@@ -2,16 +2,17 @@
   .col-md-10
     - unless params[:action] == "show_by_tag"
       ul.nav.nav-tabs.questions-sorting.pull-right
-        li class=("active" if current_scopes.empty?)
+        li class=(is_active?(:index))
           = link_to "newest", root_path
         li class=(is_active?(:popular))
-          = link_to "popular", "/questions/?popular"
+          = link_to "popular", "/questions/popular"
         li class=(is_active?(:active))
-          = link_to "active", "/questions/?active"
+          = link_to "active", "/questions/active"
         li class=(is_active?(:unanswered))
-          = link_to "unanswered", "/questions/?unanswered"
+          = link_to "unanswered", "/questions/unanswered"
 .row
   .col-md-10
     = render @questions
+    = paginate @questions
   .col-md-2
     = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"

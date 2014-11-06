@@ -1,17 +1,23 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, only: [:edit, :update, :logins]
   before_action :find_user
 
   respond_to :json, :html
 
-  has_scope :by_reputation, type: :boolean, allow_blank: true
-  has_scope :by_registration, type: :boolean, allow_blank: true
-  has_scope :alphabetically, type: :boolean, allow_blank: true
-
   authorize_resource id_param: :username
 
   def index
-    respond_with @users = apply_scopes(User).all
+    respond_with @users = User.page(params[:page])
+  end
+
+  def by_registration
+    @users = User.by_registration.page(params[:page])
+    render :index
+  end
+
+  def alphabetically
+    @users = User.alphabetically.page(params[:page])
+    render :index
   end
 
   def show

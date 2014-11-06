@@ -2,10 +2,11 @@ class Question < ActiveRecord::Base
   include Votable
 
   default_scope { order("created_at DESC") }
-  scope :tagged_with, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
+  scope :tagged, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
   scope :popular, -> { unscoped.order("votes_sum DESC, created_at DESC") }
   scope :unanswered, -> { where("answers_count = 0") }
   scope :active, -> { unscoped.order("recent_activity DESC, created_at DESC") }
+  paginates_per 10
 
   before_save :set_recent_activity
 

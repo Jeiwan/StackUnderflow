@@ -11,9 +11,7 @@ module Votable
 
       if self.class.name == 'Question'
         Reputation.add_to(user, :question_vote_up)
-        #user.increment(:reputation, 5).save!
       elsif self.class.name == 'Answer'
-        #user.increment(:reputation, 10).save!
         Reputation.add_to(user, :answer_vote_up)
       end
     end

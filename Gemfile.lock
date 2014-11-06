@@ -138,7 +138,6 @@ GEM
       multi_json
       sprockets (>= 2.0.3)
       tilt
-    has_scope (0.5.1)
     hashie (3.3.1)
     hike (1.2.3)
     http_parser.rb (0.6.0)
@@ -154,6 +153,9 @@ GEM
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     jwt (1.0.0)
+    kaminari (0.16.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.4.2)
       addressable (~> 2.3)
     less (2.5.1)
@@ -370,10 +372,10 @@ DEPENDENCIES
   doorkeeper
   factory_girl_rails
   handlebars_assets
-  has_scope
   jbuilder
   jquery-rails
   json_spec
+  kaminari
   launchy
   less-rails
   mailcatcher

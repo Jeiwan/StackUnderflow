@@ -27,16 +27,16 @@ RSpec.describe Question, :type => :model do
     let!(:question2) { create(:question, tag_list: tags[1].name) }
     let!(:question3) { create(:question, tag_list: tags[0].name) }
 
-    describe "tagged_with" do
+    describe "tagged" do
       context "where questions have a tag" do
         it "sifts questions by tag name" do
-          expect(Question.tagged_with(tags[0].name)).to match_array [question1, question3]
+          expect(Question.tagged(tags[0].name)).to match_array [question1, question3]
         end
       end
 
       context "where questions don't have a tag" do
         it "returns an empty array" do
-          expect(Question.tagged_with(tags[2].name)).to eq []
+          expect(Question.tagged(tags[2].name)).to eq []
         end
       end
     end
