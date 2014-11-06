@@ -108,7 +108,7 @@ RSpec.describe AnswersController, :type => :controller do
           end
 
           it "doesn't update question's recent_activity field" do
-            expect{post_create}.not_to change{question.reload.recent_activity}
+            expect{put_update}.not_to change{question.reload.recent_activity}
           end
 
           it "returns 422 status" do
