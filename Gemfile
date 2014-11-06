@@ -18,6 +18,7 @@ group :development do
   gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'mailcatcher'
 end
 
 group :production do
@@ -55,7 +56,6 @@ gem 'omniauth-twitter'
 gem 'omniauth-vkontakte'
 gem 'omniauth-github'
 gem 'has_scope'
-gem 'mailcatcher'
 gem "codeclimate-test-reporter", group: :test, require: nil
 gem 'cancancan'
 gem 'doorkeeper'
