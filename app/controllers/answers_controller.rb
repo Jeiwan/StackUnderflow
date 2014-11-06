@@ -24,8 +24,7 @@ class AnswersController < ApplicationController
 
   def mark_best
     @answer.mark_best!
-    flash[:success] = "Answer marked as best!"
-    redirect_to @answer.question
+    redirect_to @answer.question, success: "Answer marked as best!"
   end
 
   private

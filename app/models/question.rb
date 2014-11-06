@@ -17,7 +17,7 @@ class Question < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :impressions, dependent: :destroy
-  accepts_nested_attributes_for :attachments, reject_if: proc { |attrs| attrs['file'].blank? && attrs['file_cache'].blank? }
+  accepts_nested_attributes_for :attachments, reject_if: :no_attachment
 
   validates :body, presence: true, length: { in: 10..5000 }
   validates :title, presence: true, length: { in: 5..512 }
@@ -41,5 +41,9 @@ class Question < ActiveRecord::Base
 
     def set_recent_activity
       self.recent_activity = Time.zone.now
+    end
+
+    def no_attachment(attrs)
+      attrs['file'].blank? && attrs['file_cache'].blank? 
     end
 end

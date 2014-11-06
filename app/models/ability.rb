@@ -41,7 +41,7 @@ class Ability
   def regular_abilities
     pending_abilities
 
-    can :create, [Question, Answer, Comment, Vote, Tag, Attachment]
+    can :create, [Answer, Attachment, Comment, Question, Tag, Vote]
     can :create, Identity, user: @user
 
     can :logins, User, id: @user.id

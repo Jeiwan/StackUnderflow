@@ -23,6 +23,7 @@ RSpec.shared_examples "without email abilities" do
   it { is_expected.to be_able_to :profile, user }
 
   it { is_expected.not_to be_able_to :update, user2 }
+  it { is_expected.not_to be_able_to :profile, user2 }
 end
 
 describe Ability do
@@ -93,6 +94,13 @@ describe Ability do
     it { is_expected.not_to be_able_to :vote_up, answer }
     it { is_expected.not_to be_able_to :vote_up, comment }
 
+    it { is_expected.to be_able_to :vote_down, question2 }
+    it { is_expected.to be_able_to :vote_down, answer2 }
+    it { is_expected.to be_able_to :vote_down, comment2 }
+    it { is_expected.not_to be_able_to :vote_down, question }
+    it { is_expected.not_to be_able_to :vote_down, answer }
+    it { is_expected.not_to be_able_to :vote_down, comment }
+
     it { is_expected.to be_able_to :update, question }
     it { is_expected.to be_able_to :update, answer }
     it { is_expected.to be_able_to :update, comment }
@@ -111,5 +119,15 @@ describe Ability do
 
     it { is_expected.to be_able_to :mark_best, answer }
     it { is_expected.not_to be_able_to :mark_best, answer2 }
+  end
+
+  describe "admin" do
+    let(:user) { create(:user) }
+
+    before do
+      user.admin!
+    end
+
+    it { is_expected.to be_able_to :manage, :all }
   end
 end
