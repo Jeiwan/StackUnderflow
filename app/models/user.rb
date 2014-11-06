@@ -7,11 +7,11 @@ class User < ActiveRecord::Base
   scope :by_registration, -> { unscoped.order("created_at DESC") }
   scope :alphabetically, -> { unscoped.order("username ASC") }
 
-  has_many :questions
-  has_many :answers
-  has_many :comments
-  has_many :votes
-  has_many :attachments
+  has_many :questions, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :attachments, dependent: :destroy
   has_many :identities, dependent: :destroy
   has_many :reputations, dependent: :destroy
 
