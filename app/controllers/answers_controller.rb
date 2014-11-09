@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
   before_action :find_question, only: [:create]
   before_action :find_answer, except: :create
   before_action :add_user_id_to_attachments, only: [:create, :update]
-  after_action :publish, only: [:create, :destroy], if: -> { Rails.env.development? }
+  after_action :publish, only: [:create, :destroy], unless: -> { Rails.env.production? }
 
   respond_to :json
 

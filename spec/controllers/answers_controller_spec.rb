@@ -28,6 +28,11 @@ RSpec.describe AnswersController, :type => :controller do
           expect{post_create}.to change{question.reload.recent_activity}
         end
 
+        it "publishes a message to PrivatePub" do
+          expect(PrivatePub).to receive(:publish_to)
+          post_create
+        end
+
         it "returns 201 status code" do
           post_create
           expect(response.status).to eq 201
@@ -164,6 +169,11 @@ RSpec.describe AnswersController, :type => :controller do
 
         it "removes relating votes" do
           expect{delete_destroy}.to change(Vote, :count).by(-1)
+        end
+
+        it "publishes a message to PrivatePub" do
+          expect(PrivatePub).to receive(:publish_to)
+          delete_destroy
         end
 
         it "returns 204 code" do

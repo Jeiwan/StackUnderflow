@@ -32,6 +32,11 @@ RSpec.describe VotesController, :type => :controller do
           expect(assigns(:parent)).to eq comment2
         end
 
+        it "publishes a message to PrivatePub" do
+          expect(PrivatePub).to receive(:publish_to)
+          patch_vote_up
+        end
+
         it "returns status 200" do
           patch_vote_up
           expect(response.status).to eq 200
@@ -96,6 +101,11 @@ RSpec.describe VotesController, :type => :controller do
         it "assigns @comment" do
           patch_vote_down
           expect(assigns(:parent)).to eq comment2
+        end
+
+        it "publishes a message to PrivatePub" do
+          expect(PrivatePub).to receive(:publish_to)
+          patch_vote_down
         end
 
         it "returns status 200" do
