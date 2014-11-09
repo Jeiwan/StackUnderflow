@@ -1,15 +1,15 @@
 class Vote < ActiveRecord::Base
 
-  belongs_to :votable, polymorphic: true
   belongs_to :user
-
-  after_save :increment_parent_counter
-  after_destroy :decrement_parent_counter
+  belongs_to :votable, polymorphic: true
 
   validates :user_id, presence: true
-  validates :vote, presence: true
   validates :votable_id, presence: true
   validates :votable_type, presence: true
+  validates :vote, presence: true
+
+  after_destroy :decrement_parent_counter
+  after_save :increment_parent_counter
 
   private
 
