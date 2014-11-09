@@ -6,19 +6,7 @@ describe 'Users API' do
     let!(:users) { create_list(:user, 2) }
     let!(:user) { users[0] }
     
-    context "when access token is absent" do
-      it "returns 401 status code" do
-        get '/api/v1/users', format: :json
-        expect(response.status).to eq 401
-      end
-    end
-
-    context "when access token is invalid" do
-      it "returns 401 status code" do
-        get '/api/v1/users', format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "an authenticatable API"
 
     context "when user is authorized" do
       before do
@@ -39,6 +27,10 @@ describe 'Users API' do
 
       it_behaves_like "an API", has, hasnt, path, :user
     end
+
+    def request_json(options = {})
+      get "/api/v1/users", {format: :json}.merge(options)
+    end
   end
 
   describe "GET #show" do
@@ -46,19 +38,7 @@ describe 'Users API' do
     let!(:users) { create_list(:user, 2) }
     let!(:user) { users[0] }
 
-    context "when access token is absent" do
-      it "returns 401 status code" do
-        get "/api/v1/users/#{user.username}", format: :json
-        expect(response.status).to eq 401
-      end
-    end
-
-    context "when access token is invalid" do
-      it "returns 401 status code" do
-        get "/api/v1/users/#{user.username}", format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "an authenticatable API"
 
     context "when user is authorized" do
       before do
@@ -73,21 +53,14 @@ describe 'Users API' do
 
       it_behaves_like "an API", has, nil, "", :user
     end
+
+    def request_json(options = {})
+      get "/api/v1/users/#{user.username}", {format: :json}.merge(options)
+    end
   end
 
   describe "GET #profile" do
-    context "when access token is absent" do
-      it "returns 401 status code" do
-        get '/api/v1/profile', format: :json
-        expect(response.status).to eq 401
-      end
-    end
-    context "when access token is invalid" do
-      it "returns 401 status code" do
-        get '/api/v1/profile', format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "an authenticatable API"
 
     context "when user is authorized" do
       let(:user) { create(:user) }
@@ -105,6 +78,10 @@ describe 'Users API' do
       hasnt = %w(encrypted_password email password)
 
       it_behaves_like "an API", has, hasnt, "", :user
+    end
+
+    def request_json(options = {})
+      get "/api/v1/profile", {format: :json}.merge(options)
     end
   end
 end

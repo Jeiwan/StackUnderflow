@@ -15,3 +15,19 @@ shared_examples_for "an API" do |has, hasnt, path, resource|
     end
   end if hasnt
 end
+
+shared_examples_for "an authenticatable API" do
+  context "when access token is absent" do
+    it "returns 401 status code" do
+      request_json
+      expect(response.status).to eq 401
+    end
+  end
+
+  context "when access token is invalid" do
+    it "returns 401 status code" do
+      request_json access_token: '12345'
+      expect(response.status).to eq 401
+    end
+  end
+end

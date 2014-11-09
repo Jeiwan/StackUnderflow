@@ -9,21 +9,9 @@ describe 'Answers API' do
   let!(:a_comment) { a_comments.first }
 
   describe "GET #index" do
-    context "when access token is absent" do
-      it "returns 401 status code" do
-        get api_v1_question_answers_path(question), format: :json
-        expect(response.status).to eq 401
-      end
-    end
-
-    context "when access token is invalid" do
-      it "returns 401 status code" do
-        get api_v1_question_answers_path(question), format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
-
     context "when user is authorized" do
+      it_behaves_like "an authenticatable API"
+
       before do
         get api_v1_question_answers_path(question), format: :json, access_token: access_token.token
       end
@@ -64,25 +52,17 @@ describe 'Answers API' do
         it_behaves_like "an API", has, nil, "0/question/", :question
       end
     end
+
+    def request_json(options = {})
+      get "/api/v1/questions/#{question.id}", {format: :json}.merge(options)
+    end
   end
 
   describe "GET #show" do
     let(:question) { create(:question) }
     let!(:answer) { create(:answer, question: question) }
 
-    context "when access token is absent" do
-      it "returns 401 status code" do
-        get api_v1_answer_path(answer), format: :json
-        expect(response.status).to eq 401
-      end
-    end
-
-    context "when access token is invalid" do
-      it "returns 401 status code" do
-        get api_v1_answer_path(answer), format: :json, access_token: '12345'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "an authenticatable API"
 
     context "when user is authorized" do
       let(:access_token) { create(:access_token) }
@@ -122,6 +102,10 @@ describe 'Answers API' do
 
         it_behaves_like "an API", has, nil, "question/", :question
       end
+    end
+
+    def request_json(options = {})
+      get "/api/v1/answers/#{answer.id}", {format: :json}.merge(options)
     end
   end
 
@@ -193,3 +177,4 @@ describe 'Answers API' do
     end
   end
 end
+
