@@ -11,5 +11,5 @@ class Tag < ActiveRecord::Base
   scope :newest, -> { unscoped.order("created_at DESC") }
   scope :popular, -> { unscoped.order("questions_count DESC, created_at DESC") }
 
-  paginates_per 30
+  paginates_per 28
 end

@@ -118,6 +118,8 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    faker (1.4.3)
+      i18n (~> 0.5)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     faye (1.0.3)
@@ -371,6 +373,7 @@ DEPENDENCIES
   devise
   doorkeeper
   factory_girl_rails
+  faker
   handlebars_assets
   jbuilder
   jquery-rails

@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   enum status: {guest: 0, without_email: 1, pending: 2, regular: 3, admin: 99}
 
   mount_uploader :avatar, AvatarUploader
-  paginates_per 30
+  paginates_per 28
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
