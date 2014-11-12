@@ -17,6 +17,7 @@
 //= require handlebars.runtime
 //= require twitter/bootstrap
 //= require bootstrap-tagsinput.min
+//= require shadowbox-3.0.3/shadowbox
 //= require_tree .
 //= require_tree ./templates/
 //= require app

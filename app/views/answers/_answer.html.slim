@@ -32,14 +32,15 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
             = time_ago_in_words(answer.updated_at)
             |  ago
     - if answer.attachments.any?
-      ul.answer-attachments
+      ul.answer-attachments.attachments-list
         - answer.attachments.each do |a|
           li
-            = link_to a.file.file.filename, a.file.url
-            - if can?(:destroy, a)
-              |&nbsp;&nbsp;&nbsp;
-              = link_to a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment" do
-                span.glyphicon.glyphicon-remove style="color: #a94442"
+            div
+              a href="#{a.file.url}" rel="shadowbox[answer#{answer.id}-attachments]"
+                = image_tag a.file.url
+              - if can?(:destroy, a)
+                = link_to a, method: :delete, data: {confirm: "Are you sure?", remote: true}, class: "delete-attachment" do
+                  span.glyphicon.glyphicon-remove
     .comments-wrapper
       - if answer.comments.size > 0
         ul.comments

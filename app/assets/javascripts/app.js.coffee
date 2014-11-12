@@ -13,3 +13,5 @@ $ ->
   $(".question .comment").each((i, e) ->
     Underflow.question.comments.push(new Comment(e.id, "questions", Underflow.question.id))
   )
+
+  Shadowbox.init()

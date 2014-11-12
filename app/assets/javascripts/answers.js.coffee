@@ -50,7 +50,9 @@ class @Answer
       if that.$files.length == 0
         that.$files = $("<ul class='answer-attachments'></ul>")
         that.$author.after(that.$files)
-      that.$files.html($(HandlebarsTemplates["attachments_list"](xhr.responseJSON)).contents())
+      that.$files.html($(HandlebarsTemplates["attachments_list"]($.extend(xhr.responseJSON, {rel: "shadowbox[answer#{xhr.responseJSON.id}-attachments]"}))))
+      Shadowbox.clearCache()
+      Shadowbox.setup()
 
     this.$el.on "ajax:error", "form.edit_answer", (e, xhr, status) ->
       that.renderFormErrors(this, xhr.responseJSON)

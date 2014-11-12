@@ -20,7 +20,7 @@ feature "Attach File to Answer" do
 
     expect(page).to have_content answer.body
     expect(page).to have_content answer.user.username
-    expect(page).to have_link "default_avatar.png"
+    expect(page).to have_selector "a[href$='default_avatar.png']"
   end
 
   scenario "User uploads multiple files", js: true do
@@ -34,8 +34,8 @@ feature "Attach File to Answer" do
 
     expect(page).to have_content answer.body
     expect(page).to have_content answer.user.username
-    expect(page).to have_link "medium_default_avatar.png"
-    expect(page).to have_link "default_avatar.png"
+    expect(page).to have_selector "a[href$='default_avatar.png']"
+    expect(page).to have_selector "a[href$='medium_default_avatar.png']"
   end
 
   scenario "User deletes attached file", js: true do
@@ -46,7 +46,7 @@ feature "Attach File to Answer" do
     within(".answer .answer-attachments") do
       find(".delete-attachment").click
     end
-    expect(page).not_to have_link "default_avatar.png"
+    expect(page).not_to have_selector "a[href$='default_avatar.png']"
   end
 
   scenario "User attaches a file while editing a question", js: true do
@@ -58,7 +58,7 @@ feature "Attach File to Answer" do
       all("input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
       click_button "Update Answer"
 
-      expect(page).to have_content "default_avatar.png"
+      expect(page).to have_selector "a[href$='default_avatar.png']"
     end
   end
 
@@ -70,6 +70,6 @@ feature "Attach File to Answer" do
     expect(current_path).to match /\/questions\/\d+\z/
 
     expect(page).to have_content "You are not allowed to upload \"rb\" files"
-    expect(page).not_to have_link "routes.rb"
+    expect(page).not_to have_selector "a[href$='routes.rb']"
   end
 end

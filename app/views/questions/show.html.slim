@@ -42,14 +42,15 @@
                 = time_ago_in_words(@question.updated_at)
                 |  ago
         - if @question.attachments.any?
-          ul.question-attachments
+          ul.question-attachments.attachments-list
             - @question.attachments.each do |a|
               li
-                = link_to a.file.file.filename, a.file.url
-                - if can?(:destroy, a)
-                  |&nbsp;&nbsp;&nbsp;
-                  = link_to a, method: :delete, data: {confirm: "Are you sure?"}, remote: true, class: "delete-attachment" do
-                    span.glyphicon.glyphicon-remove style="color: #a94442"
+                div
+                  a href="#{a.file.url}" rel='shadowbox[question-attachments]'
+                    = image_tag a.file.url
+                  - if can?(:destroy, a)
+                    = link_to a, method: :delete, data: {confirm: "Are you sure?"}, remote: true, class: "delete-attachment" do
+                      span.glyphicon.glyphicon-remove title="Remove attachment"
         .comments-wrapper
           - if @comments.size > 0
             ul.comments

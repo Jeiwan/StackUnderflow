@@ -67,7 +67,9 @@ class @Question
       if that.$files.length == 0
         that.$files = $("<ul class='question-attachments'></ul>")
         that.$author.after(that.$files)
-      that.$files.html($(HandlebarsTemplates["attachments_list"](xhr.responseJSON)).contents())
+      that.$files.html($(HandlebarsTemplates["attachments_list"]($.extend(xhr.responseJSON, {rel: "shadowbox[question-attachments]"}))))
+      Shadowbox.clearCache()
+      Shadowbox.setup()
       that.$tags = that.$el.find(".question-tags")
       that.$title.text(xhr.responseJSON.title)
       that.tagList = that.$tags.data("tags")
@@ -110,7 +112,7 @@ class @Question
       that.$voting.find("a.vote-up").remove()
 
     this.$el.on "ajax:success", "a.delete-attachment", (e, data, status, xhr) ->
-      $(this).parent().remove()
+      $(this).parents("li").remove()
       if that.$files.find("li").length == 0
         that.$files.remove()
         that.$files = []
@@ -188,7 +190,7 @@ class @Question
     current_user = $("#current_user").data("current-user")
     question_author = this.$el.data("author")
     unless this.answerById(answer.id)
-      this.$answers.append(HandlebarsTemplates["answer"](answer))
+      this.$answers.append(HandlebarsTemplates["answer"]($.extend(answer, {rel: "shadowbox[answer#{answer.id}-attachments]"})))
       this.increaseAnswersCounter()
       this.answers.push(new Answer("answer_#{answer.id}"))
       this.answers[this.answers.length-1].comments = []
@@ -201,6 +203,8 @@ class @Question
         this.$files.find(".delete-attachment").remove()
       if answer.question.has_best_answer
         this.answerById(answer.id).$el.find(".mark-best-answer").parent().remove()
+    Shadowbox.clearCache()
+    Shadowbox.setup()
 
   renderFormErrors: (form, response) ->
     response = response.errors

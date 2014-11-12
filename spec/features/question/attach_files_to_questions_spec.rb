@@ -24,7 +24,7 @@ feature "Attach File to Question" do
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "default_avatar.png"
+    expect(page).to have_selector "a[href$='default_avatar.png']"
   end
 
   scenario "User uploads multiple files", js: true do
@@ -45,8 +45,8 @@ feature "Attach File to Question" do
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "default_avatar.png"
-    expect(page).to have_content "medium_default_avatar.png"
+    expect(page).to have_selector "a[href$='default_avatar.png']"
+    expect(page).to have_selector "a[href$='medium_default_avatar.png']"
   end
 
   scenario "User uploads file after a failing validation", js: true do
@@ -66,7 +66,7 @@ feature "Attach File to Question" do
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "default_avatar.png"
+    expect(page).to have_selector "a[href$='default_avatar.png']"
   end
 
   scenario "User deletes attached files", js: true do
@@ -79,7 +79,7 @@ feature "Attach File to Question" do
     within(".question .question-attachments") do
       find(".delete-attachment").click
     end
-    expect(page).not_to have_link "default_avatar.png"
+    expect(page).not_to have_selector "a[href$='default_avatar.png']"
   end
 
   scenario "User attaches a file while editing a question", js: true do
@@ -91,7 +91,7 @@ feature "Attach File to Question" do
       all("input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
       click_button "Update Question"
 
-      expect(page).to have_content "default_avatar.png"
+      expect(page).to have_selector "a[href$='default_avatar.png']"
     end
   end
 
@@ -105,6 +105,6 @@ feature "Attach File to Question" do
     expect(current_path).to match /\/questions\z/
 
     expect(page).to have_content "You are not allowed to upload \"rb\" files "
-    expect(page).not_to have_link "routes.rb"
+    expect(page).not_to have_selector "a[href$='routes.rb']"
   end
 end

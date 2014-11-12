@@ -1,5 +1,12 @@
-<ul class="{{files.attachable}}-attachments">
-  {{#each files}}
-  <li><a href="{{path}}">{{filename}}</a>&nbsp;&nbsp;&nbsp;<a class="delete-attachment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/attachments/{{id}}" rel="nofollow"><span class="glyphicon glyphicon-remove" style="color: #a94442"></span></a></li>
-  {{/each}}
-</ul>
+{{#each files}}
+<li>
+  <div>
+    <a href="{{this.path}}" rel="{{../rel}}">
+      <img src="{{this.path}}" alt="{{this.filename}}">
+    </a>
+    <a class="delete-attachment" data-confirm="Are you sure?" data-method="delete" data-remote="true" href="/attachments/{{this.id}}" rel="nofollow">
+      <span class="glyphicon glyphicon-remove"></span>
+    </a>
+  </div>
+</li>
+{{/each}}
