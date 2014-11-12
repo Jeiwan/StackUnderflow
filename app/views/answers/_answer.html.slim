@@ -25,11 +25,11 @@ article id="answer_#{answer.id}" class="answer panel panel-default #{"best-answe
         br
         small
           = answer.user.reputation_sum
-      - if answer.updated_at.to_s > answer.created_at.to_s
+      - if answer.edited_at.to_s > answer.created_at.to_s
         small
           span.text-muted
             | edited  
-            = time_ago_in_words(answer.updated_at)
+            = time_ago_in_words(answer.edited_at)
             |  ago
     - if answer.attachments.any?
       ul.answer-attachments.attachments-list

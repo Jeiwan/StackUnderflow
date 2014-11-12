@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104103527) do
+ActiveRecord::Schema.define(version: 20141112145743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20141104103527) do
     t.integer  "user_id"
     t.boolean  "best",        default: false
     t.integer  "votes_sum",   default: 0
+    t.datetime "edited_at"
   end
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
@@ -125,6 +126,7 @@ ActiveRecord::Schema.define(version: 20141104103527) do
     t.datetime "recent_activity"
     t.integer  "answers_count",   default: 0, null: false
     t.integer  "votes_sum",       default: 0
+    t.datetime "edited_at"
   end
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree

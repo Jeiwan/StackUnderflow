@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :find_answer, except: :create
   before_action :add_user_id_to_attachments, only: [:create, :update]
   after_action :publish, only: [:create, :destroy], unless: -> { Rails.env.production? }
+  after_action :update_edited, only: :update
 
   respond_to :json
 
@@ -49,5 +50,9 @@ class AnswersController < ApplicationController
       when "destroy"
         PrivatePub.publish_to "/questions/#{@answer.question.id}", answer_destroy: @answer.id
       end
+    end
+
+    def update_edited
+      @answer.update(edited_at: Time.zone.now) unless @answer.errors.any?
     end
 end

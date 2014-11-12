@@ -35,11 +35,11 @@
             br
             small
               = @question.user.reputation_sum
-          - if @question.updated_at.to_s > @question.created_at.to_s
+          - if @question.edited_at.to_s > @question.created_at.to_s
             small
               span.text-muted
                 | edited  
-                = time_ago_in_words(@question.updated_at)
+                = time_ago_in_words(@question.edited_at)
                 |  ago
         - if @question.attachments.any?
           ul.question-attachments.attachments-list
