@@ -14,7 +14,7 @@ feature "Attach File to Question" do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
     fill_in "Tags", with: tags.map(&:name).join(",")
-    all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
     click_on "Create Question"
 
     expect(current_path).to match /\/questions\/\d+\z/
@@ -24,17 +24,17 @@ feature "Attach File to Question" do
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "Gemfile"
+    expect(page).to have_link "default_avatar.png"
   end
 
   scenario "User uploads multiple files", js: true do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
     page.execute_script("$('#question_tag_list').val('#{tags.map(&:name).join(',')}')")
-    all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
 
     click_link "Add file"
-    all("input[type='file']").last.set("#{Rails.root}/README.md")
+    all("input[type='file']").last.set("#{Rails.root}/public/images/medium_default_avatar.png")
 
     click_on "Create Question"
 
@@ -45,12 +45,12 @@ feature "Attach File to Question" do
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "Gemfile"
-    expect(page).to have_content "README.md"
+    expect(page).to have_link "default_avatar.png"
+    expect(page).to have_content "medium_default_avatar.png"
   end
 
   scenario "User uploads file after a failing validation", js: true do
-    all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
     click_on "Create Question"
 
     expect(page).to have_content "problems"
@@ -66,20 +66,20 @@ feature "Attach File to Question" do
     tags.each do |tag|
       expect(page).to have_content tag.name
     end
-    expect(page).to have_link "Gemfile"
+    expect(page).to have_link "default_avatar.png"
   end
 
   scenario "User deletes attached files", js: true do
     fill_in "Title", with: question.title
     fill_in "Body", with: question.body
     page.execute_script("$('#question_tag_list').val('#{tags.map(&:name).join(',')}')")
-    all(".new_question input[type='file']")[0].set("#{Rails.root}/Gemfile")
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
     click_on "Create Question"
 
     within(".question .question-attachments") do
       find(".delete-attachment").click
     end
-    expect(page).not_to have_link "Gemfile"
+    expect(page).not_to have_link "default_avatar.png"
   end
 
   scenario "User attaches a file while editing a question", js: true do
@@ -88,10 +88,23 @@ feature "Attach File to Question" do
 
     within(".question") do
       click_link "edit-question"
-      all("input[type='file']")[0].set("#{Rails.root}/Gemfile")
+      all("input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
       click_button "Update Question"
 
-      expect(page).to have_content "Gemfile"
+      expect(page).to have_content "default_avatar.png"
     end
+  end
+
+  scenario "User can't uplaod anything but images" do
+    fill_in "Title", with: question.title
+    fill_in "Body", with: question.body
+    fill_in "Tags", with: tags.map(&:name).join(",")
+    all(".new_question input[type='file']")[0].set("#{Rails.root}/config/routes.rb")
+    click_on "Create Question"
+
+    expect(current_path).to match /\/questions\z/
+
+    expect(page).to have_content "You are not allowed to upload \"rb\" files "
+    expect(page).not_to have_link "routes.rb"
   end
 end

@@ -208,7 +208,9 @@ class @Question
     $form = $(form)
     $form.prepend("<div class='alert alert-danger'>Please review the problems below:</div>")
     for field, error of response
-      field = $form.find(".form-control[id$=#{field}]")
+      if field == 'attachments.file'
+        $form.prepend("<div class='alert alert-danger'>#{error}</div>")
+      field = $form.find("*[id$=#{field}]")
       formGroup = field.parents(".form-group").addClass("has-error")
       formGroup.append("<span class='help-block error'>#{error[0]}</a>")
 

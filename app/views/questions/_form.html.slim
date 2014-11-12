@@ -4,7 +4,7 @@
   = f.input :body, input_html: { rows: 10 }
   = f.input :tag_list, label: "Tags"
   = f.simple_fields_for :attachments do |a|
-    = a.label :files
+    = a.label "Files (allowed formats: jpg, jpeg, gif, png)"
     |&nbsp;&nbsp;&nbsp;
     = link_to_add_association 'Add file', f, :attachments, data: {"association-insertion-node" => ".nested-fields:last", "association-insertion-method" => "after"}
     = render 'attachment_fields', f: a

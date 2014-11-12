@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       resource.update(send(:"#{resource.class.to_s.downcase}_params"))
       respond_with resource do |format|
         if resource.errors.any?
-          format.json { render json: resource.errors, status: 422 }
+          format.json { render json: {errors: resource.errors}, status: 422 }
           format.html { render "edit" }
         else
           format.json { render json: resource, status: 200 }

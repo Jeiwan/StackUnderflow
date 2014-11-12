@@ -14,7 +14,6 @@ feature "Delete Answer" do
   end
 
   scenario "User deletes his answer", js: true do
-
     within answer_block(answer2.id) do
       click_link "delete-answer"
     end
@@ -47,6 +46,6 @@ end
 
 def post_answer answer
   fill_in :answer_body, with: answer.body
-  attach_file "File", "#{Rails.root}/README.md"
+  attach_file "answer_attachments_attributes_0_file", "#{Rails.root}/public/images/default_avatar.png"
   click_on "Answer"
 end

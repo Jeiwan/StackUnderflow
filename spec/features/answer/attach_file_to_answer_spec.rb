@@ -13,40 +13,40 @@ feature "Attach File to Answer" do
 
   scenario "User uploads a file", js: true do
     fill_in :answer_body, with: answer.body
-    all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
+    all("#answer-form input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
     click_on "Answer"
 
     expect(current_path).to match /\/questions\/\d+\z/
 
     expect(page).to have_content answer.body
     expect(page).to have_content answer.user.username
-    expect(page).to have_link "README.md"
+    expect(page).to have_link "default_avatar.png"
   end
 
   scenario "User uploads multiple files", js: true do
     fill_in :answer_body, with: answer.body
-    all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
+    all("#answer-form input[type='file']")[0].set("#{Rails.root}/public/images/medium_default_avatar.png")
     click_link "Add file"
-    all("input[type='file']").last.set("#{Rails.root}/Gemfile")
+    all("input[type='file']").last.set("#{Rails.root}/public/images/default_avatar.png")
     click_on "Answer"
 
     expect(current_path).to match /\/questions\/\d+\z/
 
     expect(page).to have_content answer.body
     expect(page).to have_content answer.user.username
-    expect(page).to have_link "README.md"
-    expect(page).to have_link "Gemfile"
+    expect(page).to have_link "medium_default_avatar.png"
+    expect(page).to have_link "default_avatar.png"
   end
 
   scenario "User deletes attached file", js: true do
     fill_in :answer_body, with: answer.body
-    all("#answer-form input[type='file']")[0].set("#{Rails.root}/README.md")
+    all("#answer-form input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
     click_on "Answer"
 
     within(".answer .answer-attachments") do
       find(".delete-attachment").click
     end
-    expect(page).not_to have_link "README.md"
+    expect(page).not_to have_link "default_avatar.png"
   end
 
   scenario "User attaches a file while editing a question", js: true do
@@ -55,10 +55,21 @@ feature "Attach File to Answer" do
 
     within("#answer_#{answer.id}") do
       find(".edit-answer").click
-      all("input[type='file']")[0].set("#{Rails.root}/Gemfile")
+      all("input[type='file']")[0].set("#{Rails.root}/public/images/default_avatar.png")
       click_button "Update Answer"
 
-      expect(page).to have_content "Gemfile"
+      expect(page).to have_content "default_avatar.png"
     end
+  end
+
+  scenario "User can't uplaod anything but images", js: true do
+    fill_in :answer_body, with: answer.body
+    all("#answer-form input[type='file']")[0].set("#{Rails.root}/config/routes.rb")
+    click_on "Answer"
+
+    expect(current_path).to match /\/questions\/\d+\z/
+
+    expect(page).to have_content "You are not allowed to upload \"rb\" files"
+    expect(page).not_to have_link "routes.rb"
   end
 end
