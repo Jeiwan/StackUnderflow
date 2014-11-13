@@ -14,6 +14,7 @@ class Answer < ActiveRecord::Base
   validates :body, presence: true, length: { in: 10..5000 }
 
   after_save :update_question_activity
+  after_create :send_notification
 
   def mark_best!
     unless question.has_best_answer?
@@ -22,9 +23,25 @@ class Answer < ActiveRecord::Base
     end
   end
 
+
   private
 
     def update_question_activity
       question.save
+    end
+
+    def send_notification
+      self.delay.notify_subscribers
+      self.delay.notify_question_author
+    end
+    
+    def notify_subscribers
+      question.favorites.find_each do |user|
+        AnswerMailer.new_for_subscribers(user, question).deliver
+      end
+    end
+
+    def notify_question_author
+      AnswerMailer.new_for_question_author(question.user, question).deliver
     end
 end

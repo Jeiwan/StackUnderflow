@@ -134,4 +134,16 @@ RSpec.describe Answer, :type => :model do
       expect{answer.save}.to change(question, :recent_activity)
     end
   end
+
+  describe "after_create" do
+    let(:user) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:answer) { build(:answer, question: question, user: user2) }
+
+    it "receives send_notification" do
+      expect(answer).to receive(:send_notification)
+      answer.save
+    end
+  end
 end

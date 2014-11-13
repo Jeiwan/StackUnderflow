@@ -52,7 +52,10 @@ gem 'remotipart'
 gem 'responders'
 gem 'rubocop', require: false
 gem 'sass-rails'
+gem 'sidekiq'
+gem 'sidetiq'
 gem 'simple_form', git: 'https://github.com/plataformatec/simple_form'
+gem 'sinatra', require: false
 gem 'slim-rails'
 gem 'therubyracer'
 gem 'thin'

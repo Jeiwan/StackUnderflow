@@ -1,0 +1,5 @@
+h1 Hello, #{@user.username}
+p
+  | There is a new answer to your question 
+  = link_to @question.title, question_path(@question.id)
+  | .
