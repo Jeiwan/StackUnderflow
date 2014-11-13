@@ -277,4 +277,72 @@ RSpec.describe QuestionsController, :type => :controller do
       end
     end
   end
+
+  describe "POST #add_favorite" do
+    let(:post_add_favorite) do
+      post :add_favorite, question_id: question.id, format: :json
+    end
+
+    context "when signed in", sign_in: true do
+      it "adds question to user's favorite list" do
+        expect{post_add_favorite}.to change{user.favorites.count}.by(1)
+      end
+
+      it "renders json with status" do
+        post_add_favorite
+        expect(response.status).to eq 200
+
+        json = JSON.parse(response.body)
+        expect(json["status"]).to eq "success"
+        expect(json["count"]).to eq 1
+      end
+    end
+
+    context "when not signed in" do
+      it "doesn't add question to user's favorite list" do
+        expect{post_add_favorite}.not_to change{user.favorites.count}
+      end
+
+      it "returns 401 status" do
+        post_add_favorite
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe "POST #remove_favorite" do
+    let(:post_remove_favorite) do
+      post :remove_favorite, question_id: question.id, format: :json
+    end
+
+    before do
+      user.add_favorite(question.id)
+    end
+
+    context "when signed in", sign_in: true do
+      it "removes question from user's favorite list" do
+        expect{post_remove_favorite}.to change{user.favorites.count}.by(-1)
+      end
+
+      it "renders json with status" do
+        post_remove_favorite
+        expect(response.status).to eq 200
+
+        json = JSON.parse(response.body)
+        expect(json["status"]).to eq "success"
+        expect(json["count"]).to eq 0
+      end
+    end
+
+    context "when not signed in" do
+      it "doesn't remove question from user's favorite list" do
+        expect{post_remove_favorite}.not_to change{user.favorite_questions.count}
+      end
+
+      it "returns 401 status" do
+        post_remove_favorite
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end

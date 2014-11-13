@@ -63,6 +63,8 @@
       li
         a href="#" summary
       li
+        a href="#" favorites
+      li
         a href="#" questions
       li
         a href="#" answers
@@ -118,6 +120,20 @@
           span.votes
             = comment.votes_sum
           = link_to comment.body, url_for(comment.commentable.respond_to?(:question) ? comment.commentable.question : comment.commentable) + "#comment_#{comment.id}"
+
+.row.user-favorites.pane
+  .col-md-12
+    h3.favorite-questions
+      | #{pluralize(@user.favorite_questions.count, 'Favorite Question')}
+    table.created-questions.table
+      - @user.favorites.each do |question|
+        tr
+          td.votes
+            = question.votes_sum
+          td
+            = link_to question.title, question_path(question)
+          td.text-right
+            = question.created_at.strftime("%d/%m/%Y %H:%M")
 
 .row.user-all-questions.pane
   .col-md-12

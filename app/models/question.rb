@@ -1,13 +1,15 @@
 class Question < ActiveRecord::Base
   include Votable
 
-  default_scope { order("created_at DESC") }
+  default_scope { order(created_at: :desc) }
 
   belongs_to :user
 
   has_many :answers, dependent: :destroy
   has_many :attachments, as: :attachable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :favorite_questions, dependent: :destroy
+  has_many :favorites, through: :favorite_questions, source: :user
   has_many :impressions, dependent: :destroy
   has_many :taggings
   has_many :tags, through: :taggings

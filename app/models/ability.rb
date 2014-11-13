@@ -61,6 +61,9 @@ class Ability
     can :mark_best, Answer do |answer|
       answer.question.user == @user && !answer.best? && !answer.question.has_best_answer?
     end
+
+    can :add_favorite, Question
+    can :remove_favorite, Question
   end
 
   def admin_abilities

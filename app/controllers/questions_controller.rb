@@ -1,11 +1,11 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :new, :update, :destroy]
-  before_action :find_question, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :new, :update, :destroy, :add_favorite, :remove_favorite]
+  before_action :find_question, only: [:show, :edit, :update, :destroy, :add_favorite, :remove_favorite]
   before_action :add_user_id_to_attachments, only: [:create, :update]
   after_action :updated_edited, only: :update
 
-  respond_to :html, except: [:update]
-  respond_to :json, only: [:update]
+  respond_to :html, except: [:update, :add_favorite, :remove_favorite]
+  respond_to :json, only: [:update, :add_favorite, :remove_favorite]
 
   authorize_resource
   
@@ -56,6 +56,18 @@ class QuestionsController < ApplicationController
     respond_with @question.destroy
   end
 
+  def add_favorite
+    authorize! :add_favorite, @question
+    current_user.add_favorite(@question.id)
+    render json: {status: "success", count: @question.favorites.count, id: @question.id}, status: 200
+  end
+
+  def remove_favorite
+    authorize! :remove_favorite, @question
+    current_user.remove_favorite(@question.id)
+    render json: {status: "success", count: @question.favorites.count, id: @question.id}, status: 200
+  end
+
   private
 
     def question_params
@@ -63,7 +75,7 @@ class QuestionsController < ApplicationController
     end
 
     def find_question
-      @question = Question.find(params[:id])
+      @question = Question.find(params[:question_id] || params[:id])
     end
 
     def updated_edited

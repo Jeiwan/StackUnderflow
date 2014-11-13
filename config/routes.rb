@@ -22,6 +22,9 @@ Rails.application.routes.draw do
       get "active(/page/:page)" => "questions#active", as: :active
       get "tagged/:tag(/page/:page)" => "questions#tagged", as: :tagged
     end
+
+    post "add_favorite" => "questions#add_favorite", as: :add_favorite
+    post "remove_favorite" => "questions#remove_favorite", as: :remove_favorite
   end
 
   resources :tags, only: :index do

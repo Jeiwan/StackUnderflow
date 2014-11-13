@@ -117,6 +117,14 @@ class @Question
         that.$files.remove()
         that.$files = []
 
+    this.$el.on "ajax:success", "a.add-to-favorites", (e, data, status, xhr) ->
+      $("#favorites-counter").text(xhr.responseJSON.count)
+      $(this).replaceWith(HandlebarsTemplates["question_remove_favorite"](xhr.responseJSON))
+
+    this.$el.on "ajax:success", "a.remove-from-favorites", (e, data, status, xhr) ->
+      $("#favorites-counter").text(xhr.responseJSON.count)
+      $(this).replaceWith(HandlebarsTemplates["question_add_favorite"](xhr.responseJSON))
+
   subscribeToChannels: () ->
     that = this
 

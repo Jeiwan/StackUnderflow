@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :attachments, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :favorite_questions, dependent: :destroy
+  has_many :favorites, through: :favorite_questions, source: :question
   has_many :identities, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :reputations, dependent: :destroy
@@ -19,7 +21,7 @@ class User < ActiveRecord::Base
   after_update :set_pending_status
 
   scope :by_reputation, -> { order("reputation_sum DESC") }
-  scope :by_registration, -> { unscoped.order("created_at DESC") }
+  scope :by_registration, -> { unscoped.order(created_at: :desc) }
   scope :alphabetically, -> { unscoped.order("username ASC") }
 
   enum status: {guest: 0, without_email: 1, pending: 2, regular: 3, admin: 99}
@@ -34,6 +36,18 @@ class User < ActiveRecord::Base
 
   def to_param
     username
+  end
+
+  def has_favorite?(question_id)
+    favorite_ids.include?(question_id) if question_id
+  end
+
+  def add_favorite(question_id)
+    favorite_questions.create(question_id: question_id) if question_id
+  end
+
+  def remove_favorite(question_id)
+    favorite_questions.find_by(question_id: question_id).destroy if question_id && has_favorite?(question_id)
   end
 
   def self.find_for_oauth(auth)

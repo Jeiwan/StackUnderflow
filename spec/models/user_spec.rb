@@ -19,6 +19,7 @@ RSpec.describe User, :type => :model do
     it { is_expected.to have_many :attachments }
     it { is_expected.to have_many :identities }
     it { is_expected.to have_many :reputations }
+    it { is_expected.to have_many :favorite_questions }
   end
 
   describe "scopes" do
@@ -118,6 +119,45 @@ RSpec.describe User, :type => :model do
         expect(result[0][:date]).to eq 29.days.ago.to_date
         expect(result[0][:reputation]).to eq 15
         expect(result[0][:percentage]).to eq 100
+      end
+    end
+
+    describe "#has_favorite?(questions)" do
+      let(:user) { create(:user) }
+      let(:question) { create(:question) }
+
+      context "when questions is in the user's favorite list" do
+        before { user.add_favorite(question.id) }
+        it "returns true" do
+          expect(user.reload.has_favorite?(question.id)).to eq true
+        end
+      end
+      context "when questions is not in the user's favorite list" do
+        it "returns false" do
+          expect(user.has_favorite?(question.id)).to eq false
+        end
+      end
+    end
+
+    describe "#add_favorite(question_id)" do
+      let(:user) { create(:user) }
+      let(:question) { create(:question) }
+
+      it "adds question to user's favorite questions" do
+        expect{user.add_favorite(question.id)}.to change{user.favorite_questions.count}.by(1)
+      end
+    end
+
+    describe "#remove_favorite(question_id)" do
+      let(:user) { create(:user) }
+      let(:question) { create(:question) }
+
+      before do
+        user.add_favorite(question.id)
+      end
+      
+      it "removes question from user's favorite questions" do
+        expect{user.remove_favorite(question.id)}.to change{user.favorite_questions.count}.by(-1)
       end
     end
   end

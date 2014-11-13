@@ -19,6 +19,16 @@
                 = link_to "", vote_down_question_path(@question), class: "vote-down", remote: true, data: { type: :json }, method: :patch
               - elsif @question.user_voted(current_user) == -1
                 span.voted-down
+            .favorite
+              - if can?(:add_favorite, @question)
+                -if current_user.has_favorite?(@question.id)
+                  = link_to question_remove_favorite_path(@question), class: "remove-from-favorites", remote: true, data: { type: :json }, method: :post do
+                    span.glyphicon.glyphicon-star.favorite-question title="You have already added this question to favorites!"
+                -else
+                  = link_to question_add_favorite_path(@question), class: "add-to-favorites", remote: true, data: { type: :json }, method: :post do
+                    span.glyphicon.glyphicon-star-empty title="Add this question to your favorites!"
+                div.counter#favorites-counter
+                  = @question.favorites.count
           .col-md-11
             .question-body
               = @question.body

@@ -119,6 +119,11 @@ describe Ability do
 
     it { is_expected.to be_able_to :mark_best, answer }
     it { is_expected.not_to be_able_to :mark_best, answer2 }
+
+    it { is_expected.to be_able_to :add_favorite, question }
+    it { is_expected.to be_able_to :add_favorite, question2 }
+    it { is_expected.to be_able_to :remove_favorite, question }
+    it { is_expected.to be_able_to :remove_favorite, question2 }
   end
 
   describe "admin" do
