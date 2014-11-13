@@ -201,4 +201,13 @@ RSpec.describe Question, :type => :model do
       expect(question.recent_activity.to_s).to eq Time.zone.now.to_s
     end
   end
+
+  describe "after_create" do
+    let(:user) { create(:user) }
+    let(:question) { build(:question, user: user) }
+
+    it "adds new question to question author's favorite list" do
+      expect{question.save}.to change{question.favorites.count}.by(1)
+    end
+  end
 end

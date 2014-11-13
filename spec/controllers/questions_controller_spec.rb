@@ -279,10 +279,15 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST #add_favorite" do
-    let(:post_add_favorite) do
-      post :add_favorite, question_id: question.id, format: :json
-    end
+    let!(:user) { create(:user) }
+    let!(:user2) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:question2) { create(:question, user: user2) }
 
+    let(:post_add_favorite) do
+      post :add_favorite, question_id: question2.id, format: :json
+    end
+    
     context "when signed in", sign_in: true do
       it "adds question to user's favorite list" do
         expect{post_add_favorite}.to change{user.favorites.count}.by(1)
@@ -294,7 +299,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
         json = JSON.parse(response.body)
         expect(json["status"]).to eq "success"
-        expect(json["count"]).to eq 1
+        expect(json["count"]).to eq 2
       end
     end
 
@@ -311,12 +316,13 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe "POST #remove_favorite" do
+    let!(:user) { create(:user) }
+    let!(:user2) { create(:user) }
+    let!(:question) { create(:question, user: user) }
+    let!(:question2) { create(:question, user: user2) }
+
     let(:post_remove_favorite) do
       post :remove_favorite, question_id: question.id, format: :json
-    end
-
-    before do
-      user.add_favorite(question.id)
     end
 
     context "when signed in", sign_in: true do

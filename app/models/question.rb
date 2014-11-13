@@ -21,6 +21,7 @@ class Question < ActiveRecord::Base
   validates :title, presence: true, length: { in: 5..512 }
 
   before_save :set_recent_activity
+  after_create :subscribe_author_to_question
 
   scope :active, -> { unscoped.order("recent_activity DESC, created_at DESC") }
   scope :popular, -> { unscoped.order("votes_sum DESC, created_at DESC") }
@@ -51,5 +52,9 @@ class Question < ActiveRecord::Base
 
     def no_attachment(attrs)
       attrs['file'].blank? && attrs['file_cache'].blank? 
+    end
+
+    def subscribe_author_to_question
+      user.add_favorite(self.id)
     end
 end

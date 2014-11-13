@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
     favorite_questions.find_by(question_id: question_id).destroy if question_id && has_favorite?(question_id)
   end
 
+  def reputations_chart_data
+    @reputations ||= ReputationChartService.new(self, 30).chart
+  end
+
   def self.find_for_oauth(auth)
     identity = Identity.find_by(provider: auth.provider, uid: auth.uid)
     return identity.user if identity
@@ -63,8 +67,12 @@ class User < ActiveRecord::Base
     user
   end
 
-  def reputations_chart_data
-    @reputations ||= ReputationChartService.new(self, 30).chart
+  def self.send_daily_digest
+    questions = Question.where("created_at >= ?", 1.day.ago).to_a
+
+    find_each do |user|
+      DailyMailer.digest(user, questions).deliver
+    end
   end
 
   private

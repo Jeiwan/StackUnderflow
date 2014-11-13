@@ -160,6 +160,22 @@ RSpec.describe User, :type => :model do
         expect{user.remove_favorite(question.id)}.to change{user.favorite_questions.count}.by(-1)
       end
     end
+
+    describe ".send_daily_digest" do
+      let!(:users) { create_list(:user, 3) }
+      let!(:questions) { create_list(:question, 2) }
+
+      it "sends daily digest to all users" do
+        all_users = User.all
+        questions.reverse!
+
+        all_users.each do |user|
+          expect(DailyMailer).to receive(:digest).with(user, questions).and_call_original
+        end
+
+        User.send_daily_digest
+      end
+    end
   end
 
   describe "after_update" do

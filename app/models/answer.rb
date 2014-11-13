@@ -23,25 +23,18 @@ class Answer < ActiveRecord::Base
     end
   end
 
+  def notify_subscribers
+    question.favorites.find_each do |fuser|
+      AnswerMailer.new_for_subscribers(fuser, question).deliver
+    end if question
+  end
 
   private
-
     def update_question_activity
       question.save
     end
 
     def send_notification
       self.delay.notify_subscribers
-      self.delay.notify_question_author
-    end
-    
-    def notify_subscribers
-      question.favorites.find_each do |user|
-        AnswerMailer.new_for_subscribers(user, question).deliver
-      end
-    end
-
-    def notify_question_author
-      AnswerMailer.new_for_question_author(question.user, question).deliver
     end
 end
