@@ -124,6 +124,25 @@ RSpec.describe Answer, :type => :model do
         end
       end
     end
+
+    describe "#notify_subscribers" do
+      let!(:users) { create_list(:user, 5) }
+      let!(:question) { create(:question) }
+      let(:answer) { create(:answer, question: question) }
+
+      before do
+        users.each do |user|
+          user.add_favorite(question.id)
+        end
+      end
+
+      it "sends email to all question subscribers" do
+        answer.question.favorites.each do |user|
+          expect(AnswerMailer).to receive(:new_for_subscribers).with(user, answer.question).and_call_original
+        end
+        answer.notify_subscribers
+      end
+    end
   end
 
   describe "after_save" do
