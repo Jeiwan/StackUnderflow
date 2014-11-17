@@ -104,7 +104,7 @@ RSpec.describe User, :type => :model do
 
       it "returns formated data for reputations chart" do
         result = user.reputations_chart_data
-        expect(result[29][:date]).to eq Date.today
+        expect(result[29][:date]).to eq Date.current
         expect(result[29][:reputation]).to eq 10
         expect(result[29][:percentage]).to eq 66.67
 
