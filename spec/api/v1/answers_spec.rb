@@ -7,6 +7,8 @@ describe 'Answers API' do
   let!(:answer) { answers[0] }
   let!(:a_comments) { create_list(:answer_comment, 2, commentable: answer) }
   let!(:a_comment) { a_comments.first }
+  let!(:a_attachments) { create_list(:attachment, 2, attachable: answer)  }
+  let!(:a_attachment) { a_attachments.first  }
 
   describe "GET #index" do
     context "when user is authorized" do
@@ -40,6 +42,16 @@ describe 'Answers API' do
         it "returns question comment commentable" do
           expect(response.body).to have_json_path("0/comments/0/commentable")
         end
+      end
+
+      describe "answer files" do
+        it "returns answers files list" do
+          expect(response.body).to have_json_size(2).at_path("0/files")
+        end
+
+        has = %w(id path filename)
+
+        it_behaves_like "an API", has, nil, "0/files/1/", :a_attachment
       end
 
       describe "answer question" do
@@ -91,6 +103,16 @@ describe 'Answers API' do
         it "returns question comment commentable" do
           expect(response.body).to have_json_path("comments/0/commentable")
         end
+      end
+
+      describe "answer files" do
+        it "returns answers files list" do
+          expect(response.body).to have_json_size(2).at_path("files")
+        end
+
+        has = %w(id path filename)
+
+        it_behaves_like "an API", has, nil, "files/1/", :a_attachment
       end
 
       describe "answer question" do

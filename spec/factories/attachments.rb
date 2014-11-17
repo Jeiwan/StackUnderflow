@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :attachment do
-    file "MyString"
+    file { File.new("#{Rails.root}/spec/features/user/new_avatar.jpg") }
+    #file "some file"
     association :attachable
   end
 end

@@ -15,8 +15,4 @@ class QuestionSerializer < ApplicationSerializer
   def has_best_answer
     object.has_best_answer?
   end
-
-  def files
-    object.attachments.map { |a| {path: a.file.url, filename: a.file.file.filename} }
-  end
 end

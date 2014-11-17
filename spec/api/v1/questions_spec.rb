@@ -56,6 +56,10 @@ describe 'Questions API' do
     let!(:q_comment) { q_comments.first }
     let!(:a_comments) { create_list(:answer_comment, 2, commentable: answer) }
     let!(:a_comment) { a_comments.first }
+    let!(:q_attachments) { create_list(:attachment, 2, attachable: question)  }
+    let!(:q_attachment) { q_attachments.first  }
+    let!(:q_a_attachments) { create_list(:attachment, 2, attachable: answer)  }
+    let!(:q_a_attachment) { q_a_attachments.first  }
 
     it_behaves_like "an authenticatable API"
 
@@ -88,6 +92,16 @@ describe 'Questions API' do
         end
       end
 
+      describe "question files" do
+        it "returns question files list" do
+          expect(response.body).to have_json_size(2).at_path("files")
+        end
+
+        has = %w(id path filename)
+
+        it_behaves_like "an API", has, nil, "files/1/", :q_attachment
+      end
+
       describe "question answers" do
         it "returns answers list" do
           expect(response.body).to have_json_size(2).at_path("answers")
@@ -109,6 +123,16 @@ describe 'Questions API' do
           it "returns question comment commentable" do
             expect(response.body).to have_json_path("answers/0/comments/0/commentable")
           end
+        end
+
+        describe "question answer files" do
+          it "returns question files list" do
+            expect(response.body).to have_json_size(2).at_path("answers/0/files")
+          end
+
+          has = %w(id path filename)
+
+          it_behaves_like "an API", has, nil, "answers/0/files/1/", :q_a_attachment
         end
 
         describe "question answer question" do
