@@ -181,6 +181,11 @@ RSpec.describe User, :type => :model do
   describe "after_update" do
     let!(:user) { create(:user, status: 0) }
 
+    it "sends set_pending_status" do
+      expect(user).to receive(:set_pending_status)
+      user.save
+    end
+
     context "when unconfirmed_email was changed" do
       it "sets the user's status to 'pending'" do
         user.unconfirmed_email = "some_new@email.com"

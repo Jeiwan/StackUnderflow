@@ -197,6 +197,11 @@ RSpec.describe Question, :type => :model do
   describe "before_save" do
     let(:question) { create(:question, title: "Some good title", body: "Some good body", tag_list: "test,west,east") }
 
+    it "sends set_recent_activity" do
+      expect(question).to receive(:set_recent_activity)
+      question.save
+    end
+
     it "adds current time and date to recent_activity column" do
       expect(question.recent_activity.to_s).to eq Time.zone.now.to_s
     end
@@ -205,6 +210,11 @@ RSpec.describe Question, :type => :model do
   describe "after_create" do
     let(:user) { create(:user) }
     let(:question) { build(:question, user: user) }
+
+    it "sends subscribe_author_to_question" do
+      expect(question).to receive(:subscribe_author_to_question)
+      question.save
+    end
 
     it "adds new question to question author's favorite list" do
       expect{question.save}.to change{question.favorites.count}.by(1)

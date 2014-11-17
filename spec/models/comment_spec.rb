@@ -101,6 +101,11 @@ RSpec.describe Comment, :type => :model do
     let(:question_comment) { create(:question_comment, commentable: question) }
     let(:answer_comment) { create(:answer_comment, commentable: answer) }
 
+    it "sends update_question_activity" do
+      expect(question_comment).to receive(:update_question_activity)
+      question_comment.save
+    end
+
     context "when commented is question" do
       it "updates question's activity" do
         expect{question_comment.save}.to change(question, :recent_activity)

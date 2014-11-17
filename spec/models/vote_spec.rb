@@ -17,6 +17,12 @@ RSpec.describe Vote, :type => :model do
   describe "after_save" do
     let(:user) { create(:user) }
     let!(:question) { create(:question) }
+    let!(:vote) { create(:vote, votable: question, user: user) }
+
+    it "sends increment_parent_counter" do
+      expect(vote).to receive(:increment_parent_counter)
+      vote.save
+    end
 
     context "when voted up" do
       it "increases votes_sum of parent" do

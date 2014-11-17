@@ -149,6 +149,11 @@ RSpec.describe Answer, :type => :model do
     let(:question) { create(:question) }
     let(:answer) { build(:answer, question: question) }
 
+    it "sends update_question_activity" do
+      expect(answer).to receive(:update_question_activity)
+      answer.save
+    end
+
     it "updates question's activity" do
       expect{answer.save}.to change(question, :recent_activity)
     end
@@ -159,6 +164,11 @@ RSpec.describe Answer, :type => :model do
     let(:user2) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:answer) { build(:answer, question: question, user: user2) }
+
+    it "sends send_notification" do
+      expect(answer).to receive(:send_notification)
+      answer.save
+    end
 
     it "receives send_notification" do
       expect(answer).to receive(:send_notification)
