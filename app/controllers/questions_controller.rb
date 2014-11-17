@@ -57,15 +57,13 @@ class QuestionsController < ApplicationController
   end
 
   def add_favorite
-    authorize! :add_favorite, @question
     current_user.add_favorite(@question.id)
-    render json: {status: "success", count: @question.favorites.count, id: @question.id}, status: 200
+    render json: favorite_json, status: 200
   end
 
   def remove_favorite
-    authorize! :remove_favorite, @question
     current_user.remove_favorite(@question.id)
-    render json: {status: "success", count: @question.favorites.count, id: @question.id}, status: 200
+    render json: favorite_json, status: 200
   end
 
   private
@@ -80,5 +78,9 @@ class QuestionsController < ApplicationController
 
     def updated_edited
       @question.update(edited_at: Time.zone.now) unless @question.errors.any?
+    end
+
+    def favorite_json
+      {status: "success", count: @question.favorites.count, id: @question.id}
     end
 end
