@@ -16,6 +16,8 @@ class Answer < ActiveRecord::Base
   after_save :update_question_activity
   after_create :send_notification
 
+  paginates_per 10
+
   def mark_best!
     unless question.has_best_answer?
       update(best: true)

@@ -17,7 +17,9 @@ article.question.row id="question_#{question.id}"
         span views
   .col-md-9
     h3.question-title
-      =link_to question.title, question
+      = link_to question.title, question
+    p.qestion-body
+      = question.body
     .question-tags.pull-left
       - question.tags.each do |tag|
         = link_to tag.name, "/questions/tagged/#{tag.name}", class: "label label-default"

@@ -1,6 +1,6 @@
 require_relative "../features_helper"
 
-feature "Search Questions" do
+feature "Search Answers" do
   given(:user) { create(:user)  }
   given!(:questions) { create_list(:question, 2)  }
   given!(:answer1) { create(:answer, question: questions[0]) }
@@ -13,28 +13,18 @@ feature "Search Questions" do
     visit root_path
   end
 
-  scenario "User searches in questions", js: true do
+  scenario "User searches in answers", js: true do
     expect(page).to have_selector "form#search"
     expect(page).to have_selector "input#search_query"
     expect(page).to have_selector "select#search_target"
     expect(page).to have_selector "input[value='Search']"
 
     fill_in "search_query", with: "searching"
-    select "in questions", from: "search_target"
+    select "in answers", from: "search_target"
     click_button "Search"
 
-    expect(page).to have_content "1 question found"
-    expect(page).to have_selector ".question", count: 1
-    expect(page).to have_content question.title
+    expect(page).to have_content "1 answer found"
+    expect(page).to have_selector ".answer", count: 1
+    expect(page).to have_content answer.body
   end
-
-  #scenario "User searches in answers", js: true do
-    #fill_in "search_query", with: "searching"
-    #select "in answers", from: "search_target"
-    #click_button "Search"
-
-    #expect(page).to have_content "1 answer found"
-    #expect(page).to have_selector ".answer", count: 1
-    #expect(page).to have_content answer.title
-  #end
 end

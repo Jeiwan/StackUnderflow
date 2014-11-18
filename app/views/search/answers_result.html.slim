@@ -13,10 +13,11 @@
 .row
   .col-md-10
     h2
-      = pluralize(@resources.count, "question")
+      = pluralize(@resources.count, "answer")
       |  found
-    - unless @resources.empty?
-      = render partial: 'question', collection: @resources, as: :question
-      = paginate @resources
+    .answers-results
+      - unless @resources.empty?
+        = render partial: 'answer', collection: @resources, as: :answer
+        = paginate @resources
   .col-md-2
     = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
