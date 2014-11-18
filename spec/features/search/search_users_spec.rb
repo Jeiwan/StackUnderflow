@@ -2,7 +2,7 @@ require_relative "../features_helper"
 
 feature "Search Users" do
   given!(:user) { create(:user)  }
-  given!(:users) { create_list(:user, 10)  }
+  given!(:users) { create_list(:user, 2)  }
   given!(:user_with_name) { create(:user, username: "findme") }
   given!(:user_with_location) { create(:user, location: "findme") }
   given!(:user_with_website) { create(:user, website: "findme") }
