@@ -1,0 +1,23 @@
+article.user.col-md-6
+  .user-avatar
+    = link_to user_path(user) do
+      = image_tag user.avatar.medium.url
+  .user-info
+    = link_to user.username, user_path(user), class: 'username'
+    |  
+    = user.reputation_sum
+    div
+      small.location
+        strong
+          |Location: 
+        = user.location
+    div
+      small.website
+        strong
+          |Website:  
+        = user.website
+    div
+      small.full_name
+        strong
+          |Full name:  
+        = user.full_name

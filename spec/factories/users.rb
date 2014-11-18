@@ -4,6 +4,9 @@ FactoryGirl.define do
   factory :user do
 		sequence(:username) { |n| "Pedro#{n}" }
 		sequence(:email) { |n| "pedro#{n}@mexi.co" }
+    sequence(:website) { |n| "pedro#{n}.mexi.co" }
+    sequence(:location) { |n| "Barcelona, Spain" }
+		sequence(:full_name) { |n| "Pedro Garcia #{n}" }
 		password "asdzxcasd"
 		password_confirmation "asdzxcasd"
     confirmed_at Time.now
