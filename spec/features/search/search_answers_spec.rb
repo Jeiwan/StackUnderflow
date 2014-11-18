@@ -27,4 +27,13 @@ feature "Search Answers" do
     expect(page).to have_selector ".answer", count: 1
     expect(page).to have_content answer.body
   end
+
+  scenario "User searches in answers with blank query", js: true do
+    fill_in "search_query", with: ""
+    select "in answers", from: "search_target"
+    click_button "Search"
+
+    expect(page).to have_content "0 answers found"
+    expect(page).not_to have_selector ".answer"
+  end
 end

@@ -10,40 +10,47 @@
           = link_to "active", "/questions/active"
         li class=(is_active?(:unanswered))
           = link_to "unanswered", "/questions/unanswered"
-.row.questions
-  .col-md-10
-    h2
-      = pluralize(@resources[:question].try(:count) || 0, "question")
-      |  found
-    .questions-results
-      - unless @resources[:question].try(:empty?)
-        = render partial: 'question', collection: @resources[:question], as: :question
-  .col-md-2
-    = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
+- if @resources.blank?
+  .row
+    .col-md-10
+      h2 Nothing was found.
+    .col-md-2
+      = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
+-else
+  .row.questions
+    .col-md-10
+      h2
+        = pluralize(@resources[:question].try(:count) || 0, "question")
+        |  found
+      .questions-results
+        - unless @resources[:question].try(:empty?)
+          = render partial: 'question', collection: @resources[:question], as: :question
+    .col-md-2
+      = link_to "Ask a Question", new_question_path, class: "btn btn-primary ask-question"
 
-.row.answers
-  .col-md-12
-    h2
-      = pluralize(@resources[:answer].try(:count) || 0, "answer")
-      |  found
-    .answers-results
-      - unless @resources[:answer].try(:empty?)
-        = render partial: 'answer', collection: @resources[:answer], as: :answer
+  .row.answers
+    .col-md-12
+      h2
+        = pluralize(@resources[:answer].try(:count) || 0, "answer")
+        |  found
+      .answers-results
+        - unless @resources[:answer].try(:empty?)
+          = render partial: 'answer', collection: @resources[:answer], as: :answer
 
-.row.comments
-  .col-md-12
-    h2
-      = pluralize(@resources[:comment].try(:count) || 0, "comment")
-      |  found
-    .comments-results
-      - unless @resources[:comment].try(:empty?)
-        = render partial: 'comment', collection: @resources[:comment], as: :comment
+  .row.comments
+    .col-md-12
+      h2
+        = pluralize(@resources[:comment].try(:count) || 0, "comment")
+        |  found
+      .comments-results
+        - unless @resources[:comment].try(:empty?)
+          = render partial: 'comment', collection: @resources[:comment], as: :comment
 
-.row.users
-  .col-md-12
-    h2
-      = pluralize(@resources[:user].try(:count) || 0, "user")
-      |  found
-    .users-results
-      - unless @resources[:user].try(:empty?)
-        = render partial: 'user', collection: @resources[:user], as: :user
+  .row.users
+    .col-md-12
+      h2
+        = pluralize(@resources[:user].try(:count) || 0, "user")
+        |  found
+      .users-results
+        - unless @resources[:user].try(:empty?)
+          = render partial: 'user', collection: @resources[:user], as: :user

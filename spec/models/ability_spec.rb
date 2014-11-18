@@ -13,6 +13,7 @@ RSpec.shared_examples "guest abilities" do
   it { is_expected.to be_able_to :alphabetically, User }
   it { is_expected.to be_able_to :popular, Tag }
   it { is_expected.to be_able_to :newest, Tag }
+  it { is_expected.to be_able_to :search, :all }
 
   it { is_expected.not_to be_able_to :manage, :all }
 end

@@ -24,4 +24,13 @@ feature "Search Questions" do
     expect(page).to have_selector ".question", count: 1
     expect(page).to have_content question.title
   end
+
+  scenario "User searches in questions with blank query", js: true do
+    fill_in "search_query", with: ""
+    select "in questions", from: "search_target"
+    click_button "Search"
+
+    expect(page).to have_content "0 questions found"
+    expect(page).not_to have_selector ".question"
+  end
 end

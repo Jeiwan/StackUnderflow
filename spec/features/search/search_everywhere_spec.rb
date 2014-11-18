@@ -66,4 +66,12 @@ feature "Search Everywhere" do
       expect(page).to have_selector ".full_name", text: user_with_name.full_name
     end
   end
+
+  scenario "User searches everywhere with blank query", js: true do
+    fill_in "search_query", with: ""
+    select "everywhere", from: "search_target"
+    click_button "Search"
+
+    expect(page).to have_content "Nothing was found."
+  end
 end

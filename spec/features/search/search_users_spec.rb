@@ -30,4 +30,13 @@ feature "Search Users" do
     expect(page).to have_selector ".website", text: user_with_name.website
     expect(page).to have_selector ".full_name", text: user_with_name.full_name
   end
+
+  scenario "User searches in users with blank query", js: true do
+    fill_in "search_query", with: ""
+    select "in users", from: "search_target"
+    click_button "Search"
+
+    expect(page).to have_content "0 users found"
+    expect(page).not_to have_selector ".user"
+  end
 end

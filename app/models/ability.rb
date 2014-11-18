@@ -25,6 +25,7 @@ class Ability
     can [:popular, :unanswered, :active, :tagged], Question
     can [:by_registration, :alphabetically], User
     can [:popular, :newest], Tag
+    can :search, :all
   end
 
   def without_email_abilities

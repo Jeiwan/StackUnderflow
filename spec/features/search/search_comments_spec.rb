@@ -34,4 +34,13 @@ feature "Search Comments" do
     expect(page).to have_content answer_comment.body
     expect(page).to have_content question_comment.body
   end
+
+  scenario "User searches in comments with blank query", js: true do
+    fill_in "search_query", with: ""
+    select "in comments", from: "search_target"
+    click_button "Search"
+
+    expect(page).to have_content "0 comments found"
+    expect(page).not_to have_selector ".comment"
+  end
 end
