@@ -10,6 +10,8 @@ class Comment < ActiveRecord::Base
   
   after_save :update_question_activity
 
+  paginates_per 10
+
   private
     
     def update_question_activity

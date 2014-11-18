@@ -20,7 +20,7 @@ html lang="en"
         = form_for :search, url: search_path, method: :get, html: {class: 'navbar-form navbar-left', id: 'search'} do |f|
           .form-group
             = f.text_field :query, class: 'form-control', name: 'q'
-            = f.select :target, [['everywhere'], ['in questions', 'questions'], ['in answers', 'answers']], {}, {class: 'form-control', name: 'target'}
+            = f.select :target, [['everywhere'], ['in questions', 'questions'], ['in answers', 'answers'], ['in comments', 'comments'], ['in users', 'users']], {}, {class: 'form-control', name: 'target'}
             = f.submit 'Search', class: 'btn btn-default'
         ul.nav.navbar-nav.navbar-right
           - unless user_signed_in?

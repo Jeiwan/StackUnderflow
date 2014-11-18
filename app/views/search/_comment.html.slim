@@ -1,0 +1,34 @@
+article.comment id="comment_#{comment.id}"
+  .row
+    - if comment.commentable_type == 'Question'
+      .col-md-2
+        .col-md-4
+          .text-primary.text-center.question-votes
+            strong title="Questions votes"
+              = comment.commentable.votes_sum
+        .col-md-4
+          .text-success.text-center.question-answers
+            strong title="Questions answers"
+              = comment.commentable.answers.count
+        .col-md-4
+          .text-info.text-center.question-views
+            strong title="Question views"
+              = comment.commentable.impressions.count
+      .col-md-10
+        = link_to comment.commentable.title, comment.commentable
+    - else
+      .col-md-12
+        p
+          |Comment to answer: 
+          = link_to comment.commentable.body, comment.commentable
+  .row
+    .col-md-12
+      p.comment-body
+        = comment.body
+  .row
+    .col-md-12
+      .comment-author.text-right
+        small
+          | by 
+          = link_to comment.user.username, user_path(comment.user.username)
+          |  #{time_ago_in_words(comment.created_at)} ago  
