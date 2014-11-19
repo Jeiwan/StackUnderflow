@@ -24,11 +24,11 @@ article.comment id="comment_#{comment.id}"
   .row
     .col-md-12
       p.comment-body
-        = comment.body
+        = raw(comment.body)
   .row
     .col-md-12
       .comment-author.text-right
         small
           | by 
-          = link_to comment.user.username, user_path(comment.user.username)
+          = link_to raw(comment.user.username), user_path(comment.user.username)
           |  #{time_ago_in_words(comment.created_at)} ago  

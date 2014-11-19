@@ -11,9 +11,9 @@ RSpec.describe SearchController, :type => :controller do
 
     context "when parameters are correct" do
       it "assigns resources variable" do
-        allow(Question).to receive(:search).with("test", page: nil, per_page: 10, order: nil).and_return([question])
+        expect(Question).to receive(:search).with("test", page: nil, per_page: 10, order: nil)
+        allow(@resources).to receive(:context).and_return({panes: []})
         get_search
-        expect(assigns(:resources)).to eq [question]
       end
       
       it "renders results page" do
@@ -29,7 +29,8 @@ RSpec.describe SearchController, :type => :controller do
         end
 
         it "assigns empty resources variable" do
-          allow(Question).to receive(:search).with("", page: nil, per_page: 10, order: nil).and_return([])
+          allow(Question).to receive(:search).with("", page: nil, per_page: 10, order: nil)
+          allow(@resources).to receive(:context).and_return({panes: []})
           get_search
           expect(assigns(:resources)).to be_empty
         end

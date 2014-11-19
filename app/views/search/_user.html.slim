@@ -3,21 +3,21 @@ article.user.col-md-6 id="user_#{user.username}"
     = link_to user_path(user) do
       = image_tag user.avatar.medium.url
   .user-info
-    = link_to user.username, user_path(user), class: 'username'
+    = link_to raw(user.username), user_path(user), class: 'username'
     |  
     = user.reputation_sum
     div
       small.location
         strong
           |Location: 
-        = user.location
+        = raw(user.location)
     div
       small.website
         strong
           |Website:  
-        = user.website
+        = raw(user.website)
     div
       small.full_name
         strong
           |Full name:  
-        = user.full_name
+        = raw(user.full_name)

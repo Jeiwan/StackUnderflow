@@ -6,11 +6,11 @@ class SearchController < ApplicationController
   def search
     authorize! :search, @model
     @resources = []
-    @resources = @model.search(params[:q], order: @sorting, page: params[:page], per_page: @per_page) unless params[:q].blank?
-    #@questions = Question.search(params[:search][:query], page: params[:page], per_page: Question.default_per_page)
-    #@questions.context.panes << ThinkingSphinx::Panes::ExcerptsPane
-    #@resources.reverse! if @sorting
-    @resources = @resources.group_by { |resource| resource.class.name.downcase.to_sym  } if @model == ThinkingSphinx && !params[:q].blank?
+    unless params[:q].blank?
+      @resources = @model.search(params[:q], order: @sorting, page: params[:page], per_page: @per_page)
+      @resources.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+      @resources = @resources.group_by { |resource| resource.class.name.downcase.to_sym  } if @model == ThinkingSphinx
+    end
     render "#{params[:target]}_result"
   end
 
@@ -50,7 +50,6 @@ class SearchController < ApplicationController
           reputation: 'reputation_sum DESC'
         }
       }
-      #available_sortings = {date: 'id DESC', activity: 'updated_at DESC', popularity: 'votes_sum DESC', reputation: 'reputation_sum DESC', alphabetically: 'username ASC', location: 'location ASC', author: 'author ASC', title: 'title ASC', full_name: 'full_name ASC'}
       @sorting = (params[:order].blank? || params[:target].blank?) ? nil : available_sortings[params[:target].to_sym][params[:order].to_sym]
     end
 

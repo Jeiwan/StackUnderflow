@@ -18,11 +18,11 @@ article.answer id="answer_#{answer.id}"
   .row
     .col-md-12
       p.answer-body
-        = answer.body
+        = raw(answer.body)
   .row
     .col-md-12
       .answer-author.text-right
         small
           | by 
-          = link_to answer.user.username, user_path(answer.user.username)
+          = link_to raw(answer.user.username), user_path(answer.user.username)
           |  #{time_ago_in_words(answer.created_at)} ago  
