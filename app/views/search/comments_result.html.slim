@@ -1,15 +1,17 @@
 .row
   .col-md-10
-    - unless params[:action] == "show_by_tag" || @resources.empty?
-      ul.nav.nav-tabs.questions-sorting.pull-right
-        li class=(is_active?(:index))
-          = link_to "newest", root_path
-        li class=(is_active?(:popular))
-          = link_to "popular", "/questions/popular"
-        li class=(is_active?(:active))
-          = link_to "active", "/questions/active"
-        li class=(is_active?(:unanswered))
-          = link_to "unanswered", "/questions/unanswered"
+    - unless @resources.empty?
+      ul.nav.nav-tabs.comments-sorting.pull-right
+        li
+          span.sort_by Sort by:
+        li class=(params[:order].blank? ? 'active' : '')
+          = link_to "relevance", search_path(search_params)
+        li class=(sort_active?(:author))
+          = link_to "author name", search_path(search_params.merge(order: :author))
+        li class=(sort_active?(:popularity))
+          = link_to "popularity", search_path(search_params.merge(order: :popularity))
+        li class=(sort_active?(:date))
+          = link_to "date", search_path(search_params.merge(order: :date))
 .row
   .col-md-10
     h2

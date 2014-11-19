@@ -17,3 +17,7 @@
 form .boolean label {
   font-weight: normal;
 }
+span.sort_by {
+  display: inline-block;
+  padding: 10px 15px;
+}

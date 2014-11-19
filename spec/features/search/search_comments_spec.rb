@@ -14,6 +14,13 @@ feature "Search Comments" do
   given!(:answer_comment) { create(:answer_comment, commentable: answer, body: "This is an answer comment to test searching functionality")  }
   given!(:question_comment) { create(:question_comment, commentable: question, body: "This is a question comment to test searching functionality")  }
 
+  given(:pedro) { create(:user, username: "pedro") }
+  given(:juan) { create(:user, username: "juan") }
+  given(:alejandro) { create(:user, username: "alejandro") }
+  given!(:comment_juan) { create(:question_comment, commentable: question, user: juan, body: "This is an comment to test sortings.") }
+  given!(:comment_pedro) { create(:question_comment, commentable: question, user: pedro, body: "This is an comment to test sortings.") }
+  given!(:comment_alejandro) { create(:question_comment, commentable: question, user: alejandro, body: "This is an comment to test sortings.") }
+
   background do
     sign_in user
     visit root_path
@@ -42,5 +49,37 @@ feature "Search Comments" do
 
     expect(page).to have_content "0 comments found"
     expect(page).not_to have_selector ".comment"
+  end
+
+  background do
+    comment_pedro.vote_up(user)
+    comment_pedro.vote_up(juan)
+    comment_juan.vote_up(pedro)
+  end
+
+  scenario "Users sorts results of a search", js: true do
+    fill_in "search_query", with: "sortings"
+    select "in comments", from: "search_target"
+    click_button "Search"
+
+    within(".comments-sorting") do
+      expect(page).to have_link "relevance"
+      expect(page).to have_link "author name"
+      expect(page).to have_link "date"
+      expect(page).to have_link "popularity"
+      
+      click_link "author name"
+    end
+    expect(page).to have_selector "#comment_#{comment_alejandro.id} + #comment_#{comment_juan.id} + #comment_#{comment_pedro.id}"
+
+    within(".comments-sorting") do
+      click_link "date"
+    end
+    expect(page).to have_selector "#comment_#{comment_alejandro.id} + #comment_#{comment_pedro.id} + #comment_#{comment_juan.id}"
+
+    within(".comments-sorting") do
+      click_link "popularity"
+    end
+    expect(page).to have_selector "#comment_#{comment_pedro.id} + #comment_#{comment_juan.id} + #comment_#{comment_alejandro.id}"
   end
 end

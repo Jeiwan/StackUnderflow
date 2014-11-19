@@ -39,4 +39,47 @@ feature "Search Users" do
     expect(page).to have_content "0 users found"
     expect(page).not_to have_selector ".user"
   end
+
+  before do
+    Reputation.add_to(user_with_name, :answer_mark_best)
+    Reputation.add_to(user_with_location, :question_vote_up)
+  end
+
+  scenario "Users sorts results of a search", js: true do
+    fill_in "search_query", with: "findme"
+    select "in users", from: "search_target"
+    click_button "Search"
+
+    within(".users-sorting") do
+      expect(page).to have_link "relevance"
+      expect(page).to have_link "reputation"
+      expect(page).to have_link "alphabetically"
+      expect(page).to have_link "location"
+      expect(page).to have_link "full name"
+      expect(page).to have_link "date"
+      
+      click_link "reputation"
+    end
+    expect(page).to have_selector "#user_#{user_with_name.username} + #user_#{user_with_location.username} + #user_#{user_with_website.username} + #user_#{user_with_full_name.username}"
+
+    within(".users-sorting") do
+      click_link "alphabetically"
+    end
+    expect(page).to have_selector "#user_#{user_with_name.username} + #user_#{user_with_location.username} + #user_#{user_with_website.username} + #user_#{user_with_full_name.username}"
+
+    within(".users-sorting") do
+      click_link "location"
+    end
+    expect(page).to have_selector "#user_#{user_with_name.username} + #user_#{user_with_website.username} + #user_#{user_with_full_name.username} + #user_#{user_with_location.username}"
+
+    within(".users-sorting") do
+      click_link "full name"
+    end
+    expect(page).to have_selector "#user_#{user_with_full_name.username} + #user_#{user_with_name.username} + #user_#{user_with_location.username} + #user_#{user_with_website.username}"
+
+    within(".users-sorting") do
+      click_link "date"
+    end
+    expect(page).to have_selector "#user_#{user_with_full_name.username} + #user_#{user_with_website.username} + #user_#{user_with_location.username} + #user_#{user_with_name.username}"
+  end
 end

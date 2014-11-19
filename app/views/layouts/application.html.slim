@@ -19,8 +19,8 @@ html lang="en"
             = link_to "Users", users_path
         = form_for :search, url: search_path, method: :get, html: {class: 'navbar-form navbar-left', id: 'search'} do |f|
           .form-group
-            = f.text_field :query, class: 'form-control', name: 'q'
-            = f.select :target, [['everywhere', 'combined'], ['in questions', 'questions'], ['in answers', 'answers'], ['in comments', 'comments'], ['in users', 'users']], {}, {class: 'form-control', name: 'target'}
+            = f.text_field :query, class: 'form-control', name: 'q', value: params[:q]
+            = f.select :target, [['everywhere', 'combined'], ['in questions', 'questions'], ['in answers', 'answers'], ['in comments', 'comments'], ['in users', 'users']], {selected: params[:target]}, {class: 'form-control', name: 'target'}
             = f.submit 'Search', class: 'btn btn-default'
         ul.nav.navbar-nav.navbar-right
           - unless user_signed_in?

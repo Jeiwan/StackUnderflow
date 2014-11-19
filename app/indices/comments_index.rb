@@ -4,5 +4,6 @@ ThinkingSphinx::Index.define :comment, with: :active_record, delta: true do
   indexes user.username, as: :author, sortable: true
 
   #attributes
-  has user_id, created_at, updated_at
+  has created_at
+  has votes_sum, type: :float
 end

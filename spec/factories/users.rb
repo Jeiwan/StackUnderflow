@@ -5,7 +5,7 @@ FactoryGirl.define do
 		sequence(:username) { |n| "Pedro#{n}" }
 		sequence(:email) { |n| "pedro#{n}@mexi.co" }
     sequence(:website) { |n| "pedro#{n}.mexi.co" }
-    sequence(:location) { |n| "Barcelona, Spain" }
+    sequence(:location) { |n| "Barcelona#{n}" }
 		sequence(:full_name) { |n| "Pedro Garcia #{n}" }
 		password "asdzxcasd"
 		password_confirmation "asdzxcasd"

@@ -1,10 +1,11 @@
 ThinkingSphinx::Index.define :user, with: :active_record, delta: true do
   #fields
-  indexes username
-  indexes location
+  indexes username, sortable: true
+  indexes location, sortable: true
   indexes website
-  indexes full_name
+  indexes full_name, sortable: true
 
   #attributes
-  has created_at, reputation_sum
+  has created_at
+  has reputation_sum, type: :float
 end
