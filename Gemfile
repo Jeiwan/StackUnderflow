@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.5'
 
 group :development, :test do
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'database_cleaner'
@@ -33,6 +37,8 @@ gem 'cocoon'
 gem 'coffee-rails'
 gem 'devise'
 gem 'doorkeeper'
+gem 'dotenv'
+gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'faker'
 gem 'handlebars_assets'
 gem 'jbuilder'
