@@ -6,6 +6,7 @@ group :development, :test do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'database_cleaner'

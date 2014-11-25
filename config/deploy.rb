@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:Jeiwan/StackUnderflow.git'
 set :deploy_to, '/home/deployer/stackunderflow'
 set :deploy_user, 'deployer'
 set :linked_files, %w{config/database.yml config/private_pub.yml .env}
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 set :bundle_flags, "--without development test --deployment"
 
 namespace :deploy do
