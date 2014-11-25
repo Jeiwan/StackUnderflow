@@ -20,6 +20,7 @@ require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/sidekiq'
+require 'thinking_sphinx/capistrano'
 #require 'capistrano/rails/assets'
 #require 'capistrano/rails/migrations'
 

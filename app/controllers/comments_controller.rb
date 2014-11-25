@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_parent
   before_action :find_comment, only: [:edit, :update, :destroy]
-  after_action :publish, only: [:create, :destroy], unless: -> { Rails.env.production? }
+  after_action :publish, only: [:create, :destroy]
 
   respond_to :json
 
