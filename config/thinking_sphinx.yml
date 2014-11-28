@@ -1,2 +1,8 @@
 test:
   mysql41: 9307
+
+production:
+  pid_file: /home/deployer/stackunderflow/shared/tmp/searchd.pid
+  indices_locaiton: /home/deployer/stackunderflow/shared/db/sphinx
+  configuration_file: /home/deployer/stackunderflow/shared/production.sphinx.conf
+  binlog_path: /home/deployer/stackunderflow/shared/binlog
