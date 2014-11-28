@@ -7,6 +7,7 @@ group :development, :test do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'database_cleaner'
@@ -70,3 +71,4 @@ gem 'thin'
 gem 'thinking-sphinx'
 gem 'twitter-bootstrap-rails', git: 'git://github.com/seyhunak/twitter-bootstrap-rails.git', branch: 'bootstrap3'
 gem 'uglifier'
+gem 'unicorn'

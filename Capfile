@@ -21,6 +21,7 @@ require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/sidekiq'
 require 'thinking_sphinx/capistrano'
+require 'capistrano3/unicorn'
 #require 'capistrano/rails/assets'
 #require 'capistrano/rails/migrations'
 
