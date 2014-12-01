@@ -28,7 +28,7 @@ class Question < ActiveRecord::Base
   scope :tagged, ->(tag) { unscoped.joins(:tags).where("tags.name = ?", tag) }
   scope :unanswered, -> { where("answers_count = 0") }
 
-  paginates_per 10
+  paginates_per 20
 
   def has_best_answer?
     answers.find_by(best: true) ? true : false
