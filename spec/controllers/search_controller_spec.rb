@@ -11,7 +11,7 @@ RSpec.describe SearchController, :type => :controller do
 
     context "when parameters are correct" do
       it "assigns resources variable" do
-        expect(Question).to receive(:search).with("test", page: nil, per_page: 10, order: nil)
+        expect(Question).to receive(:search).with("test", page: nil, per_page: 20, order: nil)
         allow(@resources).to receive(:context).and_return({panes: []})
         get_search
       end
