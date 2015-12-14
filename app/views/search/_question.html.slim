@@ -19,6 +19,9 @@ article.question.row id="question_#{question.id}"
     h3.question-title
       = link_to raw(question.excerpts.title), question
     p.qestion-body
+      strong
+        = debug(question.user.excerpts)
+      br
       = raw(question.excerpts.body)
     .question-tags.pull-left
       - question.tags.each do |tag|
@@ -26,5 +29,5 @@ article.question.row id="question_#{question.id}"
     .question-author.pull-right
       small
         | by 
-        = link_to raw(question.user.username), user_path(question.user.username)
+        = link_to raw(question.excerpts.user), user_path(question.user.username)
         |  #{time_ago_in_words(question.created_at)} ago
